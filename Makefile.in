@@ -1,0 +1,29 @@
+VPATH=%VPATH%
+
+CC ?= gcc
+CXX ?= g++
+CXXFLAGS ?=
+AR ?= ar
+RUSTC ?= rustc
+RUSTFLAGS ?=
+
+RUST_SRC=$(shell find $(VPATH)/. -type f -name '*.rs')
+
+.PHONY: all
+all:	libcss.dummy
+
+libcss.dummy: css.rc $(RUST_SRC)
+	$(RUSTC) $(RUSTFLAGS) $< -o $@
+	touch $@
+
+css-test: css.rc $(RUST_SRC)
+	$(RUSTC) $(RUSTFLAGS) $< -o $@ --test
+
+.PHONY: check
+check: css-test
+	./css-test
+
+.PHONY: clean
+clean:
+	rm -f *.o *.a *.so *.dylib *.dll *.dummy
+
