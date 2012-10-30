@@ -211,7 +211,7 @@ impl TokenReader : ParserMethods {
     }
 }
 
-pub fn build_stylesheet(stream : pipes::Port<Token>) -> ~[~css::Rule] {
+pub fn build_stylesheet(stream : pipes::Port<Token>) -> Stylesheet {
     let mut rule_list = ~[];
     let reader = {stream : move stream, mut lookahead : None};
 
