@@ -16,6 +16,8 @@ use vec::push;
 use parser_util::*;
 use color::parsing::parse_color;
 use vec::push;
+use util::{DataStream, DataStreamFactory};
+use std::cell::Cell;
 
 type TokenReader = {stream : pipes::Port<Token>, mut lookahead : Option<Token>};
 
@@ -211,7 +213,7 @@ impl TokenReader : ParserMethods {
     }
 }
 
-pub fn build_stylesheet(stream : pipes::Port<Token>) -> Stylesheet {
+fn build_stylesheet(stream : pipes::Port<Token>) -> Stylesheet {
     let mut rule_list = ~[];
     let reader = {stream : move stream, mut lookahead : None};
 
@@ -223,4 +225,28 @@ pub fn build_stylesheet(stream : pipes::Port<Token>) -> Stylesheet {
     }
 
     return move rule_list;
+}
+
+// This takes a DataStreamFactory instead of a DataStream because
+// servo's DataStream contains a comm::Port, which is not sendable,
+// so DataStream is an @fn which can't be sent to the lexer task.
+// So the DataStreamFactory gives the caller an opportunity to create
+// the data stream from inside the lexer task.
+pub fn parse_stylesheet(url: Url, input: DataStreamFactory) -> Stylesheet {
+    let css_stream = spawn_css_lexer_task(copy url, move input);
+    build_stylesheet(move css_stream)
+}
+
+fn spawn_css_lexer_task(url: Url, input: DataStreamFactory) -> pipes::Port<Token> {
+    let (result_chan, result_port) = pipes::stream();
+
+    let input = Cell(move input);
+    do task::spawn |move url, move input, move result_chan| {
+        assert url.path.ends_with(".css");
+        let input_factory = input.take();
+        let input_stream = input_factory();
+        lexer::lex_css_from_bytes(move input_stream, &result_chan);
+    }
+
+    return move result_port;
 }

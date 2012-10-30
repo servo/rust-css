@@ -6,13 +6,12 @@ use option::is_none;
 use str::from_bytes;
 use vec::push;
 use comm::Port;
+use util::DataStream;
 
 enum CharOrEof {
     CoeChar(u8),
     CoeEof
 }
-
-pub type DataStream = @fn() -> Option<~[u8]>;
 
 impl CharOrEof: cmp::Eq {
     pure fn eq(other: &CharOrEof) -> bool {

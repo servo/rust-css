@@ -10,6 +10,7 @@ use lexer_util::*;
 
 use std::net::url::Url;
 use std::cell::Cell;
+use util::DataStream;
 
 enum ParserState {
     CssElement,
@@ -230,7 +231,7 @@ fn parser(input: DataStream, state : ParserState) -> CssLexer {
            input_state: {
                mut lookahead: None,
                mut buffer: ~[],
-               input: input,
+               input: move input,
                mut eof: false
            },
            mut parser_state: state
@@ -238,7 +239,7 @@ fn parser(input: DataStream, state : ParserState) -> CssLexer {
 }
 
 pub fn lex_css_from_bytes(input_stream: DataStream, result_chan : &Chan<Token>) {
-    let lexer = parser(input_stream, CssElement);
+    let lexer = parser(move input_stream, CssElement);
 
     loop {
         let token = lexer.parse_css();
@@ -258,8 +259,8 @@ fn spawn_css_lexer_from_string(content : ~str) -> pipes::Port<Token> {
     do task::spawn |move result_chan, move content| {
         let content = str::to_bytes(content);
         let content = Cell(copy content);
-        let input = |move content| if !content.is_empty() { Some(content.take()) } else { None };
-        lex_css_from_bytes(input, &result_chan);
+        let input: DataStream = |move content| if !content.is_empty() { Some(content.take()) } else { None };
+        lex_css_from_bytes(move input, &result_chan);
     }
 
     return move result_port;
