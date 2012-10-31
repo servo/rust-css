@@ -32,7 +32,7 @@ pub fn parse_stylesheet(url: Url, input_factory: DataStreamFactory) -> Styleshee
         color: None,
         font: None,
     };
-    let sheet = css_stylesheet_create(move params);
+    let mut sheet = css_stylesheet_create(&params);
 
     let input = input_factory();
     loop {
