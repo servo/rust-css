@@ -1,6 +1,9 @@
 use netsurfcss::stylesheet::CssStylesheet;
-use netsurfcss::select::{CssSelectCtx, css_select_ctx_create};
+use netsurfcss::select::{CssSelectCtx, css_select_ctx_create, CssSelectResults, CssSelectHandler};
+use netsurfcss::types::CssQName;
+use netsurfcss::properties::CssProperty;
 use netsurfcss::ll::types::{CSS_ORIGIN_AUTHOR, CSS_MEDIA_SCREEN};
+use netsurfcss::hint::CssHint;
 use util::DataStream;
 use std::net::url::Url;
 
@@ -33,5 +36,35 @@ impl SelectCtx {
         };
 
         self.inner.append_sheet(move sheet, CSS_ORIGIN_AUTHOR, CSS_MEDIA_SCREEN)
+    }
+
+    fn select_style<N, H: SelectHandler<N>>(&self, node: &N, handler: &H) -> SelectResults {
+        let inner_handler = InnerHandler {
+            inner: ptr::to_unsafe_ptr(handler)
+        };
+        SelectResults {
+            inner: self.inner.select_style::<N, InnerHandler<N, H>>(node, CSS_MEDIA_SCREEN, None, &inner_handler)
+        }
+    }
+}
+
+pub struct SelectResults {
+    inner: CssSelectResults
+}
+
+pub trait SelectHandler<N> {
+}
+
+struct InnerHandler<N, H: SelectHandler<N>> {
+    // FIXME: Can't encode region variables
+    inner: *H
+}
+
+impl<N, H: SelectHandler<N>> InnerHandler<N, H>: CssSelectHandler<N> {
+    fn node_name(_node: &N) -> CssQName {
+        fail ~"implement node_name"
+    }
+    fn ua_default_for_property(_property: CssProperty) -> CssHint {
+        fail ~"implement ua_default_for_property"
     }
 }
