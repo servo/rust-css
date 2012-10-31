@@ -3,7 +3,8 @@ use netsurfcss::select::{CssSelectCtx, css_select_ctx_create, CssSelectResults, 
 use netsurfcss::types::CssQName;
 use netsurfcss::properties::CssProperty;
 use netsurfcss::ll::types::{CSS_ORIGIN_AUTHOR, CSS_MEDIA_SCREEN};
-use netsurfcss::hint::CssHint;
+use netsurfcss::hint::{CssHint, CssHintDefault};
+use wapcaplet::from_rust_string;
 use util::DataStream;
 use std::net::url::Url;
 
@@ -53,6 +54,7 @@ pub struct SelectResults {
 }
 
 pub trait SelectHandler<N> {
+    fn node_name(node: &N) -> ~str;
 }
 
 struct InnerHandler<N, H: SelectHandler<N>> {
@@ -60,11 +62,21 @@ struct InnerHandler<N, H: SelectHandler<N>> {
     inner: *H
 }
 
-impl<N, H: SelectHandler<N>> InnerHandler<N, H>: CssSelectHandler<N> {
-    fn node_name(_node: &N) -> CssQName {
-        fail ~"implement node_name"
+priv impl<N, H: SelectHandler<N>> InnerHandler<N, H> {
+    priv fn inner_ref() -> &self/H {
+        unsafe { &*self.inner }
     }
-    fn ua_default_for_property(_property: CssProperty) -> CssHint {
-        fail ~"implement ua_default_for_property"
+}
+
+impl<N, H: SelectHandler<N>> InnerHandler<N, H>: CssSelectHandler<N> {
+    fn node_name(node: &N) -> CssQName {
+        CssQName {
+            ns: None,
+            name: from_rust_string(self.inner_ref().node_name(node))
+        }
+    }
+    fn ua_default_for_property(property: CssProperty) -> CssHint {
+        error!("not specifiying ua default for property %?", property);
+        CssHintDefault
     }
 }
