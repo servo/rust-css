@@ -6,7 +6,7 @@ Constructs a list of css style rules from a token stream
 // are not as expected
 
 use values::*;
-use util::{DataStream, DataStreamFactory};
+use util::DataStream;
 use std::cell::Cell;
 use netsurfcss::stylesheet::{CssStylesheetParams, CssStylesheetParamsVersion1, css_stylesheet_create};
 use netsurfcss::types::CssLevel21;
@@ -18,7 +18,7 @@ use wapcaplet::LwcString;
 // so DataStream is an @fn which can't be sent to the lexer task.
 // So the DataStreamFactory gives the caller an opportunity to create
 // the data stream from inside the lexer task.
-pub fn parse_stylesheet(url: Url, input_factory: DataStreamFactory) -> Stylesheet {
+pub fn parse_stylesheet(url: Url, input: DataStream) -> Stylesheet {
     let params: CssStylesheetParams = CssStylesheetParams {
         params_version: CssStylesheetParamsVersion1,
         level: CssLevel21,
@@ -34,7 +34,6 @@ pub fn parse_stylesheet(url: Url, input_factory: DataStreamFactory) -> Styleshee
     };
     let mut sheet = css_stylesheet_create(&params);
 
-    let input = input_factory();
     loop {
         match input() {
             Some(move data) => {
