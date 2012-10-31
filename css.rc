@@ -9,8 +9,5 @@ extern mod wapcaplet;
 pub mod color;
 pub mod values;
 
-mod lexer;
-mod lexer_util;
 pub mod parser;
-mod parser_util;
 pub mod util;

@@ -7,6 +7,7 @@ http://www.w3.org/TR/CSS2/selector.html are represented by nested types.
 use SharedColor = color::Color;
 use cmp::Eq;
 use std::net::url::Url;
+use netsurfcss::stylesheet::CssStylesheet;
 
 // CSS Units
 
@@ -216,7 +217,7 @@ pub enum Selector {
 
 pub type Rule = (~[~Selector], ~[StyleDeclaration]);
 
-pub type Stylesheet = ~[~Rule];
+pub type Stylesheet = CssStylesheet;
 
 
 impl Length: cmp::Eq {
