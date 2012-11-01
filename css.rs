@@ -1,12 +1,15 @@
 use netsurfcss::stylesheet::CssStylesheet;
-use netsurfcss::select::{CssSelectCtx, css_select_ctx_create, CssSelectResults, CssSelectHandler};
-use netsurfcss::types::CssQName;
-use netsurfcss::properties::CssProperty;
+use netsurfcss::select::{CssSelectCtx, css_select_ctx_create, CssSelectResults, CssSelectHandler, CssPseudoElementNone};
+use netsurfcss::types::{CssQName, CssColor};
+use netsurfcss::properties::{CssProperty, CssColorInherit, CssColorValue};
 use netsurfcss::ll::types::{CSS_ORIGIN_AUTHOR, CSS_MEDIA_SCREEN};
 use netsurfcss::hint::{CssHint, CssHintDefault};
+use netsurfcss::computed::CssComputedStyle;
 use wapcaplet::from_rust_string;
 use util::DataStream;
 use std::net::url::Url;
+use values::{CSSValue, Inherit, Specified};
+use color::{Color, rgba};
 
 pub struct Stylesheet {
     inner: CssStylesheet
@@ -53,6 +56,14 @@ pub struct SelectResults {
     inner: CssSelectResults
 }
 
+impl SelectResults {
+    fn computed_style(&self) -> ComputedStyle/&self {
+        ComputedStyle {
+            inner: self.inner.computed_style(CssPseudoElementNone)
+        }
+    }
+}
+
 pub trait SelectHandler<N> {
     fn node_name(node: &N) -> ~str;
 }
@@ -79,4 +90,21 @@ impl<N, H: SelectHandler<N>> InnerHandler<N, H>: CssSelectHandler<N> {
         error!("not specifiying ua default for property %?", property);
         CssHintDefault
     }
+}
+
+pub struct ComputedStyle {
+    inner: CssComputedStyle
+}
+
+impl ComputedStyle {
+    pub fn background_color() -> CSSValue<Color> {
+        match self.inner.background_color() {
+            CssColorInherit => Inherit,
+            CssColorValue(v) => Specified(netcolor_to_color(v))
+        }
+    }
+}
+
+fn netcolor_to_color(color: CssColor) -> Color {
+    rgba(color.r, color.g, color.b, (color.a as float) / 255.0)
 }

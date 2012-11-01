@@ -18,7 +18,7 @@ enum ParseResult<T> {
     Fail
 }
 
-enum CSSValue<T : Copy> {
+enum CSSValue<T> {
     Specified(T),
     Initial,
     Inherit
