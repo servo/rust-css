@@ -87,7 +87,7 @@ impl<N, H: SelectHandler<N>> InnerHandler<N, H>: CssSelectHandler<N> {
         }
     }
     fn ua_default_for_property(property: CssProperty) -> CssHint {
-        error!("not specifiying ua default for property %?", property);
+        warn!("not specifiying ua default for property %?", property);
         CssHintDefault
     }
 }
