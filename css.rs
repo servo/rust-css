@@ -1,7 +1,8 @@
 use netsurfcss::stylesheet::CssStylesheet;
 use netsurfcss::select::{CssSelectCtx, css_select_ctx_create, CssSelectResults, CssSelectHandler, CssPseudoElementNone};
 use netsurfcss::types::{CssQName, CssColor};
-use netsurfcss::properties::{CssProperty, CssColorInherit, CssColorValue};
+use netsurfcss::properties::CssProperty;
+use netsurfcss::values::{CssColorInherit, CssColorColor};
 use netsurfcss::ll::types::{CSS_ORIGIN_AUTHOR, CSS_MEDIA_SCREEN};
 use netsurfcss::hint::{CssHint, CssHintDefault};
 use netsurfcss::computed::CssComputedStyle;
@@ -100,7 +101,7 @@ impl ComputedStyle {
     pub fn background_color() -> CSSValue<Color> {
         match self.inner.background_color() {
             CssColorInherit => Inherit,
-            CssColorValue(v) => Specified(netcolor_to_color(v))
+            CssColorColor(v) => Specified(netcolor_to_color(v))
         }
     }
 }
