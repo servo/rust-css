@@ -34,9 +34,7 @@ impl TestHandler: SelectHandler<int> {
     fn node_name(_node: &int) -> ~str { ~"div" }
 }
 
-#[test]
-fn test_background_color_simple() {
-    let style = "div { background-color: #123456; }";
+fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
     let sheet = Stylesheet::new(test_url(), style_stream(style));
     let mut select_ctx = SelectCtx::new();
     let handler = &TestHandler::new();
@@ -44,6 +42,14 @@ fn test_background_color_simple() {
     let dom = &0;
     let style = select_ctx.select_style(dom, handler);
     let computed = style.computed_style();
-    let color = computed.background_color();
-    assert color == Specified(rgb(0x12, 0x34, 0x56));
+    f(&computed);
+}
+
+#[test]
+fn test_background_color_simple() {
+    let style = "div { background-color: #123456; }";
+    do single_div_test(style) |computed| {
+        let color = computed.background_color();
+        assert color == Specified(rgb(0x12, 0x34, 0x56));
+    }
 }
