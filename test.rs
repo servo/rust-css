@@ -53,3 +53,54 @@ fn test_background_color_simple() {
         assert color == Specified(rgb(0x12, 0x34, 0x56));
     }
 }
+
+#[test]
+fn test_border_top_width_px() {
+    let style = "div { border-top-width: 10px; }";
+    do single_div_test(style) |computed| {
+        let width = computed.border_top_width();
+        assert width == Specified(Px(10.0));
+    }
+}
+
+#[test]
+fn test_border_right_width_px() {
+    let style = "div { border-right-width: 10px; }";
+    do single_div_test(style) |computed| {
+        let width = computed.border_right_width();
+        assert width == Specified(Px(10.0));
+    }
+}
+
+#[test]
+fn test_border_bottom_width_px() {
+    let style = "div { border-bottom-width: 10px; }";
+    do single_div_test(style) |computed| {
+        let width = computed.border_bottom_width();
+        assert width == Specified(Px(10.0));
+    }
+}
+
+#[test]
+fn test_border_left_width_px() {
+    let style = "div { border-left-width: 10px; }";
+    do single_div_test(style) |computed| {
+        let width = computed.border_left_width();
+        assert width == Specified(Px(10.0));
+    }
+}
+
+#[test]
+fn test_border_width_px() {
+    let style = "div { border-width: 10px; }";
+    do single_div_test(style) |computed| {
+        let width = computed.border_top_width();
+        assert width == Specified(Px(10.0));
+        let width = computed.border_right_width();
+        assert width == Specified(Px(10.0));
+        let width = computed.border_bottom_width();
+        assert width == Specified(Px(10.0));
+        let width = computed.border_left_width();
+        assert width == Specified(Px(10.0));
+    }
+}
