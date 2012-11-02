@@ -18,6 +18,31 @@ fn style_stream(style: &str) -> DataStream {
     }
 }
 
+struct NodeData {
+    name: ~str
+}
+
+struct TestNode {
+    data: @NodeData
+}
+
+impl TestNode: VoidPtrLike {
+    static fn from_void_ptr(node: *libc::c_void) -> TestNode {
+        assert node.is_not_null();
+        TestNode {
+            data: unsafe {
+                let box = cast::reinterpret_cast(&node);
+                cast::bump_box_refcount(box);
+                box
+            }
+        }
+    }
+
+    fn to_void_ptr(&self) -> *libc::c_void {
+        unsafe { cast::reinterpret_cast(&self.data) }
+    }
+}
+
 struct TestHandler {
     bogus: int
 }
@@ -30,8 +55,8 @@ impl TestHandler {
     }
 }
 
-impl TestHandler: SelectHandler<int> {
-    fn node_name(_node: &int) -> ~str { ~"div" }
+impl TestHandler: SelectHandler<TestNode> {
+    fn node_name(node: &TestNode) -> ~str { copy node.data.name }
 }
 
 fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
@@ -39,7 +64,11 @@ fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
     let mut select_ctx = SelectCtx::new();
     let handler = &TestHandler::new();
     select_ctx.append_sheet(move sheet);
-    let dom = &0;
+    let dom = &TestNode {
+        data: @NodeData {
+            name: ~"div"
+        }
+    };
     let style = select_ctx.select_style(dom, handler);
     let computed = style.computed_style();
     f(&computed);

@@ -15,6 +15,8 @@ use std::net::url::Url;
 use values::{CSSValue, Inherit, Specified, Length, Em, Px};
 use color::{Color, rgba};
 
+pub use netsurfcss::util::VoidPtrLike;
+
 pub struct Stylesheet {
     inner: CssStylesheet
 }
@@ -46,7 +48,7 @@ impl SelectCtx {
         self.inner.append_sheet(move sheet, CSS_ORIGIN_AUTHOR, CSS_MEDIA_SCREEN)
     }
 
-    fn select_style<N, H: SelectHandler<N>>(&self, node: &N, handler: &H) -> SelectResults {
+    fn select_style<N: VoidPtrLike, H: SelectHandler<N>>(&self, node: &N, handler: &H) -> SelectResults {
         let inner_handler = InnerHandler {
             inner: ptr::to_unsafe_ptr(handler)
         };
@@ -89,6 +91,9 @@ impl<N, H: SelectHandler<N>> InnerHandler<N, H>: CssSelectHandler<N> {
             ns: None,
             name: from_rust_string(self.inner_ref().node_name(node))
         }
+    }
+    fn parent_node(_node: &N) -> Option<N> {
+        None
     }
     fn ua_default_for_property(property: CssProperty) -> CssHint {
         warn!("not specifiying ua default for property %?", property);
