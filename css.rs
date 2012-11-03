@@ -72,7 +72,7 @@ impl SelectResults {
 
 pub trait SelectHandler<N> {
     fn node_name(node: &N) -> ~str;
-    fn named_parent_node(node: &N) -> Option<(~str, N)>;
+    fn named_parent_node(node: &N, name: &str) -> Option<N>;
     fn parent_node(node: &N) -> Option<N>;
 }
 
@@ -94,18 +94,17 @@ fn rust_str_to_net_qname(s: &str) -> CssQName {
     }
 }
 
+fn net_qname_to_rust_str(qname: &CssQName) -> ~str {
+    qname.name.to_str()
+}
+
 impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H>: CssSelectHandler<N> {
     fn node_name(node: &N) -> CssQName {
         rust_str_to_net_qname(self.inner_ref().node_name(node))
     }
 
-    fn named_parent_node(node: &N) -> Option<(CssQName, N)> {
-        match self.inner_ref().named_parent_node(node) {
-            Some((move name, move node)) => {
-                Some((rust_str_to_net_qname(name), move node))
-            }
-            None => None
-        }
+    fn named_parent_node(node: &N, qname: &CssQName) -> Option<N> {
+        self.inner_ref().named_parent_node(node, net_qname_to_rust_str(qname))
     }
 
     fn parent_node(node: &N) -> Option<N> {

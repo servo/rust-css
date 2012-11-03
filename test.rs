@@ -55,10 +55,14 @@ impl TestHandler {
 
 impl TestHandler: SelectHandler<TestNode> {
     fn node_name(node: &TestNode) -> ~str { copy (*node).name }
-    fn named_parent_node(node: &TestNode) -> Option<(~str, TestNode)> {
+    fn named_parent_node(node: &TestNode, name: &str) -> Option<TestNode> {
         match (**node).parent {
             Some(parent) => {
-                Some((copy (**parent).name, parent))
+                if name == (**parent).name {
+                    Some(parent)
+                } else {
+                    None
+                }
             }
             None => None
         }
@@ -168,6 +172,16 @@ fn test_child() {
     do child_test(style) |computed| {
         let width = computed.border_left_width();
         assert width == Specified(Px(10.0));
+    }
+}
+
+#[test]
+#[ignore]
+fn test_not_child() {
+    let style = "div > not_span { border-left-width: 10px; }";
+    do child_test(style) |computed| {
+        let width = computed.border_left_width();
+        assert width != Specified(Px(10.0));
     }
 }
 
