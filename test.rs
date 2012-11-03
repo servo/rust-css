@@ -145,6 +145,43 @@ fn test_border_width_px() {
     }
 }
 
+#[test]
+fn test_border_color() {
+    let style = "div {\
+                 border-top-color: red;\
+                 border-right-color: green;\
+                 border-bottom-color: blue;\
+                 border-left-color: yellow;\
+                 }";
+    do single_div_test(style) |computed| {
+        let top_color = computed.border_top_color();
+        let right_color = computed.border_right_color();
+        let bottom_color = computed.border_bottom_color();
+        let left_color = computed.border_left_color();
+        assert top_color == Specified(rgb(255, 0, 0));
+        assert right_color == Specified(rgb(0, 128, 0));
+        assert bottom_color == Specified(rgb(0, 0, 255));
+        assert left_color == Specified(rgb(255, 255, 0));
+    }
+}
+
+#[test]
+fn test_border_color_shorthand() {
+    let style = "div {\
+                 border-color: red;\
+                 }";
+    do single_div_test(style) |computed| {
+        let top_color = computed.border_top_color();
+        let right_color = computed.border_right_color();
+        let bottom_color = computed.border_bottom_color();
+        let left_color = computed.border_left_color();
+        assert top_color == Specified(rgb(255, 0, 0));
+        assert right_color == Specified(rgb(255, 0, 0));
+        assert bottom_color == Specified(rgb(255, 0, 0));
+        assert left_color == Specified(rgb(255, 0, 0));
+    }
+}
+
 fn child_test(style: &str, f: &fn(&ComputedStyle)) {
     let sheet = Stylesheet::new(test_url(), style_stream(style));
     let mut select_ctx = SelectCtx::new();

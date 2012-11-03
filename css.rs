@@ -142,6 +142,27 @@ impl ComputedStyle {
     pub fn border_left_width() -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_left_width())
     }
+
+    pub fn border_top_color() -> CSSValue<Color> {
+        convert_net_color_value(self.inner.border_top_color())
+    }
+
+    pub fn border_top_color() -> CSSValue<Color> {
+        convert_net_color_value(self.inner.border_top_color())
+    }
+
+    pub fn border_right_color() -> CSSValue<Color> {
+        convert_net_color_value(self.inner.border_right_color())
+    }
+
+    pub fn border_bottom_color() -> CSSValue<Color> {
+        convert_net_color_value(self.inner.border_bottom_color())
+    }
+
+    pub fn border_left_color() -> CSSValue<Color> {
+        convert_net_color_value(self.inner.border_left_color())
+    }
+
 }
 
 fn convert_net_color(color: CssColor) -> Color {
