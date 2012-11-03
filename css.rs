@@ -4,7 +4,7 @@ use netsurfcss::types::{CssQName, CssColor};
 use netsurfcss::types::{CssUnit, CssUnitPx, CssUnitEm};
 use netsurfcss::properties::CssProperty;
 use netsurfcss::values::{CssColorValue, CssColorInherit, CssColorColor};
-use netsurfcss::values::{CssBorderWidthValue, CssBorderWidthInherit, CssBorderWidthWidth};
+use netsurfcss::values::{CssBorderWidthValue, CssBorderWidthInherit, CssBorderWidthThin, CssBorderWidthMedium, CssBorderWidthThick, CssBorderWidthWidth};
 use netsurfcss::ll::types::{CSS_ORIGIN_AUTHOR, CSS_MEDIA_SCREEN};
 use netsurfcss::hint::{CssHint, CssHintDefault};
 use netsurfcss::computed::CssComputedStyle;
@@ -13,6 +13,7 @@ use lwcstr_from_rust_str = wapcaplet::from_rust_string;
 use util::DataStream;
 use std::net::url::Url;
 use values::{CSSValue, Inherit, Specified, Length, Em, Px};
+use values::{CSSBorderWidth, BdrWidthThin, BdrWidthMedium, BdrWidthThick, BdrWidthLength};
 use color::{Color, rgba};
 
 pub use netsurfcss::util::VoidPtrLike;
@@ -126,19 +127,19 @@ impl ComputedStyle {
         convert_net_color_value(self.inner.background_color())
     }
 
-    pub fn border_top_width() -> CSSValue<Length> {
+    pub fn border_top_width() -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_top_width())
     }
 
-    pub fn border_right_width() -> CSSValue<Length> {
+    pub fn border_right_width() -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_right_width())
     }
 
-    pub fn border_bottom_width() -> CSSValue<Length> {
+    pub fn border_bottom_width() -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_bottom_width())
     }
 
-    pub fn border_left_width() -> CSSValue<Length> {
+    pub fn border_left_width() -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_left_width())
     }
 }
@@ -154,11 +155,13 @@ fn convert_net_color_value(color: CssColorValue) -> CSSValue<Color> {
     }
 }
 
-fn convert_net_border_width(width: CssBorderWidthValue) -> CSSValue<Length> {
+fn convert_net_border_width(width: CssBorderWidthValue) -> CSSValue<CSSBorderWidth> {
     match width {
         CssBorderWidthInherit => Inherit,
-        CssBorderWidthWidth(width) => Specified(convert_net_unit_to_length(width)),
-        _ => unimpl("border width")
+        CssBorderWidthThin => Specified(BdrWidthThin),
+        CssBorderWidthMedium => Specified(BdrWidthMedium),
+        CssBorderWidthThick => Specified(BdrWidthThick),
+        CssBorderWidthWidth(width) => Specified(BdrWidthLength(convert_net_unit_to_length(width))),
     }
 }
 

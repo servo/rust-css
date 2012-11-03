@@ -136,6 +136,26 @@ enum CSSBorderStyle {
     BdrStyleOutset,
 }
 
+enum CSSBorderWidth {
+    BdrWidthThin,
+    BdrWidthMedium,
+    BdrWidthThick,
+    BdrWidthLength(Length)
+}
+
+impl CSSBorderWidth: Eq {
+    pure fn eq(other: &CSSBorderWidth) -> bool {
+        match (self, *other) {
+            (BdrWidthThin, BdrWidthThin) => true,
+            (BdrWidthMedium, BdrWidthMedium) => true,
+            (BdrWidthThick, BdrWidthThick) => true,
+            (BdrWidthLength(l1), BdrWidthLength(l2)) => l1 == l2,
+            (_, _) => false
+        }
+    }
+    pure fn ne(other: &CSSBorderWidth) -> bool { !self.eq(other) }
+}
+
 enum CSSColor {
     TextColor(SharedColor)
 }
