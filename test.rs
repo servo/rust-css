@@ -18,28 +18,26 @@ fn style_stream(style: &str) -> DataStream {
     }
 }
 
-struct NodeData {
-    name: ~str
-}
+enum TestNode = @NodeData;
 
-struct TestNode {
-    data: @NodeData
+struct NodeData {
+    name: ~str,
+    children: ~[TestNode],
+    mut parent: Option<TestNode>
 }
 
 impl TestNode: VoidPtrLike {
     static fn from_void_ptr(node: *libc::c_void) -> TestNode {
         assert node.is_not_null();
-        TestNode {
-            data: unsafe {
-                let box = cast::reinterpret_cast(&node);
-                cast::bump_box_refcount(box);
-                box
-            }
-        }
+        TestNode(unsafe {
+            let box = cast::reinterpret_cast(&node);
+            cast::bump_box_refcount(box);
+            box
+        })
     }
 
     fn to_void_ptr(&self) -> *libc::c_void {
-        unsafe { cast::reinterpret_cast(&self.data) }
+        unsafe { cast::reinterpret_cast(&(*self)) }
     }
 }
 
@@ -56,7 +54,16 @@ impl TestHandler {
 }
 
 impl TestHandler: SelectHandler<TestNode> {
-    fn node_name(node: &TestNode) -> ~str { copy node.data.name }
+    fn node_name(node: &TestNode) -> ~str { copy (*node).name }
+    fn named_parent_node(node: &TestNode) -> Option<(~str, TestNode)> {
+        match (**node).parent {
+            Some(parent) => {
+                Some((copy (**parent).name, parent))
+            }
+            None => None
+        }
+    }
+    fn parent_node(node: &TestNode) -> Option<TestNode> { (**node).parent }
 }
 
 fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
@@ -64,11 +71,11 @@ fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
     let mut select_ctx = SelectCtx::new();
     let handler = &TestHandler::new();
     select_ctx.append_sheet(move sheet);
-    let dom = &TestNode {
-        data: @NodeData {
-            name: ~"div"
-        }
-    };
+    let dom = &TestNode(@NodeData {
+        name: ~"div",
+        children: ~[],
+        parent: None
+    });
     let style = select_ctx.select_style(dom, handler);
     let computed = style.computed_style();
     f(&computed);
@@ -129,6 +136,46 @@ fn test_border_width_px() {
         assert width == Specified(Px(10.0));
         let width = computed.border_bottom_width();
         assert width == Specified(Px(10.0));
+        let width = computed.border_left_width();
+        assert width == Specified(Px(10.0));
+    }
+}
+
+fn child_test(style: &str, f: &fn(&ComputedStyle)) {
+    let sheet = Stylesheet::new(test_url(), style_stream(style));
+    let mut select_ctx = SelectCtx::new();
+    let handler = &TestHandler::new();
+    select_ctx.append_sheet(move sheet);
+    let child = TestNode(@NodeData {
+        name: ~"span",
+        children: ~[],
+        parent: None
+    });
+    let parent = TestNode(@NodeData {
+        name: ~"div",
+        children: ~[child],
+        parent: None
+    });
+    child.parent = Some(parent);
+    let style = select_ctx.select_style(&child, handler);
+    let computed = style.computed_style();
+    f(&computed);
+}
+
+#[test]
+fn test_child() {
+    let style = "div > span { border-left-width: 10px; }";
+    do child_test(style) |computed| {
+        let width = computed.border_left_width();
+        assert width == Specified(Px(10.0));
+    }
+}
+
+#[test]
+#[ignore]
+fn test_descendant() {
+    let style = "div span { border-left-width: 10px; }";
+    do child_test(style) |computed| {
         let width = computed.border_left_width();
         assert width == Specified(Px(10.0));
     }

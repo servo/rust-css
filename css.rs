@@ -9,7 +9,7 @@ use netsurfcss::ll::types::{CSS_ORIGIN_AUTHOR, CSS_MEDIA_SCREEN};
 use netsurfcss::hint::{CssHint, CssHintDefault};
 use netsurfcss::computed::CssComputedStyle;
 use netsurfcss::util::css_fixed_to_float;
-use wapcaplet::from_rust_string;
+use lwcstr_from_rust_str = wapcaplet::from_rust_string;
 use util::DataStream;
 use std::net::url::Url;
 use values::{CSSValue, Inherit, Specified, Length, Em, Px};
@@ -72,6 +72,8 @@ impl SelectResults {
 
 pub trait SelectHandler<N> {
     fn node_name(node: &N) -> ~str;
+    fn named_parent_node(node: &N) -> Option<(~str, N)>;
+    fn parent_node(node: &N) -> Option<N>;
 }
 
 struct SelectHandlerWrapper<N, H: SelectHandler<N>> {
@@ -85,16 +87,31 @@ priv impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H> {
     }
 }
 
+fn rust_str_to_net_qname(s: &str) -> CssQName {
+    CssQName {
+        ns: None,
+        name: lwcstr_from_rust_str(s)
+    }
+}
+
 impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H>: CssSelectHandler<N> {
     fn node_name(node: &N) -> CssQName {
-        CssQName {
-            ns: None,
-            name: from_rust_string(self.inner_ref().node_name(node))
+        rust_str_to_net_qname(self.inner_ref().node_name(node))
+    }
+
+    fn named_parent_node(node: &N) -> Option<(CssQName, N)> {
+        match self.inner_ref().named_parent_node(node) {
+            Some((move name, move node)) => {
+                Some((rust_str_to_net_qname(name), move node))
+            }
+            None => None
         }
     }
-    fn parent_node(_node: &N) -> Option<N> {
-        None
+
+    fn parent_node(node: &N) -> Option<N> {
+        self.inner_ref().parent_node(node)
     }
+
     fn ua_default_for_property(property: CssProperty) -> CssHint {
         warn!("not specifiying ua default for property %?", property);
         CssHintDefault
