@@ -49,11 +49,11 @@ impl SelectCtx {
     }
 
     fn select_style<N: VoidPtrLike, H: SelectHandler<N>>(&self, node: &N, handler: &H) -> SelectResults {
-        let inner_handler = InnerHandler {
+        let inner_handler = SelectHandlerWrapper {
             inner: ptr::to_unsafe_ptr(handler)
         };
         SelectResults {
-            inner: self.inner.select_style::<N, InnerHandler<N, H>>(node, CSS_MEDIA_SCREEN, None, &inner_handler)
+            inner: self.inner.select_style::<N, SelectHandlerWrapper<N, H>>(node, CSS_MEDIA_SCREEN, None, &inner_handler)
         }
     }
 }
@@ -74,18 +74,18 @@ pub trait SelectHandler<N> {
     fn node_name(node: &N) -> ~str;
 }
 
-struct InnerHandler<N, H: SelectHandler<N>> {
+struct SelectHandlerWrapper<N, H: SelectHandler<N>> {
     // FIXME: Can't encode region variables
     inner: *H
 }
 
-priv impl<N, H: SelectHandler<N>> InnerHandler<N, H> {
+priv impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H> {
     priv fn inner_ref() -> &self/H {
         unsafe { &*self.inner }
     }
 }
 
-impl<N, H: SelectHandler<N>> InnerHandler<N, H>: CssSelectHandler<N> {
+impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H>: CssSelectHandler<N> {
     fn node_name(node: &N) -> CssQName {
         CssQName {
             ns: None,
