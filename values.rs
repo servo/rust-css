@@ -9,8 +9,7 @@ use cmp::Eq;
 use std::net::url::Url;
 use netsurfcss::stylesheet::CssStylesheet;
 
-// CSS Units
-
+/** A partial CSS value, before inheritance has been resolved */
 enum CSSValue<T> {
     Inherit,
     Specified(T),
@@ -28,8 +27,6 @@ impl<T: Eq Copy> CSSValue<T> : Eq {
         return !self.eq(other);
     }
 }
-
-enum Auto = ();
 
 pub enum Length {
     Em(float), // normalized to 'em'
