@@ -12,7 +12,8 @@ use netsurfcss::util::css_fixed_to_float;
 use lwcstr_from_rust_str = wapcaplet::from_rust_string;
 use util::DataStream;
 use std::net::url::Url;
-use values::{CSSValue, Inherit, Specified, Length, Em, Px};
+use units::{Length, Em, Px};
+use values::{CSSValue, Inherit, Specified};
 use values::{CSSBorderWidth, BdrWidthThin, BdrWidthMedium, BdrWidthThick, BdrWidthLength};
 use color::{Color, rgba};
 

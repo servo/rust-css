@@ -6,6 +6,7 @@ extern mod std;
 extern mod netsurfcss;
 extern mod wapcaplet;
 
+pub mod units;
 pub mod color;
 pub mod values;
 

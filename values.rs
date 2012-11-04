@@ -1,62 +1,19 @@
 /*!
-Defines how css rules, both selectors and style specifications, are
-stored.  CSS selector-matching rules, as presented by 
-http://www.w3.org/TR/CSS2/selector.html are represented by nested types.
+The representation of CSS property values
 */
 
 use SharedColor = color::Color;
 use cmp::Eq;
 use std::net::url::Url;
 use netsurfcss::stylesheet::CssStylesheet;
+use units::{AbsoluteSize, RelativeSize,
+            BoxSizing, BoxLength, BoxPercent, BoxAuto};
 
 /** A partial CSS value, before inheritance has been resolved */
 enum CSSValue<T> {
     Inherit,
     Specified(T),
 }
-
-pub enum Length {
-    Em(float), // normalized to 'em'
-    Px(float) // normalized to 'px'
-}
-
-impl Length {
-    pure fn rel() -> float {
-        match self {
-            Em(x) => x,
-            _ => fail ~"attempted to access relative unit of an absolute length"
-        }
-    }
-    pure fn abs() -> float {
-        match self {
-            Em(x) => x,
-            _ => fail ~"attempted to access relative unit of an absolute length"
-        }
-    }
-}
-
-pub enum BoxSizing { // used by width, height, top, left, etc
-    BoxLength(Length),
-    BoxPercent(float),
-    BoxAuto
-}
-
-enum AbsoluteSize {
-    XXSmall,
-    XSmall,
-    Small,
-    Medium,
-    Large,
-    XLarge,
-    XXLarge
-}
-
-enum RelativeSize {
-    Larger,
-    Smaller
-}
-
-// CSS property values
 
 enum CSSBackgroundAttachment {
     BgAttachScroll,
