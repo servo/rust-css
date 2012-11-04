@@ -3,7 +3,7 @@ use libc::types::os::arch::c95::c_double;
 use css_colors::*;
 use cmp::Eq;
 
-pub enum Color = {red : u8, green : u8, blue : u8, alpha : float};
+pub struct Color { red : u8, green : u8, blue : u8, alpha : float}
 
 impl Color : Eq {
     pure fn eq(other: &Color) -> bool {
@@ -16,7 +16,7 @@ impl Color : Eq {
 }
 
 pub fn rgba(r : u8, g : u8, b : u8, a : float) -> Color {
-    Color({red : r, green : g, blue : b, alpha : a})
+    Color { red : r, green : g, blue : b, alpha : a}
 }
 
 pub fn rgb(r : u8, g : u8, b : u8) -> Color {
@@ -238,52 +238,52 @@ mod test {
 pub mod css_colors {
     // The 16 basic css colors
     fn black() -> Color {
-        Color({red : 0u8, green : 0u8, blue : 0u8, alpha : 1.0})
+        Color {red : 0u8, green : 0u8, blue : 0u8, alpha : 1.0}
     }
     fn silver() -> Color {
-        Color({red : 192u8, green : 192u8, blue : 192u8, alpha : 1.0})
+        Color {red : 192u8, green : 192u8, blue : 192u8, alpha : 1.0}
     }
     fn gray() -> Color {
-        Color({red : 128u8, green : 128u8, blue : 128u8, alpha : 1.0})
+        Color {red : 128u8, green : 128u8, blue : 128u8, alpha : 1.0}
     }
     fn white() -> Color {
-        Color({red : 255u8, green : 255u8, blue : 255u8, alpha : 1.0})
+        Color {red : 255u8, green : 255u8, blue : 255u8, alpha : 1.0}
     }
     fn maroon() -> Color {
-        Color({red : 128u8, green : 0u8, blue : 0u8, alpha : 1.0})
+        Color {red : 128u8, green : 0u8, blue : 0u8, alpha : 1.0}
     }
     fn red() -> Color { 
-        Color({red : 255u8, green : 0u8, blue : 0u8, alpha : 1.0})
+        Color {red : 255u8, green : 0u8, blue : 0u8, alpha : 1.0}
     }
     fn purple() -> Color {
-        Color({red : 128u8, green : 0u8, blue : 128u8, alpha : 1.0})
+        Color {red : 128u8, green : 0u8, blue : 128u8, alpha : 1.0}
     }
     fn fuchsia() -> Color {
-        Color({red : 255u8, green : 0u8, blue : 255u8, alpha : 1.0})
+        Color {red : 255u8, green : 0u8, blue : 255u8, alpha : 1.0}
     }
     fn green() -> Color { 
-        Color({red : 0u8, green : 128u8, blue : 0u8, alpha : 1.0})
+        Color {red : 0u8, green : 128u8, blue : 0u8, alpha : 1.0}
     }
     fn lime() -> Color {
-        Color({red : 0u8, green : 255u8, blue : 0u8, alpha : 1.0})
+        Color {red : 0u8, green : 255u8, blue : 0u8, alpha : 1.0}
     }
     fn olive() -> Color {
-        Color({red : 128u8, green : 128u8, blue : 0u8, alpha : 1.0})
+        Color {red : 128u8, green : 128u8, blue : 0u8, alpha : 1.0}
     }
     fn yellow() -> Color {
-        Color({red : 255u8, green : 255u8, blue : 0u8, alpha : 1.0})
+        Color {red : 255u8, green : 255u8, blue : 0u8, alpha : 1.0}
     }
     fn navy() -> Color {
-        Color({red : 0u8, green : 0u8, blue : 128u8, alpha : 1.0})
+        Color {red : 0u8, green : 0u8, blue : 128u8, alpha : 1.0}
     }
     fn blue() -> Color {
-        Color({red : 0u8, green : 0u8, blue : 255u8, alpha : 1.0})
+        Color {red : 0u8, green : 0u8, blue : 255u8, alpha : 1.0}
     }
     fn teal() -> Color {
-        Color({red : 0u8, green : 128u8, blue : 128u8, alpha : 1.0})
+        Color {red : 0u8, green : 128u8, blue : 128u8, alpha : 1.0}
     }
     fn aqua() -> Color {
-        Color({red : 0u8, green : 255u8, blue : 255u8, alpha : 1.0})
+        Color {red : 0u8, green : 255u8, blue : 255u8, alpha : 1.0}
     }
 
 
