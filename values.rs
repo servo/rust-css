@@ -1,8 +1,16 @@
 /*!
 The representation of CSS property values
+
+Enums are named after the property. Variants have the same name + the
+name of the value used in the spec. This leads to some verbose names,
+e.g.:
+
+The property 'background-color' and the specified value called '<color>'
+in the spec lead to the variant CSSBackgroundColorColor(Color).
+
+At least it's consistent though.
 */
 
-use SharedColor = color::Color;
 use cmp::Eq;
 use std::net::url::Url;
 use netsurfcss::stylesheet::CssStylesheet;
@@ -16,97 +24,97 @@ enum CSSValue<T> {
 }
 
 enum CSSBackgroundAttachment {
-    BgAttachScroll,
-    BgAttachFixed
+    CSSBackgroundAttachmentScroll,
+    CSSBackgroundAttachmentFixed
 }
 
 enum CSSBackgroundColor {
-    BgColor(SharedColor),
-    BgColorTransparent
+    CSSBackgroundColorColor(Color),
+    CSSBackgroundColorTransparent
 }
 
 enum CSSBackgroundRepeat {
-    BgRepeat,
-    BgRepeatX,
-    BgRepeatY,
-    BgNoRepeat
+    CSSBackgroundRepeatRepeat,
+    CSSBackgroundRepeatRepeatX,
+    CSSBackgroundRepeatRepeatY,
+    CSSBackgroundRepeatNoRepeat
 }
 
 enum CSSBackgroundImage {
-    BgImage(Url),
-    BgImageNone,
+    CSSBackgroundUri(Url),
+    CSSBackgroundImageNone
 }
 
 enum CSSBorderColor {
-    BdrColor(SharedColor),
-    BdrColorTransparent
+    CSSBorderColorColor(Color),
+    CSSBorderColorTransparent
 }
 
 enum CSSBorderStyle {
-    BdrStyleNone,
-    BdrStyleHidden,
-    BdrStyleDotted,
-    BdrStyleDashed,
-    BdrStyleSolid,
-    BdrStyleDouble,
-    BdrStyleGroove,
-    BdrStyleRidge,
-    BdrStyleInset,
-    BdrStyleOutset,
+    CSSBorderStyleNone,
+    CSSBorderStyleHidden,
+    CSSBorderStyleDotted,
+    CSSBorderStyleDashed,
+    CSSBorderStyleSolid,
+    CSSBorderStyleDouble,
+    CSSBorderStyleGroove,
+    CSSBorderStyleRidge,
+    CSSBorderStyleInset,
+    CSSBorderStyleOutset,
 }
 
 enum CSSBorderWidth {
-    BdrWidthThin,
-    BdrWidthMedium,
-    BdrWidthThick,
-    BdrWidthLength(Length)
+    CSSBorderWidthThin,
+    CSSBorderWidthMedium,
+    CSSBorderWidthThick,
+    CSSBorderWidthLength(Length)
 }
 
 enum CSSColor {
-    TextColor(SharedColor)
+    CSSColorColor(Color)
 }
 
 enum CSSDirection {
-    DirectionLtr,
-    DirectionRtl
+    CSSDirectionLtr,
+    CSSDirectionRtl
 }
 
 enum CSSDisplay {
-    DisplayInline,
-    DisplayBlock,
-    DisplayListItem,
-    DisplayInlineBlock,
-    DisplayTable,
-    DisplayInlineTable,
-    DisplayTableRowGroup,
-    DisplayTableHeaderGroup,
-    DisplayTableFooterGroup,
-    DisplayTableRow,
-    DisplayTableColumnGroup,
-    DisplayTableColumn,
-    DisplayTableCell,
-    DisplayTableCaption,
-    DisplayNone
+    CSSDisplayInline,
+    CSSDisplayBlock,
+    CSSDisplayListItem,
+    CSSDisplayInlineBlock,
+    CSSDisplayTable,
+    CSSDisplayInlineTable,
+    CSSDisplayTableRowGroup,
+    CSSDisplayTableHeaderGroup,
+    CSSDisplayTableFooterGroup,
+    CSSDisplayTableRow,
+    CSSDisplayTableColumnGroup,
+    CSSDisplayTableColumn,
+    CSSDisplayTableCell,
+    CSSDisplayTableCaption,
+    CSSDisplayNone
 }
 
 enum CSSFloat {
-    FloatLeft,
-    FloatRight,
-    FloatNone
+    CSSFloatLeft,
+    CSSFloatRight,
+    CSSFloatNone
 }
 
 enum CSSFontSize {
-    AbsoluteSize(AbsoluteSize),
-    RelativeSize(RelativeSize),
-    LengthSize(Length),
-    PercentSize(float)
+    CSSFontSizeAbsoluteSize(AbsoluteSize),
+    CSSFontSizeRelativeSize(RelativeSize),
+    CSSFontSizeLength(Length),
+    CSSFontSizePercentage(float)
 }
 
 enum CSSPosition {
-    PosStatic,
-    PosRelative,
-    PosAbsolute,
-    PosFixed
+    CSSPositionStatic,
+    CSSPositionRelative,
+    CSSPositionAbsolute,
+    CSSPositionFixed
 }
 
 impl Length: cmp::Eq {
@@ -157,8 +165,8 @@ impl RelativeSize: cmp::Eq {
 impl CSSBackgroundColor: cmp::Eq {
     pure fn eq(other: &CSSBackgroundColor) -> bool {
         match (self, *other) {
-            (BgColor(a), BgColor(b)) => a == b,
-            (BgColorTransparent, BgColorTransparent) => true,
+            (CSSBackgroundColorColor(a), CSSBackgroundColorColor(b)) => a == b,
+            (CSSBackgroundColorTransparent, CSSBackgroundColorTransparent) => true,
             (_, _) => false
         }
     }
@@ -171,7 +179,7 @@ impl CSSBackgroundColor: cmp::Eq {
 impl CSSColor: cmp::Eq {
     pure fn eq(other: &CSSColor) -> bool {
         match (self, *other) {
-            (TextColor(a), TextColor(b)) => a == b
+            (CSSColorColor(a), CSSColorColor(b)) => a == b
         }
     }
     pure fn ne(other: &CSSColor) -> bool {
@@ -192,10 +200,10 @@ impl CSSDisplay: cmp::Eq {
 impl CSSFontSize: cmp::Eq {
     pure fn eq(other: &CSSFontSize) -> bool {
         match (self, *other) {
-            (AbsoluteSize(a), AbsoluteSize(b)) => a == b,
-            (RelativeSize(a), RelativeSize(b)) => a == b,
-            (LengthSize(a),   LengthSize(b))   => a == b,
-            (PercentSize(a),  PercentSize(b))  => a == b,
+            (CSSFontSizeAbsoluteSize(a), CSSFontSizeAbsoluteSize(b)) => a == b,
+            (CSSFontSizeRelativeSize(a), CSSFontSizeRelativeSize(b)) => a == b,
+            (CSSFontSizeLength(a), CSSFontSizeLength(b))   => a == b,
+            (CSSFontSizePercentage(a), CSSFontSizePercentage(b))  => a == b,
             (_, _) => false
         }
     }
@@ -220,10 +228,10 @@ impl<T: Eq Copy> CSSValue<T> : Eq {
 impl CSSBorderWidth: Eq {
     pure fn eq(other: &CSSBorderWidth) -> bool {
         match (self, *other) {
-            (BdrWidthThin, BdrWidthThin) => true,
-            (BdrWidthMedium, BdrWidthMedium) => true,
-            (BdrWidthThick, BdrWidthThick) => true,
-            (BdrWidthLength(l1), BdrWidthLength(l2)) => l1 == l2,
+            (CSSBorderWidthThin, CSSBorderWidthThin) => true,
+            (CSSBorderWidthMedium, CSSBorderWidthMedium) => true,
+            (CSSBorderWidthThick, CSSBorderWidthThick) => true,
+            (CSSBorderWidthLength(l1), CSSBorderWidthLength(l2)) => l1 == l2,
             (_, _) => false
         }
     }

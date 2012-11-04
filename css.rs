@@ -14,7 +14,7 @@ use util::DataStream;
 use std::net::url::Url;
 use units::{Length, Em, Px};
 use values::{CSSValue, Inherit, Specified};
-use values::{CSSBorderWidth, BdrWidthThin, BdrWidthMedium, BdrWidthThick, BdrWidthLength};
+use values::{CSSBorderWidth, CSSBorderWidthThin, CSSBorderWidthMedium, CSSBorderWidthThick, CSSBorderWidthLength};
 use color::{Color, rgba};
 
 pub use netsurfcss::util::VoidPtrLike;
@@ -180,10 +180,10 @@ fn convert_net_color_value(color: CssColorValue) -> CSSValue<Color> {
 fn convert_net_border_width(width: CssBorderWidthValue) -> CSSValue<CSSBorderWidth> {
     match width {
         CssBorderWidthInherit => Inherit,
-        CssBorderWidthThin => Specified(BdrWidthThin),
-        CssBorderWidthMedium => Specified(BdrWidthMedium),
-        CssBorderWidthThick => Specified(BdrWidthThick),
-        CssBorderWidthWidth(width) => Specified(BdrWidthLength(convert_net_unit_to_length(width))),
+        CssBorderWidthThin => Specified(CSSBorderWidthThin),
+        CssBorderWidthMedium => Specified(CSSBorderWidthMedium),
+        CssBorderWidthThick => Specified(CSSBorderWidthThick),
+        CssBorderWidthWidth(width) => Specified(CSSBorderWidthLength(convert_net_unit_to_length(width))),
     }
 }
 

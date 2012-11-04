@@ -99,7 +99,7 @@ fn test_border_top_width_px() {
     let style = "div { border-top-width: 10px; }";
     do single_div_test(style) |computed| {
         let width = computed.border_top_width();
-        assert width == Specified(BdrWidthLength(Px(10.0)));
+        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
     }
 }
 
@@ -108,7 +108,7 @@ fn test_border_right_width_px() {
     let style = "div { border-right-width: 10px; }";
     do single_div_test(style) |computed| {
         let width = computed.border_right_width();
-        assert width == Specified(BdrWidthLength(Px(10.0)));
+        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
     }
 }
 
@@ -117,7 +117,7 @@ fn test_border_bottom_width_px() {
     let style = "div { border-bottom-width: 10px; }";
     do single_div_test(style) |computed| {
         let width = computed.border_bottom_width();
-        assert width == Specified(BdrWidthLength(Px(10.0)));
+        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
     }
 }
 
@@ -126,7 +126,7 @@ fn test_border_left_width_px() {
     let style = "div { border-left-width: 10px; }";
     do single_div_test(style) |computed| {
         let width = computed.border_left_width();
-        assert width == Specified(BdrWidthLength(Px(10.0)));
+        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
     }
 }
 
@@ -135,13 +135,13 @@ fn test_border_width_px() {
     let style = "div { border-width: 10px; }";
     do single_div_test(style) |computed| {
         let width = computed.border_top_width();
-        assert width == Specified(BdrWidthLength(Px(10.0)));
+        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
         let width = computed.border_right_width();
-        assert width == Specified(BdrWidthLength(Px(10.0)));
+        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
         let width = computed.border_bottom_width();
-        assert width == Specified(BdrWidthLength(Px(10.0)));
+        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
         let width = computed.border_left_width();
-        assert width == Specified(BdrWidthLength(Px(10.0)));
+        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
     }
 }
 
@@ -208,7 +208,7 @@ fn test_child() {
     let style = "div > span { border-left-width: 10px; }";
     do child_test(style) |computed| {
         let width = computed.border_left_width();
-        assert width == Specified(BdrWidthLength(Px(10.0)));
+        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
     }
 }
 
@@ -217,7 +217,7 @@ fn test_not_child() {
     let style = "div > not_span { border-left-width: 10px; }";
     do child_test(style) |computed| {
         let width = computed.border_left_width();
-        assert width != Specified(BdrWidthLength(Px(10.0)));
+        assert width != Specified(CSSBorderWidthLength(Px(10.0)));
     }
 }
 
@@ -227,6 +227,6 @@ fn test_descendant() {
     let style = "div span { border-left-width: 10px; }";
     do child_test(style) |computed| {
         let width = computed.border_left_width();
-        assert width == Specified(BdrWidthLength(Px(10.0)));
+        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
     }
 }
