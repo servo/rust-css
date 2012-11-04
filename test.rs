@@ -1,9 +1,12 @@
 use std::net::url::Url;
 use url_from_str = std::net::url::from_str;
 use std::cell::Cell;
-use util::DataStream;
-use values::Specified;
+use util::{DataStream, VoidPtrLike};
+use values::*;
 use color::{Color, rgb};
+use select::{SelectCtx, SelectHandler};
+use stylesheet::Stylesheet;
+use computed::ComputedStyle;
 
 fn test_url() -> Url {
     result::unwrap(url_from_str("http://foo.com"))

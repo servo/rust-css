@@ -14,8 +14,9 @@ At least it's consistent though.
 use cmp::Eq;
 use std::net::url::Url;
 use netsurfcss::stylesheet::CssStylesheet;
-use units::{AbsoluteSize, RelativeSize,
-            BoxSizing, BoxLength, BoxPercent, BoxAuto};
+use units::{Length, AbsoluteSize, RelativeSize,
+            BoxSizing, BoxLength, BoxPercent, BoxAuto, Px, Em};
+use color::Color;
 
 /** A partial CSS value, before inheritance has been resolved */
 enum CSSValue<T> {
