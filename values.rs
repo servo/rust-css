@@ -11,30 +11,10 @@ use netsurfcss::stylesheet::CssStylesheet;
 
 // CSS Units
 
-enum ParseResult<T> {
-    Value(T),
-    CSSInitial,
-    CSSInherit,
-    Fail
-}
-
 enum CSSValue<T> {
     Specified(T),
     Initial,
     Inherit
-}
-
-impl<T : Copy> ParseResult<T> {
-    pure fn extract<U>(f: fn(v: CSSValue<T>) -> U) -> Option<U> { extract(&self, f) }
-}
-
-pure fn extract<T : Copy, U>(res: &ParseResult<T>, f: fn(v: CSSValue<T>) -> U) -> Option<U> {
-    match *res {
-        Fail => None,
-        CSSInitial => Some(f(Initial)),
-        CSSInherit => Some(f(Inherit)),
-        Value(x) => Some(f(Specified(x)))
-    }
 }
 
 impl<T: Eq Copy> CSSValue<T> : Eq {
