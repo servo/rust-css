@@ -178,43 +178,6 @@ enum CSSPosition {
     PosFixed
 }
 
-// Stylesheet parts
-
-enum StyleDeclaration {
-    BackgroundColor(CSSValue<CSSBackgroundColor>),
-    Display(CSSValue<CSSDisplay>),
-    FontSize(CSSValue<CSSFontSize>),
-    Height(CSSValue<BoxSizing>),
-    Color(CSSValue<CSSColor>),
-    Width(CSSValue<BoxSizing>),
-    BorderColor(CSSValue<CSSBorderColor>),
-    BorderWidth(CSSValue<Length>),
-    Position(CSSValue<CSSPosition>),
-    Top(CSSValue<Length>),
-    Right(CSSValue<Length>),
-    Bottom(CSSValue<Length>),
-    Left(CSSValue<Length>),
-}
-
-pub enum Attr {
-    Exists(~str),
-    Exact(~str, ~str),
-    Includes(~str, ~str),
-    StartsWith(~str, ~str)
-}
-    
-pub enum Selector {
-    Element(~str, ~[Attr]),
-    Child(~Selector, ~Selector),
-    Descendant(~Selector, ~Selector),
-    Sibling(~Selector, ~Selector)
-}
-
-pub type Rule = (~[~Selector], ~[StyleDeclaration]);
-
-pub type Stylesheet = CssStylesheet;
-
-
 impl Length: cmp::Eq {
     pure fn eq(other: &Length) -> bool {
         match (self, *other) {
@@ -259,8 +222,6 @@ impl RelativeSize: cmp::Eq {
         return !self.eq(other);
     }
 }
-
-
 
 impl CSSBackgroundColor: cmp::Eq {
     pure fn eq(other: &CSSBackgroundColor) -> bool {
@@ -308,69 +269,6 @@ impl CSSFontSize: cmp::Eq {
         }
     }
     pure fn ne(other: &CSSFontSize) -> bool {
-        return !self.eq(other);
-    }
-}
-/*
-impl StyleDeclaration: cmp::Eq {
-    pure fn eq(&&other: StyleDeclaration) -> bool {
-        match (self, other) {
-          (BackgroundColor(a), BackgroundColor(b)) => a == b,
-          (Display(a), Display(b)) => a == b,
-          (FontSize(a), FontSize(b)) => a == b,
-          (Height(a), Height(b)) => a == b,
-          (Color(a), Color(b)) => a == b,
-          (Width(a), Width(b)) => a == b,
-
-          (BackgroundColor(*), _)
-          | (Display(*), _)
-          | (FontSize(*), _)
-          | (Height(*), _)
-          | (Color(*), _)
-          | (Width(*), _) => false
-        }
-    }
-}*/
-
-impl Attr: cmp::Eq {
-    pure fn eq(other: &Attr) -> bool {
-        match (copy self, copy *other) {
-          (Exists(a), Exists(b)) => a == b,
-
-          (Exact(a, aa), Exact(b, bb))
-          | (Includes(a, aa), Includes(b, bb))
-          | (StartsWith(a, aa), StartsWith(b, bb)) => a == b && aa == bb,
-
-          (Exists(*), _)
-          | (Exact(*), _)
-          | (Includes(*), _)
-          | (StartsWith(*), _) => false
-        }
-    }
-    pure fn ne(other: &Attr) -> bool {
-        return !self.eq(other);
-    }
-}
-
-impl Selector: cmp::Eq {
-    pure fn eq(other: &Selector) -> bool {
-        // FIXME: Lots of copying here
-        match (copy self, copy *other) {
-          (Element(s_a, attrs_a), Element(s_b, attrs_b)) => s_a == s_b && attrs_a == attrs_b,
-
-          (Child(s1a, s2a), Child(s1b, s2b))
-          | (Descendant(s1a, s2a), Descendant(s1b, s2b))
-          | (Sibling(s1a, s2a), Sibling(s1b, s2b)) => {
-            s1a == s1b && s2a == s2b
-          }
-
-          (Element(*), _) => false,
-          (Child(*), _) => false,
-          (Descendant(*), _) => false,
-          (Sibling(*), _) => false
-        }
-    }
-    pure fn ne(other: &Selector) -> bool {
         return !self.eq(other);
     }
 }
