@@ -24,26 +24,14 @@ enum CSSValue<T> {
     Specified(T),
 }
 
-enum CSSBackgroundAttachment {
-    CSSBackgroundAttachmentScroll,
-    CSSBackgroundAttachmentFixed
-}
 
-enum CSSBackgroundColor {
-    CSSBackgroundColorColor(Color),
-    CSSBackgroundColorTransparent
-}
+// CSS 2.1, Section 8 - Box model
 
-enum CSSBackgroundRepeat {
-    CSSBackgroundRepeatRepeat,
-    CSSBackgroundRepeatRepeatX,
-    CSSBackgroundRepeatRepeatY,
-    CSSBackgroundRepeatNoRepeat
-}
-
-enum CSSBackgroundImage {
-    CSSBackgroundUri(Url),
-    CSSBackgroundImageNone
+enum CSSBorderWidth {
+    CSSBorderWidthThin,
+    CSSBorderWidthMedium,
+    CSSBorderWidthThick,
+    CSSBorderWidthLength(Length)
 }
 
 enum CSSBorderColor {
@@ -64,21 +52,7 @@ enum CSSBorderStyle {
     CSSBorderStyleOutset,
 }
 
-enum CSSBorderWidth {
-    CSSBorderWidthThin,
-    CSSBorderWidthMedium,
-    CSSBorderWidthThick,
-    CSSBorderWidthLength(Length)
-}
-
-enum CSSColor {
-    CSSColorColor(Color)
-}
-
-enum CSSDirection {
-    CSSDirectionLtr,
-    CSSDirectionRtl
-}
+// CSS 2.1, Section 9 - Visual formatting model
 
 enum CSSDisplay {
     CSSDisplayInline,
@@ -98,11 +72,61 @@ enum CSSDisplay {
     CSSDisplayNone
 }
 
+enum CSSPosition {
+    CSSPositionStatic,
+    CSSPositionRelative,
+    CSSPositionAbsolute,
+    CSSPositionFixed
+}
+
 enum CSSFloat {
     CSSFloatLeft,
     CSSFloatRight,
     CSSFloatNone
 }
+
+enum CSSDirection {
+    CSSDirectionLtr,
+    CSSDirectionRtl
+}
+
+// CSS 2.1, Section 10 - Visual formatting model details
+
+// CSS 2.1, Section 11 - Visual effects
+
+// CSS 2.1, Section 12 - Generated content, automatic numbering, and lists
+
+// CSS 2.1, Section 13 - Paged media
+
+// CSS 2.1, Section 14 - Colors and Backgrounds
+
+enum CSSColor {
+    CSSColorColor(Color)
+}
+
+enum CSSBackgroundColor {
+    CSSBackgroundColorColor(Color),
+    CSSBackgroundColorTransparent
+}
+
+enum CSSBackgroundImage {
+    CSSBackgroundUri(Url),
+    CSSBackgroundImageNone
+}
+
+enum CSSBackgroundRepeat {
+    CSSBackgroundRepeatRepeat,
+    CSSBackgroundRepeatRepeatX,
+    CSSBackgroundRepeatRepeatY,
+    CSSBackgroundRepeatNoRepeat
+}
+
+enum CSSBackgroundAttachment {
+    CSSBackgroundAttachmentScroll,
+    CSSBackgroundAttachmentFixed
+}
+
+// CSS 2.1, Section 15 - Fonts
 
 enum CSSFontSize {
     CSSFontSizeAbsoluteSize(AbsoluteSize),
@@ -111,12 +135,14 @@ enum CSSFontSize {
     CSSFontSizePercentage(float)
 }
 
-enum CSSPosition {
-    CSSPositionStatic,
-    CSSPositionRelative,
-    CSSPositionAbsolute,
-    CSSPositionFixed
-}
+// CSS 2.1, Section 16 - Text
+
+// CSS 2.1, Section 17 - Tables
+
+// CSS 2.1, Section 18 - User interface
+
+
+// Implementations of Eq
 
 impl Length: cmp::Eq {
     pure fn eq(other: &Length) -> bool {
