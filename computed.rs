@@ -69,6 +69,10 @@ impl ComputedStyle {
         convert_net_display_value(self.inner.display(root))
     }
 
+    pub fn float() -> CSSValue<CSSFloat> {
+        convert_net_float_value(self.inner.float())
+    }
+
     // CSS 2.1, Section 10 - Visual formatting model details
 
     // CSS 2.1, Section 11 - Visual effects
@@ -141,6 +145,15 @@ fn convert_net_display_value(value: n::v::CssDisplayValue) -> CSSValue<CSSDispla
         n::v::CssDisplayTableCell => Specified(CSSDisplayTableCell),
         n::v::CssDisplayTableCaption => Specified(CSSDisplayTableCaption),
         n::v::CssDisplayNone => Specified(CSSDisplayNone)
+    }
+}
+
+fn convert_net_float_value(value: n::v::CssFloatValue) -> CSSValue<CSSFloat> {
+    match value {
+        n::v::CssFloatInherit => Inherit,
+        n::v::CssFloatLeft => Specified(CSSFloatLeft),
+        n::v::CssFloatRight => Specified(CSSFloatRight),
+        n::v::CssFloatNone => Specified(CSSFloatNone)
     }
 }
 

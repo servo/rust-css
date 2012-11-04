@@ -209,6 +209,14 @@ fn test_display() {
     }
 }
 
+#[test]
+fn test_float() {
+    let style = "div { float: right; }";
+    do single_div_test(style) |computed| {
+        assert computed.float() == Specified(CSSFloatRight);
+    }
+}
+
 
 
 fn child_test(style: &str, f: &fn(&ComputedStyle)) {

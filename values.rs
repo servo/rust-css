@@ -400,3 +400,16 @@ impl CSSMargin: Eq {
 
     pure fn ne(other: &CSSMargin) -> bool { !self.eq(other) }
 }
+
+impl CSSFloat: Eq {
+    pure fn eq(other: &CSSFloat) -> bool {
+        match (self, *other) {
+            (CSSFloatLeft, CSSFloatLeft) => true,
+            (CSSFloatRight, CSSFloatRight) => true,
+            (CSSFloatNone, CSSFloatNone) => true,
+            (_, _) => false
+        }
+    }
+
+    pure fn ne(other: &CSSFloat) -> bool { !self.eq(other) }
+}
