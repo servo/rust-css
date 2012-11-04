@@ -12,15 +12,13 @@ use netsurfcss::stylesheet::CssStylesheet;
 // CSS Units
 
 enum CSSValue<T> {
+    Inherit,
     Specified(T),
-    Initial,
-    Inherit
 }
 
 impl<T: Eq Copy> CSSValue<T> : Eq {
     pure fn eq(other: &CSSValue<T>) -> bool {
         match (self, *other) {
-            (Initial, Initial) => true,
             (Inherit, Inherit) => true,
             (Specified(a), Specified(b)) => a == b,
             _ => false
