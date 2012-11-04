@@ -15,19 +15,6 @@ enum CSSValue<T> {
     Specified(T),
 }
 
-impl<T: Eq Copy> CSSValue<T> : Eq {
-    pure fn eq(other: &CSSValue<T>) -> bool {
-        match (self, *other) {
-            (Inherit, Inherit) => true,
-            (Specified(a), Specified(b)) => a == b,
-            _ => false
-        }
-    }
-    pure fn ne(other: &CSSValue<T>) -> bool {
-        return !self.eq(other);
-    }
-}
-
 pub enum Length {
     Em(float), // normalized to 'em'
     Px(float) // normalized to 'px'
@@ -116,19 +103,6 @@ enum CSSBorderWidth {
     BdrWidthMedium,
     BdrWidthThick,
     BdrWidthLength(Length)
-}
-
-impl CSSBorderWidth: Eq {
-    pure fn eq(other: &CSSBorderWidth) -> bool {
-        match (self, *other) {
-            (BdrWidthThin, BdrWidthThin) => true,
-            (BdrWidthMedium, BdrWidthMedium) => true,
-            (BdrWidthThick, BdrWidthThick) => true,
-            (BdrWidthLength(l1), BdrWidthLength(l2)) => l1 == l2,
-            (_, _) => false
-        }
-    }
-    pure fn ne(other: &CSSBorderWidth) -> bool { !self.eq(other) }
 }
 
 enum CSSColor {
@@ -272,3 +246,30 @@ impl CSSFontSize: cmp::Eq {
         return !self.eq(other);
     }
 }
+
+impl<T: Eq Copy> CSSValue<T> : Eq {
+    pure fn eq(other: &CSSValue<T>) -> bool {
+        match (self, *other) {
+            (Inherit, Inherit) => true,
+            (Specified(a), Specified(b)) => a == b,
+            _ => false
+        }
+    }
+    pure fn ne(other: &CSSValue<T>) -> bool {
+        return !self.eq(other);
+    }
+}
+
+impl CSSBorderWidth: Eq {
+    pure fn eq(other: &CSSBorderWidth) -> bool {
+        match (self, *other) {
+            (BdrWidthThin, BdrWidthThin) => true,
+            (BdrWidthMedium, BdrWidthMedium) => true,
+            (BdrWidthThick, BdrWidthThick) => true,
+            (BdrWidthLength(l1), BdrWidthLength(l2)) => l1 == l2,
+            (_, _) => false
+        }
+    }
+    pure fn ne(other: &CSSBorderWidth) -> bool { !self.eq(other) }
+}
+
