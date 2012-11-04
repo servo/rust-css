@@ -10,6 +10,7 @@ use stylesheet::Stylesheet;
 use computed::ComputedStyle;
 use util::VoidPtrLike;
 use lwcstr_from_rust_str = wapcaplet::from_rust_string;
+use n::u::{rust_str_to_net_qname, net_qname_to_rust_str};
 
 pub struct SelectCtx {
     inner: n::s::CssSelectCtx
@@ -111,15 +112,3 @@ impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H>: n::s::CssSelectHandler<
         n::h::CssHintDefault
     }
 }
-
-fn rust_str_to_net_qname(s: &str) -> n::t::CssQName {
-    n::t::CssQName {
-        ns: None,
-        name: lwcstr_from_rust_str(s)
-    }
-}
-
-fn net_qname_to_rust_str(qname: &n::t::CssQName) -> ~str {
-    qname.name.to_str()
-}
-

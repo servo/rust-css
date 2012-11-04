@@ -13,4 +13,5 @@ mod n {
     pub use c = netsurfcss::computed;
     pub use v = netsurfcss::values;
     pub use h = netsurfcss::hint;
+    pub use u = netsurfcss::util;
 }
