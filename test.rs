@@ -185,6 +185,24 @@ fn test_border_color_shorthand() {
     }
 }
 
+#[test]
+fn test_margin() {
+    let style = "div {\
+                 margin-top: 10px;\
+                 margin-right: 20px;\
+                 margin-bottom: 30px;\
+                 margin-left: auto;\
+                 }";
+    do single_div_test(style) |computed| {
+        assert computed.margin_top() == Specified(CSSMarginLength(Px(10.0)));
+        assert computed.margin_right() == Specified(CSSMarginLength(Px(20.0)));
+        assert computed.margin_bottom() == Specified(CSSMarginLength(Px(30.0)));
+        assert computed.margin_left() == Specified(CSSMarginAuto);
+    }
+}
+
+
+
 fn child_test(style: &str, f: &fn(&ComputedStyle)) {
     let sheet = Stylesheet::new(test_url(), style_stream(style));
     let mut select_ctx = SelectCtx::new();

@@ -389,3 +389,14 @@ impl CSSBorderWidth: Eq {
     pure fn ne(other: &CSSBorderWidth) -> bool { !self.eq(other) }
 }
 
+impl CSSMargin: Eq {
+    pure fn eq(other: &CSSMargin) -> bool {
+        match (self, *other) {
+            (CSSMarginLength(l1), CSSMarginLength(l2)) => l1 == l2,
+            (CSSMarginAuto, CSSMarginAuto) => true,
+            (_, _) => false
+        }
+    }
+
+    pure fn ne(other: &CSSMargin) -> bool { !self.eq(other) }
+}
