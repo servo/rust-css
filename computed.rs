@@ -65,6 +65,10 @@ impl ComputedStyle {
 
     // CSS 2.1, Section 9 - Visual formatting model
 
+    pub fn display(root: bool) -> CSSValue<CSSDisplay> {
+        convert_net_display_value(self.inner.display(root))
+    }
+
     // CSS 2.1, Section 10 - Visual formatting model details
 
     // CSS 2.1, Section 11 - Visual effects
@@ -115,6 +119,28 @@ fn convert_net_margin(margin: n::v::CssMarginValue) -> CSSValue<CSSMargin> {
         n::v::CssMarginInherit => Inherit,
         n::v::CssMarginSet(length) => Specified(CSSMarginLength(convert_net_unit_to_length(length))),
         n::v::CssMarginAuto => Specified(CSSMarginAuto)
+    }
+}
+
+fn convert_net_display_value(value: n::v::CssDisplayValue) -> CSSValue<CSSDisplay> {
+    match value {
+        n::v::CssDisplayInherit => Inherit,
+        n::v::CssDisplayInline => Specified(CSSDisplayInline),
+        n::v::CssDisplayBlock => Specified(CSSDisplayBlock),
+        n::v::CssDisplayListItem => Specified(CSSDisplayListItem),
+        n::v::CssDisplayRunIn => fail unimpl("display: run-in"), // FIXME: Not in CSS 2.1
+        n::v::CssDisplayInlineBlock => Specified(CSSDisplayInlineBlock),
+        n::v::CssDisplayTable => Specified(CSSDisplayTable),
+        n::v::CssDisplayInlineTable => Specified(CSSDisplayInlineTable),
+        n::v::CssDisplayTableRowGroup => Specified(CSSDisplayTableRowGroup),
+        n::v::CssDisplayTableHeaderGroup => Specified(CSSDisplayTableHeaderGroup),
+        n::v::CssDisplayTableFooterGroup => Specified(CSSDisplayTableFooterGroup),
+        n::v::CssDisplayTableRow => Specified(CSSDisplayTableRow),
+        n::v::CssDisplayTableColumnGroup => Specified(CSSDisplayTableColumnGroup),
+        n::v::CssDisplayTableColumn => Specified(CSSDisplayTableColumn),
+        n::v::CssDisplayTableCell => Specified(CSSDisplayTableCell),
+        n::v::CssDisplayTableCaption => Specified(CSSDisplayTableCaption),
+        n::v::CssDisplayNone => Specified(CSSDisplayNone)
     }
 }
 

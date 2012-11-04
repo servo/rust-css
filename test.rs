@@ -201,6 +201,14 @@ fn test_margin() {
     }
 }
 
+#[test]
+fn test_display() {
+    let style = "div { display: none; }";
+    do single_div_test(style) |computed| {
+        assert computed.display(false) == Specified(CSSDisplayNone);
+    }
+}
+
 
 
 fn child_test(style: &str, f: &fn(&ComputedStyle)) {
