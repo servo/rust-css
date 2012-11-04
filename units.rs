@@ -42,3 +42,11 @@ enum RelativeSize {
     Larger,
     Smaller
 }
+
+enum GenericFontFamily {
+    Serif,
+    SansSerif,
+    Cursive,
+    Fantasy,
+    Monospace,
+}

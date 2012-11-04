@@ -16,6 +16,7 @@ use std::net::url::Url;
 use netsurfcss::stylesheet::CssStylesheet;
 use units::{Length, AbsoluteSize, RelativeSize,
             BoxSizing, BoxLength, BoxPercent, BoxAuto, Px, Em};
+use units::GenericFontFamily;
 use color::Color;
 
 /** A partial CSS value, before inheritance has been resolved */
@@ -26,6 +27,17 @@ enum CSSValue<T> {
 
 
 // CSS 2.1, Section 8 - Box model
+
+enum CSSMargin {
+    CSSMarginLength(Length),
+    CSSMarginPercentage(float),
+    CSSMarginAuto
+}
+
+enum CSSPadding {
+    CSSPaddingLength(Length),
+    CSSPaddingPercentage(float)
+}
 
 enum CSSBorderWidth {
     CSSBorderWidthThin,
@@ -79,6 +91,30 @@ enum CSSPosition {
     CSSPositionFixed
 }
 
+enum CSSTop {
+    CSSTopLength(Length),
+    CSSTopPercentage,
+    CSSTopAuto
+}
+
+enum CSSRight {
+    CSSRightLength(Length),
+    CSSRightPercentage(float),
+    CSSRightAuto
+}
+
+enum CSSBottom {
+    CSSBottomLength(Length),
+    CSSBottomPercentage(float),
+    CSSBottomAuto
+}
+
+enum CSSLeft {
+    CSSLeftLength(Length),
+    CSSLeftPercentage(float),
+    CSSLeftAuto
+}
+
 enum CSSFloat {
     CSSFloatLeft,
     CSSFloatRight,
@@ -92,7 +128,52 @@ enum CSSDirection {
 
 // CSS 2.1, Section 10 - Visual formatting model details
 
+enum CSSWidth {
+    CSSWidthLength(Length),
+    CSSWidthPercentage(float),
+    CSSWidthAuto
+}
+
+enum CSSHeight {
+    CSSHeightLength(Length),
+    CSSHeightPercentage(float),
+    CSSHeightAuto
+}
+
+enum CSSLineHeight {
+    CSSLineHeightNormal,
+    CSSLineHeightNumber(float),
+    CSSLineHeightLength(Length),
+    CSSLineHeightPercentage(float),
+}
+
+enum CSSVerticalAlign {
+    CSSVerticalAlignBaseline,
+    CSSVerticalAlignSub,
+    CSSVerticalAlignSuper,
+    CSSVerticalAlignTop,
+    CSSVerticalAlignTextTop,
+    CSSVerticalAlignMiddle,
+    CSSVerticalAlignBottom,
+    CSSVerticalAlignTextBottom,
+    CSSVerticalAlignPercentage(float),
+    CSSVerticalAlignLength(Length),
+}
+
 // CSS 2.1, Section 11 - Visual effects
+
+enum CSSOverflow {
+    CSSOverflowVisible,
+    CSSOverflowHidden,
+    CSSOverflowScroll,
+    CSSOverflowAuto
+}
+
+enum CSSVisibility {
+    CSSVisibilityVisible,
+    CSSVisibilityHidden,
+    CSSVisibilityCollapse
+}
 
 // CSS 2.1, Section 12 - Generated content, automatic numbering, and lists
 
@@ -126,7 +207,28 @@ enum CSSBackgroundAttachment {
     CSSBackgroundAttachmentFixed
 }
 
+enum CSSBackgroundPosition {
+    CSSBackgroundPositionPercentage(float),
+    CSSBackgroundPositionLength(Length),
+    CSSBackgroundPositionLeft,
+    CSSBackgroundPositionCenter,
+    CSSBackgroundPositionRight,
+    CSSBackgroundPositionTop,
+    CSSBackgroundPositionBottom
+}
+
 // CSS 2.1, Section 15 - Fonts
+
+enum CSSFontFamily {
+    CSSFontFamilyFamilyName(~str),
+    CSSFontFamilyGenericFamily(GenericFontFamily)
+}
+
+enum CSSFontStyle {
+    CSSFontStyleNormal,
+    CSSFontStyleItalic,
+    CSSFontStyleOblique
+}
 
 enum CSSFontSize {
     CSSFontSizeAbsoluteSize(AbsoluteSize),
@@ -136,6 +238,28 @@ enum CSSFontSize {
 }
 
 // CSS 2.1, Section 16 - Text
+
+enum CSSTextAlign {
+    CSSTextAlignLeft,
+    CSSTextAlignRight,
+    CSSTextAlignCenter,
+    CSSTextAlignJustify
+}
+
+enum CSSTextDecoration {
+    CSSTextDecorationNone,
+    CSSTextDecorationUnderline,
+    CSSTextDecorationOverline,
+    CSSTextDecorationLineThrough,
+    CSSTextDecorationBlink
+}
+
+enum CSSTextTransform {
+    CSSTextTransformCapitalize,
+    CSSTextTransformUppercase,
+    CSSTextTransformLowercase,
+    CSSTextTransformNone
+}
 
 // CSS 2.1, Section 17 - Tables
 
