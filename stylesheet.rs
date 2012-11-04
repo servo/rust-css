@@ -1,3 +1,7 @@
+/*!
+CSS stylesheets, owned types, immutable after creation
+*/
+
 use std::net::url::Url;
 use util::DataStream;
 

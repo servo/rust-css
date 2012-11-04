@@ -1,3 +1,18 @@
+/*!
+
+A CSS parsing and selector matching library, modeled off of NetSurf's libcss
+
+Basic operation:
+
+* Parse Stylesheets
+* Plug Stylesheets into SelectCtx's
+* Match styles to nodes with SelectCtx.select_style to create SelectResults
+* Store SelectResults for later use - these represent a node's style
+* Query properties by getting the ComputedStyle for the desired pseudo-element from the SelectResults
+* Resolve inheritance for computed styles by (not implemented)
+
+*/
+
 #[link(name = "css",
        vers = "0.1")];
 #[crate_type = "lib"];
