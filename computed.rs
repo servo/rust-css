@@ -79,6 +79,14 @@ impl ComputedStyle {
 
     // CSS 2.1, Section 10 - Visual formatting model details
 
+    pub fn width() -> CSSValue<CSSWidth> {
+        convert_net_width_value(self.inner.width())
+    }
+
+    pub fn height() -> CSSValue<CSSHeight> {
+        convert_net_height_value(self.inner.height())
+    }
+
     // CSS 2.1, Section 11 - Visual effects
 
     // CSS 2.1, Section 12 - Generated content, automatic numbering, and lists
@@ -127,6 +135,22 @@ fn convert_net_margin(margin: n::v::CssMarginValue) -> CSSValue<CSSMargin> {
         n::v::CssMarginInherit => Inherit,
         n::v::CssMarginSet(length) => Specified(CSSMarginLength(convert_net_unit_to_length(length))),
         n::v::CssMarginAuto => Specified(CSSMarginAuto)
+    }
+}
+
+fn convert_net_width_value(value: n::v::CssWidthValue) -> CSSValue<CSSWidth> {
+    match value {
+        n::v::CssWidthInherit => Inherit,
+        n::v::CssWidthSet(length) => Specified(CSSWidthLength(convert_net_unit_to_length(length))),
+        n::v::CssWidthAuto => Specified(CSSWidthAuto)
+    }
+}
+
+fn convert_net_height_value(value: n::v::CssHeightValue) -> CSSValue<CSSHeight> {
+    match value {
+        n::v::CssHeightInherit => Inherit,
+        n::v::CssHeightSet(length) => Specified(CSSHeightLength(convert_net_unit_to_length(length))),
+        n::v::CssHeightAuto => Specified(CSSHeightAuto)
     }
 }
 

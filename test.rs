@@ -237,6 +237,21 @@ fn test_position() {
     }
 }
 
+#[test]
+fn test_width() {
+    let style = "div { width: 10px; }";
+    do single_div_test(style) |computed| {
+        assert computed.width() == Specified(CSSWidthLength(Px(10.0)));
+    }
+}
+
+#[test]
+fn test_height() {
+    let style = "div { height: 10px; }";
+    do single_div_test(style) |computed| {
+        assert computed.height() == Specified(CSSHeightLength(Px(10.0)));
+    }
+}
 
 
 fn child_test(style: &str, f: &fn(&ComputedStyle)) {

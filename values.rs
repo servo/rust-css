@@ -18,6 +18,7 @@ use units::{Length, AbsoluteSize, RelativeSize,
             BoxSizing, BoxLength, BoxPercent, BoxAuto, Px, Em};
 use units::GenericFontFamily;
 use color::Color;
+use std::cmp::FuzzyEq;
 
 /** A partial CSS value, before inheritance has been resolved */
 enum CSSValue<T> {
@@ -393,6 +394,7 @@ impl CSSMargin: Eq {
     pure fn eq(other: &CSSMargin) -> bool {
         match (self, *other) {
             (CSSMarginLength(l1), CSSMarginLength(l2)) => l1 == l2,
+            (CSSMarginPercentage(p1), CSSMarginPercentage(p2)) => p1.fuzzy_eq(&p2),
             (CSSMarginAuto, CSSMarginAuto) => true,
             (_, _) => false
         }
@@ -426,4 +428,30 @@ impl CSSPosition: Eq {
     }
 
     pure fn ne(other: &CSSPosition) -> bool { !self.eq(other) }
+}
+
+impl CSSWidth: Eq {
+    pure fn eq(other: &CSSWidth) -> bool {
+        match (self, *other) {
+            (CSSWidthLength(l1), CSSWidthLength(l2)) => l1 == l2,
+            (CSSWidthPercentage(p1), CSSWidthPercentage(p2)) => p1.fuzzy_eq(&p2),
+            (CSSWidthAuto, CSSWidthAuto) => true,
+            (_, _) => false
+        }
+    }
+
+    pure fn ne(other: &CSSWidth) -> bool { !self.eq(other) }
+}
+
+impl CSSHeight: Eq {
+    pure fn eq(other: &CSSHeight) -> bool {
+        match (self, *other) {
+            (CSSHeightLength(l1), CSSHeightLength(l2)) => l1 == l2,
+            (CSSHeightPercentage(p1), CSSHeightPercentage(p2)) => p1.fuzzy_eq(&p2),
+            (CSSHeightAuto, CSSHeightAuto) => true,
+            (_, _) => false
+        }
+    }
+
+    pure fn ne(other: &CSSHeight) -> bool { !self.eq(other) }
 }
