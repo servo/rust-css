@@ -217,6 +217,26 @@ fn test_float() {
     }
 }
 
+#[test]
+fn test_position() {
+    let style = "div { position: static; }";
+    do single_div_test(style) |computed| {
+        assert computed.position() == Specified(CSSPositionStatic);
+    }
+    let style = "div { position: relative; }";
+    do single_div_test(style) |computed| {
+        assert computed.position() == Specified(CSSPositionRelative);
+    }
+    let style = "div { position: absolute; }";
+    do single_div_test(style) |computed| {
+        assert computed.position() == Specified(CSSPositionAbsolute);
+    }
+    let style = "div { position: fixed; }";
+    do single_div_test(style) |computed| {
+        assert computed.position() == Specified(CSSPositionFixed);
+    }
+}
+
 
 
 fn child_test(style: &str, f: &fn(&ComputedStyle)) {

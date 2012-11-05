@@ -69,6 +69,10 @@ impl ComputedStyle {
         convert_net_display_value(self.inner.display(root))
     }
 
+    pub fn position() -> CSSValue<CSSPosition> {
+        convert_net_position_value(self.inner.position())
+    }
+
     pub fn float() -> CSSValue<CSSFloat> {
         convert_net_float_value(self.inner.float())
     }
@@ -154,6 +158,16 @@ fn convert_net_float_value(value: n::v::CssFloatValue) -> CSSValue<CSSFloat> {
         n::v::CssFloatLeft => Specified(CSSFloatLeft),
         n::v::CssFloatRight => Specified(CSSFloatRight),
         n::v::CssFloatNone => Specified(CSSFloatNone)
+    }
+}
+
+fn convert_net_position_value(value: n::v::CssPositionValue) -> CSSValue<CSSPosition> {
+    match value {
+        n::v::CssPositionInherit => Inherit,
+        n::v::CssPositionStatic => Specified(CSSPositionStatic),
+        n::v::CssPositionRelative => Specified(CSSPositionRelative),
+        n::v::CssPositionAbsolute => Specified(CSSPositionAbsolute),
+        n::v::CssPositionFixed => Specified(CSSPositionFixed)
     }
 }
 

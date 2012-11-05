@@ -413,3 +413,17 @@ impl CSSFloat: Eq {
 
     pure fn ne(other: &CSSFloat) -> bool { !self.eq(other) }
 }
+
+impl CSSPosition: Eq {
+    pure fn eq(other: &CSSPosition) -> bool {
+        match (self, *other) {
+            (CSSPositionStatic, CSSPositionStatic) => true,
+            (CSSPositionRelative, CSSPositionRelative) => true,
+            (CSSPositionAbsolute, CSSPositionAbsolute) => true,
+            (CSSPositionFixed, CSSPositionFixed) => true,
+            (_, _) => false
+        }
+    }
+
+    pure fn ne(other: &CSSPosition) -> bool { !self.eq(other) }
+}
