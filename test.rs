@@ -308,9 +308,9 @@ fn test_descendant() {
 
 
 #[test]
-#[ignore]
 fn test_compose() {
-    let style = "div { background-color: blue; }";
+    let style = "div { background-color: blue; }\
+                 span { background-color: inherit; }";
 
     let sheet = Stylesheet::new(test_url(), style_stream(style));
     let mut select_ctx = SelectCtx::new();
@@ -335,6 +335,5 @@ fn test_compose() {
 
     let computed = complete_child_results.computed_style();
 
-    error!("XXX %?", computed.background_color());
     assert computed.background_color() == color::css_colors::blue();
 }
