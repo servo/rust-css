@@ -24,7 +24,7 @@ extern mod wapcaplet;
 pub mod stylesheet;
 pub mod select;
 pub mod computed;
-pub mod inherit;
+pub mod complete;
 
 pub mod units;
 pub mod color;

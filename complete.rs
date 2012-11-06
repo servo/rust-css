@@ -35,18 +35,18 @@ impl CompleteSelectResults {
         }
     }
 
-    fn computed_style(&self) -> CompleteComputedStyle/&self {
-        CompleteComputedStyle {
+    fn computed_style(&self) -> CompleteStyle/&self {
+        CompleteStyle {
             inner: self.inner.computed_style()
         }
     }
 }
 
-pub struct CompleteComputedStyle {
+pub struct CompleteStyle {
     inner: ComputedStyle
 }
 
-impl CompleteComputedStyle {
+impl CompleteStyle {
 
     // CSS 2.1, Section 8 - Box model
 

@@ -7,7 +7,7 @@ use color::{Color, rgb};
 use select::{SelectCtx, SelectHandler};
 use stylesheet::Stylesheet;
 use computed::ComputedStyle;
-use inherit::CompleteSelectResults;
+use complete::CompleteSelectResults;
 
 fn test_url() -> Url {
     result::unwrap(url_from_str("http://foo.com"))
