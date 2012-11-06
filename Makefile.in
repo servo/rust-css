@@ -25,5 +25,5 @@ check: css-test
 
 .PHONY: clean
 clean:
-	rm -f *.o *.a *.so *.dylib *.dll *.dummy
+	rm -f *.o *.a *.so *.dylib *.dll *.dummy *-test
 
