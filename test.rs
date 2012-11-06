@@ -7,6 +7,7 @@ use color::{Color, rgb};
 use select::{SelectCtx, SelectHandler};
 use stylesheet::Stylesheet;
 use computed::ComputedStyle;
+use inherit::CompleteSelectResults;
 
 fn test_url() -> Url {
     result::unwrap(url_from_str("http://foo.com"))
@@ -301,4 +302,39 @@ fn test_descendant() {
         let width = computed.border_left_width();
         assert width == Specified(CSSBorderWidthLength(Px(10.0)));
     }
+}
+
+
+
+
+#[test]
+#[ignore]
+fn test_compose() {
+    let style = "div { background-color: blue; }";
+
+    let sheet = Stylesheet::new(test_url(), style_stream(style));
+    let mut select_ctx = SelectCtx::new();
+    let handler = &TestHandler::new();
+    select_ctx.append_sheet(move sheet);
+    let child = TestNode(@NodeData {
+        name: ~"span",
+        children: ~[],
+        parent: None
+    });
+    let parent = TestNode(@NodeData {
+        name: ~"div",
+        children: ~[child],
+        parent: None
+    });
+    child.parent = Some(parent);
+    let parent_results = select_ctx.select_style(&parent, handler);
+    let child_results = select_ctx.select_style(&child, handler);
+
+    let complete_parent_results = CompleteSelectResults::new_root(move parent_results);
+    let complete_child_results = CompleteSelectResults::new_from_parent(&complete_parent_results, move child_results);
+
+    let computed = complete_child_results.computed_style();
+
+    error!("XXX %?", computed.background_color());
+    assert computed.background_color() == color::css_colors::blue();
 }

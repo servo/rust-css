@@ -237,52 +237,52 @@ mod test {
 /** Define the colors specified by css */
 pub mod css_colors {
     // The 16 basic css colors
-    fn black() -> Color {
+    pub fn black() -> Color {
         Color {red : 0u8, green : 0u8, blue : 0u8, alpha : 1.0}
     }
-    fn silver() -> Color {
+    pub fn silver() -> Color {
         Color {red : 192u8, green : 192u8, blue : 192u8, alpha : 1.0}
     }
-    fn gray() -> Color {
+    pub fn gray() -> Color {
         Color {red : 128u8, green : 128u8, blue : 128u8, alpha : 1.0}
     }
-    fn white() -> Color {
+    pub fn white() -> Color {
         Color {red : 255u8, green : 255u8, blue : 255u8, alpha : 1.0}
     }
-    fn maroon() -> Color {
+    pub fn maroon() -> Color {
         Color {red : 128u8, green : 0u8, blue : 0u8, alpha : 1.0}
     }
-    fn red() -> Color { 
+    pub fn red() -> Color { 
         Color {red : 255u8, green : 0u8, blue : 0u8, alpha : 1.0}
     }
-    fn purple() -> Color {
+    pub fn purple() -> Color {
         Color {red : 128u8, green : 0u8, blue : 128u8, alpha : 1.0}
     }
-    fn fuchsia() -> Color {
+    pub fn fuchsia() -> Color {
         Color {red : 255u8, green : 0u8, blue : 255u8, alpha : 1.0}
     }
-    fn green() -> Color { 
+    pub fn green() -> Color { 
         Color {red : 0u8, green : 128u8, blue : 0u8, alpha : 1.0}
     }
-    fn lime() -> Color {
+    pub fn lime() -> Color {
         Color {red : 0u8, green : 255u8, blue : 0u8, alpha : 1.0}
     }
-    fn olive() -> Color {
+    pub fn olive() -> Color {
         Color {red : 128u8, green : 128u8, blue : 0u8, alpha : 1.0}
     }
-    fn yellow() -> Color {
+    pub fn yellow() -> Color {
         Color {red : 255u8, green : 255u8, blue : 0u8, alpha : 1.0}
     }
-    fn navy() -> Color {
+    pub fn navy() -> Color {
         Color {red : 0u8, green : 0u8, blue : 128u8, alpha : 1.0}
     }
-    fn blue() -> Color {
+    pub fn blue() -> Color {
         Color {red : 0u8, green : 0u8, blue : 255u8, alpha : 1.0}
     }
-    fn teal() -> Color {
+    pub fn teal() -> Color {
         Color {red : 0u8, green : 128u8, blue : 128u8, alpha : 1.0}
     }
-    fn aqua() -> Color {
+    pub fn aqua() -> Color {
         Color {red : 0u8, green : 255u8, blue : 255u8, alpha : 1.0}
     }
 
