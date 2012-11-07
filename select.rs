@@ -81,6 +81,7 @@ pub trait SelectHandler<N> {
     fn node_name(node: &N) -> ~str;
     fn named_parent_node(node: &N, name: &str) -> Option<N>;
     fn parent_node(node: &N) -> Option<N>;
+    fn node_is_root(node: &N) -> bool;
 }
 
 /** Used to convert the netsurfcss CssSelectHandler callbacks to out SelectHandler callbacks */
@@ -106,6 +107,10 @@ impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H>: n::s::CssSelectHandler<
 
     fn parent_node(node: &N) -> Option<N> {
         self.inner_ref().parent_node(node)
+    }
+
+    fn node_is_root(node: &N) -> bool {
+        self.inner_ref().node_is_root(node)
     }
 
     fn ua_default_for_property(property: n::p::CssProperty) -> n::h::CssHint {

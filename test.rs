@@ -73,6 +73,7 @@ impl TestHandler: SelectHandler<TestNode> {
         }
     }
     fn parent_node(node: &TestNode) -> Option<TestNode> { (**node).parent }
+    fn node_is_root(node: &TestNode) -> bool { self.parent_node(node).is_none() }
 }
 
 fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
