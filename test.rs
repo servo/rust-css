@@ -3,6 +3,7 @@ use url_from_str = std::net::url::from_str;
 use std::cell::Cell;
 use util::{DataStream, VoidPtrLike};
 use values::*;
+use types::*;
 use color::{Color, rgb};
 use select::{SelectCtx, SelectHandler};
 use stylesheet::Stylesheet;
@@ -78,7 +79,7 @@ fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
     let sheet = Stylesheet::new(test_url(), style_stream(style));
     let mut select_ctx = SelectCtx::new();
     let handler = &TestHandler::new();
-    select_ctx.append_sheet(move sheet);
+    select_ctx.append_sheet(move sheet, OriginAuthor);
     let dom = &TestNode(@NodeData {
         name: ~"div",
         children: ~[],
@@ -259,7 +260,7 @@ fn child_test(style: &str, f: &fn(&ComputedStyle)) {
     let sheet = Stylesheet::new(test_url(), style_stream(style));
     let mut select_ctx = SelectCtx::new();
     let handler = &TestHandler::new();
-    select_ctx.append_sheet(move sheet);
+    select_ctx.append_sheet(move sheet, OriginAuthor);
     let child = TestNode(@NodeData {
         name: ~"span",
         children: ~[],
@@ -315,7 +316,7 @@ fn test_compose() {
     let sheet = Stylesheet::new(test_url(), style_stream(style));
     let mut select_ctx = SelectCtx::new();
     let handler = &TestHandler::new();
-    select_ctx.append_sheet(move sheet);
+    select_ctx.append_sheet(move sheet, OriginAuthor);
     let child = TestNode(@NodeData {
         name: ~"span",
         children: ~[],

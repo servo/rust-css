@@ -11,6 +11,7 @@ use computed::ComputedStyle;
 use util::VoidPtrLike;
 use lwcstr_from_rust_str = wapcaplet::from_rust_string;
 use n::u::{rust_str_to_net_qname, net_qname_to_rust_str};
+use types::StylesheetOrigin;
 
 pub struct SelectCtx {
     inner: n::s::CssSelectCtx
@@ -34,12 +35,12 @@ impl SelectCtx {
     Add `Stylesheet`s to the selection context, where they will participate in the cascade
     during future selector matching
     */
-    fn append_sheet(&mut self, sheet: Stylesheet) {
+    fn append_sheet(&mut self, sheet: Stylesheet, origin: StylesheetOrigin) {
         let sheet = match move sheet {
             Stylesheet { inner: move inner } => move inner
         };
 
-        self.inner.append_sheet(move sheet, n::ll::t::CSS_ORIGIN_AUTHOR, n::ll::t::CSS_MEDIA_SCREEN)
+        self.inner.append_sheet(move sheet, origin.to_net(), n::ll::t::CSS_MEDIA_SCREEN)
     }
 
     /**

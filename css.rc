@@ -26,6 +26,7 @@ pub mod select;
 pub mod computed;
 pub mod complete;
 
+pub mod types;
 pub mod units;
 pub mod color;
 pub mod values;
