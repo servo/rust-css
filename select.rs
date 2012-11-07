@@ -113,8 +113,18 @@ impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H>: n::s::CssSelectHandler<
         self.inner_ref().node_is_root(node)
     }
 
+    fn node_is_link(_node: &N) -> bool {
+        // FIXME
+        warn_unimpl("node_is_link");
+        false
+    }
+
     fn ua_default_for_property(property: n::p::CssProperty) -> n::h::CssHint {
         warn!("not specifiying ua default for property %?", property);
         n::h::CssHintDefault
     }
+}
+
+fn warn_unimpl(what: &str) {
+    warn!("unimplemented select handler: %?", what);
 }
