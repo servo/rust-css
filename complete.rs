@@ -140,6 +140,10 @@ impl CompleteStyle {
 
     // CSS 2.1, Section 15 - Fonts
 
+    pub fn font_family() -> ~[CSSFontFamily] {
+        strip(self.inner.font_family())
+    }
+
     // CSS 2.1, Section 16 - Text
 
     // CSS 2.1, Section 17 - Tables

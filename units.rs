@@ -50,3 +50,11 @@ enum GenericFontFamily {
     Fantasy,
     Monospace,
 }
+
+impl GenericFontFamily: cmp::Eq {
+    pure fn eq(other: &GenericFontFamily) -> bool {
+        self as uint == *other as uint
+    }
+
+    pure fn ne(other: &GenericFontFamily) -> bool { !self.eq(other) }
+}

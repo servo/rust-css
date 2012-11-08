@@ -256,6 +256,30 @@ fn test_height() {
     }
 }
 
+#[test]
+fn test_font_family_generic() {
+    use units::Fantasy;
+
+    let style = "div { font-family: fantasy; }";
+    do single_div_test(style) |computed| {
+        let fam = computed.font_family();
+        let spec = Specified(~[CSSFontFamilyGenericFamily(Fantasy)]);
+        assert fam.eq(&spec);
+    }
+}
+
+#[test]
+fn test_font_family_specific() {
+    let style = "div { font-family: Wombat, Jones; }";
+    do single_div_test(style) |computed| {
+        assert computed.font_family() == Specified(~[
+            CSSFontFamilyFamilyName(~"Wombat"),
+            CSSFontFamilyFamilyName(~"Jones")
+        ]);
+    }
+}
+
+
 
 fn child_test(style: &str, f: &fn(&ComputedStyle)) {
     let sheet = Stylesheet::new(test_url(), style_stream(style));

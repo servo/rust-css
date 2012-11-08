@@ -101,6 +101,10 @@ impl ComputedStyle {
 
     // CSS 2.1, Section 15 - Fonts
 
+    pub fn font_family() -> CSSValue<~[CSSFontFamily]> {
+        convert_net_font_family_value(self.inner.font_family())
+    }
+
     // CSS 2.1, Section 16 - Text
 
     // CSS 2.1, Section 17 - Tables
@@ -192,6 +196,20 @@ fn convert_net_position_value(value: n::v::CssPositionValue) -> CSSValue<CSSPosi
         n::v::CssPositionRelative => Specified(CSSPositionRelative),
         n::v::CssPositionAbsolute => Specified(CSSPositionAbsolute),
         n::v::CssPositionFixed => Specified(CSSPositionFixed)
+    }
+}
+
+fn convert_net_font_family_value(value: n::v::CssFontFamilyValue) -> CSSValue<~[CSSFontFamily]> {
+    use units::{Serif, SansSerif, Cursive, Fantasy, Monospace};
+
+    match value {
+        n::v::CssFontFamilyInherit => Inherit,
+        n::v::CssFontFamilySerif => Specified(~[CSSFontFamilyGenericFamily(Serif)]),
+        n::v::CssFontFamilySansSerif => Specified(~[CSSFontFamilyGenericFamily(SansSerif)]),
+        n::v::CssFontFamilyCursive => Specified(~[CSSFontFamilyGenericFamily(Cursive)]),
+        n::v::CssFontFamilyFantasy => Specified(~[CSSFontFamilyGenericFamily(Fantasy)]),
+        n::v::CssFontFamilyMonospace => Specified(~[CSSFontFamilyGenericFamily(Monospace)]),
+        n::v::CssFontFamilyValue(names) => Specified(names.map(|n| CSSFontFamilyFamilyName(n.to_str()) ))
     }
 }
 

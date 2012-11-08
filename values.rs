@@ -364,11 +364,11 @@ impl CSSFontSize: cmp::Eq {
     }
 }
 
-impl<T: Eq Copy> CSSValue<T> : Eq {
+impl<T: Eq> CSSValue<T> : Eq {
     pure fn eq(other: &CSSValue<T>) -> bool {
-        match (self, *other) {
-            (Inherit, Inherit) => true,
-            (Specified(a), Specified(b)) => a == b,
+        match (&self, other) {
+            (&Inherit, &Inherit) => true,
+            (&Specified(a), &Specified(b)) => a == b,
             _ => false
         }
     }
@@ -454,4 +454,16 @@ impl CSSHeight: Eq {
     }
 
     pure fn ne(other: &CSSHeight) -> bool { !self.eq(other) }
+}
+
+impl CSSFontFamily: Eq {
+    pure fn eq(other: &CSSFontFamily) -> bool {
+        match (&self, other) {
+            (&CSSFontFamilyFamilyName(ref f1), &CSSFontFamilyFamilyName(ref f2)) => f1 == f2,
+            (&CSSFontFamilyGenericFamily(g1), &CSSFontFamilyGenericFamily(g2)) => g1 == g2,
+            (_, _) => false
+        }
+    }
+
+    pure fn ne(other: &CSSFontFamily) -> bool { !self.eq(other) }
 }
