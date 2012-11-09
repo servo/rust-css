@@ -468,3 +468,11 @@ impl CSSFontFamily: Eq {
 
     pure fn ne(other: &CSSFontFamily) -> bool { !self.eq(other) }
 }
+
+impl CSSFontStyle: Eq {
+    pure fn eq(other: &CSSFontStyle) -> bool {
+        self as uint == *other as uint
+    }
+
+    pure fn ne(other: &CSSFontStyle) -> bool { !self.eq(other) }
+}

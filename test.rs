@@ -300,6 +300,14 @@ fn test_font_size() {
     }
 }
 
+#[test]
+fn test_font_style() {
+    let style = "div { font-style: oblique; }";
+    do single_div_test(style) |computed| {
+        assert computed.font_style() == Specified(CSSFontStyleOblique);
+    }
+}
+
 
 
 fn child_test(style: &str, f: &fn(&ComputedStyle)) {

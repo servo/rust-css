@@ -106,6 +106,10 @@ impl ComputedStyle {
         convert_net_font_family_value(self.inner.font_family())
     }
 
+    pub fn font_style() -> CSSValue<CSSFontStyle> {
+        convert_net_font_style_value(self.inner.font_style())
+    }
+
     pub fn font_size() -> CSSValue<CSSFontSize> {
         convert_net_font_size_value(self.inner.font_size())
     }
@@ -238,6 +242,15 @@ fn convert_net_font_size_value(value: n::v::CssFontSizeValue) -> CSSValue<CSSFon
                 Right(move val) => Specified(CSSFontSizePercentage(move val))
             }
         }
+    }
+}
+
+fn convert_net_font_style_value(value: n::v::CssFontStyleValue) -> CSSValue<CSSFontStyle> {
+    match value {
+        n::v::CssFontStyleInherit => Inherit,
+        n::v::CssFontStyleNormal => Specified(CSSFontStyleNormal),
+        n::v::CssFontStyleItalic => Specified(CSSFontStyleItalic),
+        n::v::CssFontStyleOblique => Specified(CSSFontStyleOblique)
     }
 }
 

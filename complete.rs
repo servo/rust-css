@@ -144,6 +144,10 @@ impl CompleteStyle {
         strip(self.inner.font_family())
     }
 
+    pub fn font_style() -> CSSFontStyle {
+        strip(self.inner.font_style())
+    }
+
     pub fn font_size() -> CSSFontSize {
         strip(self.inner.font_size())
     }
