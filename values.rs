@@ -15,7 +15,7 @@ use cmp::Eq;
 use std::net::url::Url;
 use netsurfcss::stylesheet::CssStylesheet;
 use units::{Length, AbsoluteSize, RelativeSize,
-            BoxSizing, BoxLength, BoxPercent, BoxAuto, Px, Em};
+            BoxSizing, BoxLength, BoxPercent, BoxAuto, Px, Em, Pt};
 use units::GenericFontFamily;
 use color::Color;
 use std::cmp::FuzzyEq;
@@ -274,6 +274,7 @@ impl Length: cmp::Eq {
         match (self, *other) {
           (Em(a), Em(b)) => a == b,
           (Px(a), Px(b)) => a == b,
+          (Pt(a), Pt(b)) => a == b,
           (_, _) => false
         }
     }
@@ -354,7 +355,7 @@ impl CSSFontSize: cmp::Eq {
         match (self, *other) {
             (CSSFontSizeAbsoluteSize(a), CSSFontSizeAbsoluteSize(b)) => a == b,
             (CSSFontSizeRelativeSize(a), CSSFontSizeRelativeSize(b)) => a == b,
-            (CSSFontSizeLength(a), CSSFontSizeLength(b))   => a == b,
+            (CSSFontSizeLength(a), CSSFontSizeLength(b)) => a == b,
             (CSSFontSizePercentage(a), CSSFontSizePercentage(b))  => a == b,
             (_, _) => false
         }

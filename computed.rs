@@ -1,7 +1,8 @@
 use values::*;
 use color::{Color, rgba};
-use units::{Length, Px, Em};
+use units::{Length, Px, Em, Pt};
 use netsurfcss::util::css_fixed_to_float;
+use either::{Either, Left, Right};
 
 pub struct ComputedStyle {
     inner: n::c::CssComputedStyle
@@ -103,6 +104,10 @@ impl ComputedStyle {
 
     pub fn font_family() -> CSSValue<~[CSSFontFamily]> {
         convert_net_font_family_value(self.inner.font_family())
+    }
+
+    pub fn font_size() -> CSSValue<CSSFontSize> {
+        convert_net_font_size_value(self.inner.font_size())
     }
 
     // CSS 2.1, Section 16 - Text
@@ -213,10 +218,42 @@ fn convert_net_font_family_value(value: n::v::CssFontFamilyValue) -> CSSValue<~[
     }
 }
 
+fn convert_net_font_size_value(value: n::v::CssFontSizeValue) -> CSSValue<CSSFontSize> {
+    use units::*;
+
+    match value {
+        n::v::CssFontSizeInherit => Inherit,
+        n::v::CssFontSizeXXSmall => Specified(CSSFontSizeAbsoluteSize(XXSmall)),
+        n::v::CssFontSizeXSmall => Specified(CSSFontSizeAbsoluteSize(XSmall)),
+        n::v::CssFontSizeSmall => Specified(CSSFontSizeAbsoluteSize(Small)),
+        n::v::CssFontSizeMedium => Specified(CSSFontSizeAbsoluteSize(Medium)),
+        n::v::CssFontSizeLarge => Specified(CSSFontSizeAbsoluteSize(Large)),
+        n::v::CssFontSizeXLarge => Specified(CSSFontSizeAbsoluteSize(XLarge)),
+        n::v::CssFontSizeXXLarge => Specified(CSSFontSizeAbsoluteSize(XXLarge)),
+        n::v::CssFontSizeLarger => Specified(CSSFontSizeRelativeSize(Larger)),
+        n::v::CssFontSizeSmaller => Specified(CSSFontSizeRelativeSize(Smaller)),
+        n::v::CssFontSizeDimension(size) => {
+            match convert_net_unit_to_length_or_percent(size) {
+                Left(move val) => Specified(CSSFontSizeLength(move val)),
+                Right(move val) => Specified(CSSFontSizePercentage(move val))
+            }
+        }
+    }
+}
+
 fn convert_net_unit_to_length(unit: n::t::CssUnit) -> Length {
+    match convert_net_unit_to_length_or_percent(unit) {
+        Left(move v) => v,
+        Right(*) => fail ~"unexpected percentage unit"
+    }
+}
+
+fn convert_net_unit_to_length_or_percent(unit: n::t::CssUnit) -> Either<Length, float> {
     match unit {
-        n::t::CssUnitPx(l) => Px(css_fixed_to_float(l)),
-        n::t::CssUnitEm(l) => Em(css_fixed_to_float(l)),
+        n::t::CssUnitPx(l) => Left(Px(css_fixed_to_float(l))),
+        n::t::CssUnitEm(l) => Left(Em(css_fixed_to_float(l))),
+        n::t::CssUnitPt(l) => Left(Pt(css_fixed_to_float(l))),
+        n::t::CssUnitPct(p) => Right(css_fixed_to_float(p)),
         _ => unimpl("unit")
     }
 }

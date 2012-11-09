@@ -4,6 +4,7 @@ use std::cell::Cell;
 use util::{DataStream, VoidPtrLike};
 use values::*;
 use types::*;
+use units::*;
 use color::{Color, rgb};
 use select::{SelectCtx, SelectHandler};
 use stylesheet::Stylesheet;
@@ -276,6 +277,26 @@ fn test_font_family_specific() {
             CSSFontFamilyFamilyName(~"Wombat"),
             CSSFontFamilyFamilyName(~"Jones")
         ]);
+    }
+}
+
+#[test]
+fn test_font_size() {
+    let style = "div { font-size: 10pt; }";
+    do single_div_test(style) |computed| {
+        assert computed.font_size() == Specified(CSSFontSizeLength(Pt(10.0)));
+    }
+    let style = "div { font-size: 10%; }";
+    do single_div_test(style) |computed| {
+        assert computed.font_size() == Specified(CSSFontSizePercentage(10.0));
+    }
+    let style = "div { font-size: small; }";
+    do single_div_test(style) |computed| {
+        assert computed.font_size() == Specified(CSSFontSizeAbsoluteSize(Small));
+    }
+    let style = "div { font-size: smaller; }";
+    do single_div_test(style) |computed| {
+        assert computed.font_size() == Specified(CSSFontSizeRelativeSize(Smaller));
     }
 }
 

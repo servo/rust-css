@@ -144,6 +144,10 @@ impl CompleteStyle {
         strip(self.inner.font_family())
     }
 
+    pub fn font_size() -> CSSFontSize {
+        strip(self.inner.font_size())
+    }
+
     // CSS 2.1, Section 16 - Text
 
     // CSS 2.1, Section 17 - Tables
