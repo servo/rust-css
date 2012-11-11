@@ -81,6 +81,7 @@ pub trait SelectHandler<N> {
     fn node_name(node: &N) -> ~str;
     fn named_parent_node(node: &N, name: &str) -> Option<N>;
     fn parent_node(node: &N) -> Option<N>;
+    fn named_ancestor_node(node: &N, name: &str) -> Option<N>;
     fn node_is_root(node: &N) -> bool;
 }
 
@@ -107,6 +108,10 @@ impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H>: n::s::CssSelectHandler<
 
     fn parent_node(node: &N) -> Option<N> {
         self.inner_ref().parent_node(node)
+    }
+
+    fn named_ancestor_node(node: &N, qname: &n::t::CssQName) -> Option<N> {
+        self.inner_ref().named_ancestor_node(node, net_qname_to_rust_str(qname))
     }
 
     fn node_is_root(node: &N) -> bool {
