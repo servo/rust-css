@@ -100,6 +100,10 @@ impl ComputedStyle {
         convert_net_color_value(self.inner.background_color())
     }
 
+    pub fn color() -> CSSValue<Color> {
+        convert_net_color_value(self.inner.color())
+    }
+
     // CSS 2.1, Section 15 - Fonts
 
     pub fn font_family() -> CSSValue<~[CSSFontFamily]> {

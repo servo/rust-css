@@ -14,7 +14,8 @@ impl CompleteSelectResults {
         }
     }
 
-    static fn new_from_parent(parent: &CompleteSelectResults, child: SelectResults) -> CompleteSelectResults {
+    static fn new_from_parent(parent: &CompleteSelectResults,
+                              child: SelectResults) -> CompleteSelectResults {
         let mut child = move child;
 
         // New lifetime
@@ -136,6 +137,10 @@ impl CompleteStyle {
 
     pub fn background_color() -> Color {
         strip(self.inner.background_color())
+    }
+
+    pub fn color() -> Color {
+        strip(self.inner.color())
     }
 
     // CSS 2.1, Section 15 - Fonts
