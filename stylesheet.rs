@@ -6,7 +6,7 @@ use std::net::url::Url;
 use util::DataStream;
 
 pub struct Stylesheet {
-    inner: n::s::CssStylesheet
+    inner: netsurfcss::stylesheet::CssStylesheet
 }
 
 impl Stylesheet {
