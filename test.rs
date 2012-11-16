@@ -74,7 +74,7 @@ impl TestHandler: SelectHandler<TestNode> {
         }
     }
     fn parent_node(node: &TestNode) -> Option<TestNode> { (**node).parent }
-    fn named_ancestor_node(node: &TestNode) -> Option<TestNode> { fail ~"TODO" }
+    fn named_ancestor_node(node: &TestNode, name: &str) -> Option<TestNode> { fail ~"TODO" }
     fn node_is_root(node: &TestNode) -> bool { self.parent_node(node).is_none() }
 }
 
