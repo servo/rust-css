@@ -1,5 +1,6 @@
 use select::SelectResults;
 use computed::ComputedStyle;
+use n::h::CssHintLength;
 use n::u::float_to_css_fixed;
 use values::*;
 
@@ -25,8 +26,12 @@ impl CompleteSelectResults {
             let net_parent_computed = &parent_computed.inner.inner;
             let net_child_computed = &mut child_computed.inner;
             // FIXME: Need to get real font sizes
-            let cb: n::c::ComputeFontSizeCb = fn@(_parent: &Option<n::h::CssHint>) -> n::h::CssHint {
-                n::h::CssHintLength(n::t::CssUnitPx(float_to_css_fixed(10.0)))
+            let cb: n::c::ComputeFontSizeCb = |parent: &Option<n::h::CssHint>|
+                    -> n::h::CssHint {
+                match *parent {
+                    Some(CssHintLength(unit)) => CssHintLength(unit),
+                    _ => n::h::CssHintLength(n::t::CssUnitPx(float_to_css_fixed(12.0))),
+                }
             };
             n::c::compose(net_parent_computed, net_child_computed, cb, net_child_computed);
         }
