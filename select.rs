@@ -9,6 +9,7 @@ uses to query various DOM and UA properties.
 use stylesheet::Stylesheet;
 use computed::ComputedStyle;
 use util::VoidPtrLike;
+use wapcaplet::LwcString;
 use lwcstr_from_rust_str = wapcaplet::from_rust_string;
 use n::u::{rust_str_to_net_qname, net_qname_to_rust_str};
 use types::StylesheetOrigin;
@@ -79,8 +80,10 @@ Callbacks used to query the implementation-specific DOM
 */
 pub trait SelectHandler<N> {
     fn node_name(node: &N) -> ~str;
+    fn node_id(node: &N) -> Option<~str>;
     fn named_parent_node(node: &N, name: &str) -> Option<N>;
     fn parent_node(node: &N) -> Option<N>;
+    fn node_has_id(node: &N, &str) -> bool;
     fn named_ancestor_node(node: &N, name: &str) -> Option<N>;
     fn node_is_root(node: &N) -> bool;
 }
@@ -102,12 +105,20 @@ impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H>: n::s::CssSelectHandler<
         rust_str_to_net_qname(self.inner_ref().node_name(node))
     }
 
+    fn node_id(node: &N) -> Option<LwcString> {
+        self.inner_ref().node_id(node).map(|s| lwcstr_from_rust_str(*s))
+    }
+
     fn named_parent_node(node: &N, qname: &n::t::CssQName) -> Option<N> {
         self.inner_ref().named_parent_node(node, net_qname_to_rust_str(qname))
     }
 
     fn parent_node(node: &N) -> Option<N> {
         self.inner_ref().parent_node(node)
+    }
+
+    fn node_has_id(node: &N, name: LwcString) -> bool {
+        self.inner_ref().node_has_id(node, name.to_str())
     }
 
     fn named_ancestor_node(node: &N, qname: &n::t::CssQName) -> Option<N> {

@@ -28,6 +28,7 @@ enum TestNode = @NodeData;
 
 struct NodeData {
     name: ~str,
+    id: ~str,
     children: ~[TestNode],
     mut parent: Option<TestNode>
 }
@@ -61,6 +62,7 @@ impl TestHandler {
 
 impl TestHandler: SelectHandler<TestNode> {
     fn node_name(node: &TestNode) -> ~str { copy (*node).name }
+    fn node_id(node: &TestNode) -> Option<~str> { Some(copy (*node).id) }
     fn named_parent_node(node: &TestNode, name: &str) -> Option<TestNode> {
         match (**node).parent {
             Some(parent) => {
@@ -74,6 +76,7 @@ impl TestHandler: SelectHandler<TestNode> {
         }
     }
     fn parent_node(node: &TestNode) -> Option<TestNode> { (**node).parent }
+    fn node_has_id(node: &TestNode, name: &str) -> bool { name == node.id }
     fn named_ancestor_node(node: &TestNode, name: &str) -> Option<TestNode> { fail ~"TODO" }
     fn node_is_root(node: &TestNode) -> bool { self.parent_node(node).is_none() }
 }
@@ -85,6 +88,7 @@ fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
     select_ctx.append_sheet(move sheet, OriginAuthor);
     let dom = &TestNode(@NodeData {
         name: ~"div",
+        id: ~"id1",
         children: ~[],
         parent: None
     });
@@ -325,6 +329,14 @@ fn test_text_align() {
     }
 }
 
+#[test]
+fn test_id_selector() {
+    let style = "#id1 { text-align: center; }";
+    do single_div_test(style) |computed| {
+        assert computed.text_align() == Specified(CSSTextAlignCenter);
+    }
+}
+
 
 
 fn child_test(style: &str, f: &fn(&ComputedStyle)) {
@@ -334,11 +346,13 @@ fn child_test(style: &str, f: &fn(&ComputedStyle)) {
     select_ctx.append_sheet(move sheet, OriginAuthor);
     let child = TestNode(@NodeData {
         name: ~"span",
+        id: ~"id1",
         children: ~[],
         parent: None
     });
     let parent = TestNode(@NodeData {
         name: ~"div",
+        id: ~"id2",
         children: ~[child],
         parent: None
     });
@@ -390,11 +404,13 @@ fn test_compose() {
     select_ctx.append_sheet(move sheet, OriginAuthor);
     let child = TestNode(@NodeData {
         name: ~"span",
+        id: ~"id1",
         children: ~[],
         parent: None
     });
     let parent = TestNode(@NodeData {
         name: ~"div",
+        id: ~"id2",
         children: ~[child],
         parent: None
     });
