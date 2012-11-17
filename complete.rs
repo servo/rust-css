@@ -153,6 +153,10 @@ impl CompleteStyle {
         strip(self.inner.font_style())
     }
 
+    pub fn font_weight() -> CSSFontWeight {
+        strip(self.inner.font_weight())
+    }
+
     pub fn font_size() -> CSSFontSize {
         strip(self.inner.font_size())
     }

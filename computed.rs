@@ -114,6 +114,10 @@ impl ComputedStyle {
         convert_net_font_style_value(self.inner.font_style())
     }
 
+    pub fn font_weight() -> CSSValue<CSSFontWeight> {
+        convert_net_font_weight_value(self.inner.font_weight())
+    }
+
     pub fn font_size() -> CSSValue<CSSFontSize> {
         convert_net_font_size_value(self.inner.font_size())
     }
@@ -255,6 +259,25 @@ fn convert_net_font_style_value(value: n::v::CssFontStyleValue) -> CSSValue<CSSF
         n::v::CssFontStyleNormal => Specified(CSSFontStyleNormal),
         n::v::CssFontStyleItalic => Specified(CSSFontStyleItalic),
         n::v::CssFontStyleOblique => Specified(CSSFontStyleOblique)
+    }
+}
+
+fn convert_net_font_weight_value(value: n::v::CssFontWeightValue) -> CSSValue<CSSFontWeight> {
+    match value {
+        n::v::CssFontWeightInherit => Inherit,
+        n::v::CssFontWeightNormal => Specified(CSSFontWeightNormal),
+        n::v::CssFontWeightBold => Specified(CSSFontWeightBold),
+        n::v::CssFontWeightBolder => Specified(CSSFontWeightBolder),
+        n::v::CssFontWeightLighter => Specified(CSSFontWeightLighter),
+        n::v::CssFontWeight100 => Specified(CSSFontWeight100),
+        n::v::CssFontWeight200 => Specified(CSSFontWeight200),
+        n::v::CssFontWeight300 => Specified(CSSFontWeight300),
+        n::v::CssFontWeight400 => Specified(CSSFontWeight400),
+        n::v::CssFontWeight500 => Specified(CSSFontWeight500),
+        n::v::CssFontWeight600 => Specified(CSSFontWeight600),
+        n::v::CssFontWeight700 => Specified(CSSFontWeight700),
+        n::v::CssFontWeight800 => Specified(CSSFontWeight800),
+        n::v::CssFontWeight900 => Specified(CSSFontWeight900),
     }
 }
 

@@ -309,6 +309,13 @@ fn test_font_style() {
     }
 }
 
+#[test]
+fn test_font_weight() {
+    let style = "div { font-weight: bold; }";
+    do single_div_test(style) |computed| {
+        assert computed.font_weight() == Specified(CSSFontWeightBold);
+    }
+}
 
 
 fn child_test(style: &str, f: &fn(&ComputedStyle)) {

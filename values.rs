@@ -231,6 +231,22 @@ enum CSSFontStyle {
     CSSFontStyleOblique
 }
 
+enum CSSFontWeight {
+    CSSFontWeightNormal,
+    CSSFontWeightBold,
+    CSSFontWeightBolder,
+    CSSFontWeightLighter,
+    CSSFontWeight100,
+    CSSFontWeight200,
+    CSSFontWeight300,
+    CSSFontWeight400,
+    CSSFontWeight500,
+    CSSFontWeight600,
+    CSSFontWeight700,
+    CSSFontWeight800,
+    CSSFontWeight900
+}
+
 enum CSSFontSize {
     CSSFontSizeAbsoluteSize(AbsoluteSize),
     CSSFontSizeRelativeSize(RelativeSize),
@@ -475,4 +491,12 @@ impl CSSFontStyle: Eq {
     }
 
     pure fn ne(other: &CSSFontStyle) -> bool { !self.eq(other) }
+}
+
+impl CSSFontWeight: Eq {
+    pure fn eq(other: &CSSFontWeight) -> bool {
+        self as uint == *other as uint
+    }
+
+    pure fn ne(other: &CSSFontWeight) -> bool { !self.eq(other) }
 }
