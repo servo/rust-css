@@ -26,11 +26,27 @@ impl CompleteSelectResults {
             let net_parent_computed = &parent_computed.inner.inner;
             let net_child_computed = &mut child_computed.inner;
             // FIXME: Need to get real font sizes
-            let cb: n::c::ComputeFontSizeCb = |parent: &Option<n::h::CssHint>|
-                    -> n::h::CssHint {
-                match *parent {
-                    Some(CssHintLength(unit)) => CssHintLength(unit),
-                    _ => n::h::CssHintLength(n::t::CssUnitPx(float_to_css_fixed(12.0))),
+            let cb: n::c::ComputeFontSizeCb =
+                |parent: &Option<n::h::CssHint>, child: &n::h::CssHint| -> n::h::CssHint {
+                match *child {
+                    CssHintLength(n::t::CssUnitEm(child_em)) => {
+                        match *parent {
+                            Some(CssHintLength(parent_unit)) => {
+                                // CSS3 Values 5.1.1: Multiply parent unit by child unit.
+                                let mut new_value =
+                                    n::u::css_fixed_to_float(parent_unit.to_css_fixed());
+                                new_value *= n::u::css_fixed_to_float(child_em);
+                                let unit = parent_unit.modify(n::u::float_to_css_fixed(
+                                    new_value));
+                                CssHintLength(move unit)
+                            }
+                            _ => n::h::CssHintLength(n::t::CssUnitEm(child_em)),
+                        }
+                    }
+                    CssHintLength(unit) => CssHintLength(unit),
+                    _ => {
+                        n::h::CssHintLength(n::t::CssUnitPx(float_to_css_fixed(16.0)))
+                    }
                 }
             };
             n::c::compose(net_parent_computed, net_child_computed, cb, net_child_computed);
