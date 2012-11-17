@@ -124,6 +124,10 @@ impl ComputedStyle {
 
     // CSS 2.1, Section 16 - Text
 
+    pub fn text_align() -> CSSValue<CSSTextAlign> {
+        convert_net_text_align_value(self.inner.text_align())
+    }
+
     // CSS 2.1, Section 17 - Tables
 
     // CSS 2.1, Section 18 - User interface
@@ -278,6 +282,21 @@ fn convert_net_font_weight_value(value: n::v::CssFontWeightValue) -> CSSValue<CS
         n::v::CssFontWeight700 => Specified(CSSFontWeight700),
         n::v::CssFontWeight800 => Specified(CSSFontWeight800),
         n::v::CssFontWeight900 => Specified(CSSFontWeight900),
+    }
+}
+
+fn convert_net_text_align_value(value: n::v::CssTextAlignValue) -> CSSValue<CSSTextAlign> {
+    match value {
+        n::v::CssTextAlignInherit => Inherit,
+        n::v::CssTextAlignInheritIfNonMagic => unimpl("inherit if non-magic? wtf?"),
+        n::v::CssTextAlignLeft => Specified(CSSTextAlignLeft),
+        n::v::CssTextAlignRight => Specified(CSSTextAlignRight),
+        n::v::CssTextAlignCenter => Specified(CSSTextAlignCenter),
+        n::v::CssTextAlignJustify => Specified(CSSTextAlignJustify),
+        n::v::CssTextAlignDefault => unimpl("text-align default"), // What is this? not in spec
+        n::v::CssTextAlignLibcssLeft => unimpl("text-align libcss left"),
+        n::v::CssTextAlignLibcssCenter => unimpl("text-align libcss center"),
+        n::v::CssTextAlignLibcssRight => unimpl("text-align libcss right"),
     }
 }
 

@@ -317,6 +317,15 @@ fn test_font_weight() {
     }
 }
 
+#[test]
+fn test_text_align() {
+    let style = "div { text-align: center; }";
+    do single_div_test(style) |computed| {
+        assert computed.text_align() == Specified(CSSTextAlignCenter);
+    }
+}
+
+
 
 fn child_test(style: &str, f: &fn(&ComputedStyle)) {
     let sheet = Stylesheet::new(test_url(), style_stream(style));

@@ -500,3 +500,11 @@ impl CSSFontWeight: Eq {
 
     pure fn ne(other: &CSSFontWeight) -> bool { !self.eq(other) }
 }
+
+impl CSSTextAlign: Eq {
+    pure fn eq(other: &CSSTextAlign) -> bool {
+        self as uint == *other as uint
+    }
+
+    pure fn ne(other: &CSSTextAlign) -> bool { !self.eq(other) }
+}

@@ -163,6 +163,10 @@ impl CompleteStyle {
 
     // CSS 2.1, Section 16 - Text
 
+    pub fn text_align() -> CSSTextAlign {
+        strip(self.inner.text_align())
+    }
+
     // CSS 2.1, Section 17 - Tables
 
     // CSS 2.1, Section 18 - User interface
