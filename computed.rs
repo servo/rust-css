@@ -293,7 +293,7 @@ fn convert_net_text_align_value(value: n::v::CssTextAlignValue) -> CSSValue<CSST
         n::v::CssTextAlignRight => Specified(CSSTextAlignRight),
         n::v::CssTextAlignCenter => Specified(CSSTextAlignCenter),
         n::v::CssTextAlignJustify => Specified(CSSTextAlignJustify),
-        n::v::CssTextAlignDefault => unimpl("text-align default"), // What is this? not in spec
+        n::v::CssTextAlignDefault => Specified(CSSTextAlignLeft),
         n::v::CssTextAlignLibcssLeft => unimpl("text-align libcss left"),
         n::v::CssTextAlignLibcssCenter => unimpl("text-align libcss center"),
         n::v::CssTextAlignLibcssRight => unimpl("text-align libcss right"),
