@@ -80,7 +80,7 @@ Callbacks used to query the implementation-specific DOM
 */
 pub trait SelectHandler<N> {
     fn with_node_name<R>(node: &N, f: &fn(&str) -> R) -> R;
-    fn node_id(node: &N) -> Option<~str>;
+    fn with_node_id<R>(node: &N, f: &fn(Option<&str>) -> R) -> R;
     fn named_parent_node(node: &N, name: &str) -> Option<N>;
     fn parent_node(node: &N) -> Option<N>;
     fn node_has_id(node: &N, &str) -> bool;
@@ -108,7 +108,9 @@ impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H>: n::s::CssSelectHandler<
     }
 
     fn node_id(node: &N) -> Option<LwcString> {
-        self.inner_ref().node_id(node).map(|s| lwcstr_from_rust_str(*s))
+        do self.inner_ref().with_node_id(node) |node_id_opt| {
+            node_id_opt.map(|s| lwcstr_from_rust_str(*s))
+        }
     }
 
     fn named_parent_node(node: &N, qname: &n::t::CssQName) -> Option<N> {
