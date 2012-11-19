@@ -61,7 +61,9 @@ impl TestHandler {
 }
 
 impl TestHandler: SelectHandler<TestNode> {
-    fn node_name(node: &TestNode) -> ~str { copy (*node).name }
+    fn with_node_name<R>(node: &TestNode, f: &fn(&str) -> R) -> R {
+        f((*node).name)
+    }
     fn node_id(node: &TestNode) -> Option<~str> { Some(copy (*node).id) }
     fn named_parent_node(node: &TestNode, name: &str) -> Option<TestNode> {
         match (**node).parent {

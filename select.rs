@@ -79,7 +79,7 @@ impl SelectResults {
 Callbacks used to query the implementation-specific DOM
 */
 pub trait SelectHandler<N> {
-    fn node_name(node: &N) -> ~str;
+    fn with_node_name<R>(node: &N, f: &fn(&str) -> R) -> R;
     fn node_id(node: &N) -> Option<~str>;
     fn named_parent_node(node: &N, name: &str) -> Option<N>;
     fn parent_node(node: &N) -> Option<N>;
@@ -102,7 +102,9 @@ priv impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H> {
 
 impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H>: n::s::CssSelectHandler<N> {
     fn node_name(node: &N) -> n::t::CssQName {
-        rust_str_to_net_qname(self.inner_ref().node_name(node))
+        do self.inner_ref().with_node_name(node) |name| {
+            rust_str_to_net_qname(name)
+        }
     }
 
     fn node_id(node: &N) -> Option<LwcString> {
@@ -118,7 +120,7 @@ impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H>: n::s::CssSelectHandler<
     }
 
     fn node_has_id(node: &N, name: LwcString) -> bool {
-        self.inner_ref().node_has_id(node, name.to_str())
+        self.inner_ref().node_has_id(node, name.to_str_slice())
     }
 
     fn named_ancestor_node(node: &N, qname: &n::t::CssQName) -> Option<N> {
