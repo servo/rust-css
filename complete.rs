@@ -148,6 +148,10 @@ impl CompleteStyle {
         strip(self.inner.height())
     }
 
+    pub fn line_height() -> CSSLineHeight {
+        strip(self.inner.line_height())
+    }
+
     // CSS 2.1, Section 11 - Visual effects
 
     // CSS 2.1, Section 12 - Generated content, automatic numbering, and lists

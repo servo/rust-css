@@ -88,6 +88,10 @@ impl ComputedStyle {
         convert_net_height_value(self.inner.height())
     }
 
+    pub fn line_height() -> CSSValue<CSSLineHeight> {
+        convert_net_line_height_value(self.inner.line_height())
+    }
+
     // CSS 2.1, Section 11 - Visual effects
 
     // CSS 2.1, Section 12 - Generated content, automatic numbering, and lists
@@ -297,6 +301,20 @@ fn convert_net_text_align_value(value: n::v::CssTextAlignValue) -> CSSValue<CSST
         n::v::CssTextAlignLibcssLeft => unimpl("text-align libcss left"),
         n::v::CssTextAlignLibcssCenter => unimpl("text-align libcss center"),
         n::v::CssTextAlignLibcssRight => unimpl("text-align libcss right"),
+    }
+}
+
+fn convert_net_line_height_value(value: n::v::CssLineHeightValue) -> CSSValue<CSSLineHeight> {
+    match value {
+        n::v::CssLineHeightInherit => Inherit,
+        n::v::CssLineHeightNumber(n) => Specified(CSSLineHeightNumber(css_fixed_to_float(n))),
+        n::v::CssLineHeightDimension(v) => {
+            match convert_net_unit_to_length_or_percent(v) {
+                Left(val) => Specified(CSSLineHeightLength(val)),
+                Right(val) => Specified(CSSLineHeightPercentage(val))
+            }
+        },
+        n::v::CssLineHeightNormal => Specified(CSSLineHeightNormal)
     }
 }
 

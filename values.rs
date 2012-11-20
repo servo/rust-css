@@ -508,3 +508,17 @@ impl CSSTextAlign: Eq {
 
     pure fn ne(other: &CSSTextAlign) -> bool { !self.eq(other) }
 }
+
+impl CSSLineHeight: Eq {
+    pure fn eq(other: &CSSLineHeight) -> bool {
+        match (self, *other) {
+            (CSSLineHeightNormal, CSSLineHeightNormal) => true,
+            (CSSLineHeightNumber(n1), CSSLineHeightNumber(n2)) => n1 == n2,
+            (CSSLineHeightLength(n1), CSSLineHeightLength(n2)) => n1 == n2,
+            (CSSLineHeightPercentage(n1), CSSLineHeightPercentage(n2)) => n1 == n2,
+            (_, _) => false
+        }
+    }
+
+    pure fn ne(other: &CSSLineHeight) -> bool { !self.eq(other) }
+}

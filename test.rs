@@ -64,7 +64,10 @@ impl TestHandler: SelectHandler<TestNode> {
     fn with_node_name<R>(node: &TestNode, f: &fn(&str) -> R) -> R {
         f((*node).name)
     }
-    fn node_id(node: &TestNode) -> Option<~str> { Some(copy (*node).id) }
+    fn with_node_id<R>(node: &TestNode, f: &fn(Option<&str>) -> R) -> R {
+        let s: &str = (*node).id;
+        f(Some(s))
+    }
     fn named_parent_node(node: &TestNode, name: &str) -> Option<TestNode> {
         match (**node).parent {
             Some(parent) => {
@@ -336,6 +339,14 @@ fn test_id_selector() {
     let style = "#id1 { text-align: center; }";
     do single_div_test(style) |computed| {
         assert computed.text_align() == Specified(CSSTextAlignCenter);
+    }
+}
+
+#[test]
+fn test_line_height() {
+    let style = "div { line-height: 2; }";
+    do single_div_test(style) |computed| {
+        assert computed.line_height() == Specified(CSSLineHeightNumber(2.0));
     }
 }
 
