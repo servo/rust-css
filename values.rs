@@ -286,89 +286,89 @@ enum CSSTextTransform {
 // Implementations of Eq
 
 impl Length: cmp::Eq {
-    pure fn eq(other: &Length) -> bool {
-        match (self, *other) {
+    pure fn eq(&self, other: &Length) -> bool {
+        match (*self, *other) {
           (Em(a), Em(b)) => a == b,
           (Px(a), Px(b)) => a == b,
           (Pt(a), Pt(b)) => a == b,
           (_, _) => false
         }
     }
-    pure fn ne(other: &Length) -> bool {
+    pure fn ne(&self, other: &Length) -> bool {
         return !self.eq(other);
     }
 }
 
 impl BoxSizing: cmp::Eq {
-    pure fn eq(other: &BoxSizing) -> bool {
-        match (self, *other) {
+    pure fn eq(&self, other: &BoxSizing) -> bool {
+        match (*self, *other) {
           (BoxLength(a), BoxLength(b)) => a == b,
           (BoxPercent(a), BoxPercent(b)) => a == b,
           (BoxAuto, BoxAuto) => true,
           (_, _) => false
         }
     }
-    pure fn ne(other: &BoxSizing) -> bool {
+    pure fn ne(&self, other: &BoxSizing) -> bool {
         return !self.eq(other);
     }
 }
 
 impl AbsoluteSize: cmp::Eq {
-    pure fn eq(other: &AbsoluteSize) -> bool {
-        self as uint == (*other) as uint
+    pure fn eq(&self, other: &AbsoluteSize) -> bool {
+        (*self) as uint == (*other) as uint
     }
-    pure fn ne(other: &AbsoluteSize) -> bool {
+    pure fn ne(&self, other: &AbsoluteSize) -> bool {
         return !self.eq(other);
     }
 }
 
 impl RelativeSize: cmp::Eq {
-    pure fn eq(other: &RelativeSize) -> bool {
-        self as uint == (*other) as uint
+    pure fn eq(&self, other: &RelativeSize) -> bool {
+        (*self) as uint == (*other) as uint
     }
-    pure fn ne(other: &RelativeSize) -> bool {
+    pure fn ne(&self, other: &RelativeSize) -> bool {
         return !self.eq(other);
     }
 }
 
 impl CSSBackgroundColor: cmp::Eq {
-    pure fn eq(other: &CSSBackgroundColor) -> bool {
-        match (self, *other) {
+    pure fn eq(&self, other: &CSSBackgroundColor) -> bool {
+        match (*self, *other) {
             (CSSBackgroundColorColor(a), CSSBackgroundColorColor(b)) => a == b,
             (CSSBackgroundColorTransparent, CSSBackgroundColorTransparent) => true,
             (_, _) => false
         }
     }
-    pure fn ne(other: &CSSBackgroundColor) -> bool {
+    pure fn ne(&self, other: &CSSBackgroundColor) -> bool {
         return !self.eq(other);
     }
 }
 
 
 impl CSSColor: cmp::Eq {
-    pure fn eq(other: &CSSColor) -> bool {
-        match (self, *other) {
+    pure fn eq(&self, other: &CSSColor) -> bool {
+        match (*self, *other) {
             (CSSColorColor(a), CSSColorColor(b)) => a == b
         }
     }
-    pure fn ne(other: &CSSColor) -> bool {
+    pure fn ne(&self, other: &CSSColor) -> bool {
         return !self.eq(other);
     }
 }
 
 impl CSSDisplay: cmp::Eq {
-    pure fn eq(other: &CSSDisplay) -> bool {
-        self as uint == (*other) as uint
+    pure fn eq(&self, other: &CSSDisplay) -> bool {
+        (*self) as uint == (*other) as uint
     }
-    pure fn ne(other: &CSSDisplay) -> bool {
+    pure fn ne(&self, other: &CSSDisplay) -> bool {
         return !self.eq(other);
     }
 }
 
 
 impl CSSFontSize: cmp::Eq {
-    pure fn eq(other: &CSSFontSize) -> bool {
-        match (self, *other) {
+    pure fn eq(&self, other: &CSSFontSize) -> bool {
+        match (*self, *other) {
             (CSSFontSizeAbsoluteSize(a), CSSFontSizeAbsoluteSize(b)) => a == b,
             (CSSFontSizeRelativeSize(a), CSSFontSizeRelativeSize(b)) => a == b,
             (CSSFontSizeLength(a), CSSFontSizeLength(b)) => a == b,
@@ -376,27 +376,27 @@ impl CSSFontSize: cmp::Eq {
             (_, _) => false
         }
     }
-    pure fn ne(other: &CSSFontSize) -> bool {
+    pure fn ne(&self, other: &CSSFontSize) -> bool {
         return !self.eq(other);
     }
 }
 
 impl<T: Eq> CSSValue<T> : Eq {
-    pure fn eq(other: &CSSValue<T>) -> bool {
-        match (&self, other) {
+    pure fn eq(&self, other: &CSSValue<T>) -> bool {
+        match (self, other) {
             (&Inherit, &Inherit) => true,
             (&Specified(a), &Specified(b)) => a == b,
             _ => false
         }
     }
-    pure fn ne(other: &CSSValue<T>) -> bool {
+    pure fn ne(&self, other: &CSSValue<T>) -> bool {
         return !self.eq(other);
     }
 }
 
 impl CSSBorderWidth: Eq {
-    pure fn eq(other: &CSSBorderWidth) -> bool {
-        match (self, *other) {
+    pure fn eq(&self, other: &CSSBorderWidth) -> bool {
+        match (*self, *other) {
             (CSSBorderWidthThin, CSSBorderWidthThin) => true,
             (CSSBorderWidthMedium, CSSBorderWidthMedium) => true,
             (CSSBorderWidthThick, CSSBorderWidthThick) => true,
@@ -404,12 +404,12 @@ impl CSSBorderWidth: Eq {
             (_, _) => false
         }
     }
-    pure fn ne(other: &CSSBorderWidth) -> bool { !self.eq(other) }
+    pure fn ne(&self, other: &CSSBorderWidth) -> bool { !self.eq(other) }
 }
 
 impl CSSMargin: Eq {
-    pure fn eq(other: &CSSMargin) -> bool {
-        match (self, *other) {
+    pure fn eq(&self, other: &CSSMargin) -> bool {
+        match (*self, *other) {
             (CSSMarginLength(l1), CSSMarginLength(l2)) => l1 == l2,
             (CSSMarginPercentage(p1), CSSMarginPercentage(p2)) => p1.fuzzy_eq(&p2),
             (CSSMarginAuto, CSSMarginAuto) => true,
@@ -417,12 +417,12 @@ impl CSSMargin: Eq {
         }
     }
 
-    pure fn ne(other: &CSSMargin) -> bool { !self.eq(other) }
+    pure fn ne(&self, other: &CSSMargin) -> bool { !self.eq(other) }
 }
 
 impl CSSFloat: Eq {
-    pure fn eq(other: &CSSFloat) -> bool {
-        match (self, *other) {
+    pure fn eq(&self, other: &CSSFloat) -> bool {
+        match (*self, *other) {
             (CSSFloatLeft, CSSFloatLeft) => true,
             (CSSFloatRight, CSSFloatRight) => true,
             (CSSFloatNone, CSSFloatNone) => true,
@@ -430,12 +430,12 @@ impl CSSFloat: Eq {
         }
     }
 
-    pure fn ne(other: &CSSFloat) -> bool { !self.eq(other) }
+    pure fn ne(&self, other: &CSSFloat) -> bool { !self.eq(other) }
 }
 
 impl CSSPosition: Eq {
-    pure fn eq(other: &CSSPosition) -> bool {
-        match (self, *other) {
+    pure fn eq(&self, other: &CSSPosition) -> bool {
+        match (*self, *other) {
             (CSSPositionStatic, CSSPositionStatic) => true,
             (CSSPositionRelative, CSSPositionRelative) => true,
             (CSSPositionAbsolute, CSSPositionAbsolute) => true,
@@ -444,12 +444,12 @@ impl CSSPosition: Eq {
         }
     }
 
-    pure fn ne(other: &CSSPosition) -> bool { !self.eq(other) }
+    pure fn ne(&self, other: &CSSPosition) -> bool { !self.eq(other) }
 }
 
 impl CSSWidth: Eq {
-    pure fn eq(other: &CSSWidth) -> bool {
-        match (self, *other) {
+    pure fn eq(&self, other: &CSSWidth) -> bool {
+        match (*self, *other) {
             (CSSWidthLength(l1), CSSWidthLength(l2)) => l1 == l2,
             (CSSWidthPercentage(p1), CSSWidthPercentage(p2)) => p1.fuzzy_eq(&p2),
             (CSSWidthAuto, CSSWidthAuto) => true,
@@ -457,12 +457,12 @@ impl CSSWidth: Eq {
         }
     }
 
-    pure fn ne(other: &CSSWidth) -> bool { !self.eq(other) }
+    pure fn ne(&self, other: &CSSWidth) -> bool { !self.eq(other) }
 }
 
 impl CSSHeight: Eq {
-    pure fn eq(other: &CSSHeight) -> bool {
-        match (self, *other) {
+    pure fn eq(&self, other: &CSSHeight) -> bool {
+        match (*self, *other) {
             (CSSHeightLength(l1), CSSHeightLength(l2)) => l1 == l2,
             (CSSHeightPercentage(p1), CSSHeightPercentage(p2)) => p1.fuzzy_eq(&p2),
             (CSSHeightAuto, CSSHeightAuto) => true,
@@ -470,48 +470,48 @@ impl CSSHeight: Eq {
         }
     }
 
-    pure fn ne(other: &CSSHeight) -> bool { !self.eq(other) }
+    pure fn ne(&self, other: &CSSHeight) -> bool { !self.eq(other) }
 }
 
 impl CSSFontFamily: Eq {
-    pure fn eq(other: &CSSFontFamily) -> bool {
-        match (&self, other) {
+    pure fn eq(&self, other: &CSSFontFamily) -> bool {
+        match (self, other) {
             (&CSSFontFamilyFamilyName(ref f1), &CSSFontFamilyFamilyName(ref f2)) => f1 == f2,
             (&CSSFontFamilyGenericFamily(g1), &CSSFontFamilyGenericFamily(g2)) => g1 == g2,
             (_, _) => false
         }
     }
 
-    pure fn ne(other: &CSSFontFamily) -> bool { !self.eq(other) }
+    pure fn ne(&self, other: &CSSFontFamily) -> bool { !self.eq(other) }
 }
 
 impl CSSFontStyle: Eq {
-    pure fn eq(other: &CSSFontStyle) -> bool {
-        self as uint == *other as uint
+    pure fn eq(&self, other: &CSSFontStyle) -> bool {
+        (*self) as uint == *other as uint
     }
 
-    pure fn ne(other: &CSSFontStyle) -> bool { !self.eq(other) }
+    pure fn ne(&self, other: &CSSFontStyle) -> bool { !self.eq(other) }
 }
 
 impl CSSFontWeight: Eq {
-    pure fn eq(other: &CSSFontWeight) -> bool {
-        self as uint == *other as uint
+    pure fn eq(&self, other: &CSSFontWeight) -> bool {
+        (*self) as uint == *other as uint
     }
 
-    pure fn ne(other: &CSSFontWeight) -> bool { !self.eq(other) }
+    pure fn ne(&self, other: &CSSFontWeight) -> bool { !self.eq(other) }
 }
 
 impl CSSTextAlign: Eq {
-    pure fn eq(other: &CSSTextAlign) -> bool {
-        self as uint == *other as uint
+    pure fn eq(&self, other: &CSSTextAlign) -> bool {
+        (*self) as uint == *other as uint
     }
 
-    pure fn ne(other: &CSSTextAlign) -> bool { !self.eq(other) }
+    pure fn ne(&self, other: &CSSTextAlign) -> bool { !self.eq(other) }
 }
 
 impl CSSLineHeight: Eq {
-    pure fn eq(other: &CSSLineHeight) -> bool {
-        match (self, *other) {
+    pure fn eq(&self, other: &CSSLineHeight) -> bool {
+        match (*self, *other) {
             (CSSLineHeightNormal, CSSLineHeightNormal) => true,
             (CSSLineHeightNumber(n1), CSSLineHeightNumber(n2)) => n1 == n2,
             (CSSLineHeightLength(n1), CSSLineHeightLength(n2)) => n1 == n2,
@@ -520,5 +520,5 @@ impl CSSLineHeight: Eq {
         }
     }
 
-    pure fn ne(other: &CSSLineHeight) -> bool { !self.eq(other) }
+    pure fn ne(&self, other: &CSSLineHeight) -> bool { !self.eq(other) }
 }

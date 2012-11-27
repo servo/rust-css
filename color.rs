@@ -6,11 +6,11 @@ use cmp::Eq;
 pub struct Color { red : u8, green : u8, blue : u8, alpha : float}
 
 impl Color : Eq {
-    pure fn eq(other: &Color) -> bool {
+    pure fn eq(&self, other: &Color) -> bool {
         return self.red == other.red && self.green == other.green && self.blue == other.blue &&
                self.alpha == other.alpha;
     }
-    pure fn ne(other: &Color) -> bool {
+    pure fn ne(&self, other: &Color) -> bool {
         !self.eq(other)
     }
 }
