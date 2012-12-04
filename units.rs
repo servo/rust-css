@@ -29,7 +29,7 @@ pub enum BoxSizing { // used by width, height, top, left, etc
     BoxAuto
 }
 
-enum AbsoluteSize {
+pub enum AbsoluteSize {
     XXSmall,
     XSmall,
     Small,
@@ -39,12 +39,12 @@ enum AbsoluteSize {
     XXLarge
 }
 
-enum RelativeSize {
+pub enum RelativeSize {
     Larger,
     Smaller
 }
 
-enum GenericFontFamily {
+pub enum GenericFontFamily {
     Serif,
     SansSerif,
     Cursive,
