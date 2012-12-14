@@ -1,6 +1,6 @@
 use float::round;
 use libc::types::os::arch::c95::c_double;
-use css_colors::*;
+use color::css_colors::*;
 use cmp::Eq;
 
 pub struct Color { red : u8, green : u8, blue : u8, alpha : float}
