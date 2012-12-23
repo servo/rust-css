@@ -385,7 +385,7 @@ impl<T: Eq> CSSValue<T> : Eq {
     pure fn eq(&self, other: &CSSValue<T>) -> bool {
         match (self, other) {
             (&Inherit, &Inherit) => true,
-            (&Specified(a), &Specified(b)) => a == b,
+            (&Specified(ref a), &Specified(ref b)) => a == b,
             _ => false
         }
     }
