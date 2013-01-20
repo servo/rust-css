@@ -1,8 +1,9 @@
-use values::*;
 use color::{Color, rgba};
 use units::{Length, Px, Em, Pt};
 use netsurfcss::util::css_fixed_to_float;
 use either::{Either, Left, Right};
+use n;
+use values::*;
 
 pub struct ComputedStyle {
     inner: n::c::CssComputedStyle

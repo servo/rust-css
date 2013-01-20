@@ -5,13 +5,14 @@ Constructs a list of css style rules from a token stream
 // TODO: fail according to the css spec instead of failing when things
 // are not as expected
 
-use values::*;
 use util::DataStream;
 use std::cell::Cell;
 use netsurfcss::stylesheet::{CssStylesheet, CssStylesheetParams, CssStylesheetParamsVersion1, css_stylesheet_create};
 use netsurfcss::types::CssLevel21;
 use netsurfcss::CssResult;
 use wapcaplet::LwcString;
+use std::net::url::Url;
+use netsurfcss::stylesheet::CssUrlResolutionFn;
 
 // This takes a DataStreamFactory instead of a DataStream because
 // servo's DataStream contains a comm::Port, which is not sendable,
@@ -19,6 +20,7 @@ use wapcaplet::LwcString;
 // So the DataStreamFactory gives the caller an opportunity to create
 // the data stream from inside the lexer task.
 pub fn parse_stylesheet(url: Url, input: DataStream) -> CssStylesheet {
+    let resolve: CssUrlResolutionFn = resolve_url;
     let params: CssStylesheetParams = CssStylesheetParams {
         params_version: CssStylesheetParamsVersion1,
         level: CssLevel21,
@@ -27,7 +29,7 @@ pub fn parse_stylesheet(url: Url, input: DataStream) -> CssStylesheet {
         title: ~"FIXME-css-title",
         allow_quirks: false,
         inline_style: false,
-        resolve: Some(resolve_url),
+        resolve: Some(resolve),
         import: None,
         color: None,
         font: None,

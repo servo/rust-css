@@ -13,6 +13,7 @@ use wapcaplet::LwcString;
 use lwcstr_from_rust_str = wapcaplet::from_rust_string;
 use n::u::{rust_str_to_net_qname, net_qname_to_rust_str};
 use types::StylesheetOrigin;
+use n;
 
 pub struct SelectCtx {
     inner: n::s::CssSelectCtx

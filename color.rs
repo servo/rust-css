@@ -1,6 +1,5 @@
 use float::round;
 use libc::types::os::arch::c95::c_double;
-use color::css_colors::*;
 use cmp::Eq;
 
 pub struct Color { red : u8, green : u8, blue : u8, alpha : float}
@@ -61,6 +60,8 @@ impl Color {
 }
 
 pub mod parsing {
+    use super::{Color, rgb, rgba, hsl, hsla};
+    use super::css_colors::{black, silver, gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, teal, aqua};
     export parse_color;
 
     fn fail_unrecognized(col : &str) -> Option<Color> {
@@ -236,6 +237,8 @@ mod test {
 
 /** Define the colors specified by css */
 pub mod css_colors {
+    use super::Color;
+
     // The 16 basic css colors
     pub fn black() -> Color {
         Color {red : 0u8, green : 0u8, blue : 0u8, alpha : 1.0}

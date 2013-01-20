@@ -3,6 +3,7 @@ use computed::ComputedStyle;
 use n::h::CssHintLength;
 use n::u::float_to_css_fixed;
 use values::*;
+use n;
 
 pub struct CompleteSelectResults {
     inner: SelectResults
@@ -49,7 +50,10 @@ impl CompleteSelectResults {
                     }
                 }
             };
-            n::c::compose(net_parent_computed, net_child_computed, cb, net_child_computed);
+            // XXX: Need an aliasable &mut here
+            let net_result_computed: &mut n::c::CssComputedStyle = unsafe { cast::transmute(net_child_computed) };
+            let net_child_computed = &mut child_computed.inner;
+            n::c::compose(net_parent_computed, net_child_computed, cb, net_result_computed);
         }
 
         CompleteSelectResults {

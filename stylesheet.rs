@@ -4,15 +4,17 @@ CSS stylesheets, owned types, immutable after creation
 
 use std::net::url::Url;
 use util::DataStream;
+use netsurfcss::stylesheet::CssStylesheet;
+use parser::parse_stylesheet;
 
 pub struct Stylesheet {
-    inner: netsurfcss::stylesheet::CssStylesheet
+    inner: CssStylesheet
 }
 
 pub impl Stylesheet {
     static fn new(url: Url, input: DataStream) -> Stylesheet {
         Stylesheet {
-            inner: parser::parse_stylesheet(move url, input)
+            inner: parse_stylesheet(move url, input)
         }
     }
 }
