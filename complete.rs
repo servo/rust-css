@@ -9,7 +9,7 @@ pub struct CompleteSelectResults {
     inner: SelectResults
 }
 
-impl CompleteSelectResults {
+pub impl CompleteSelectResults {
     static fn new_root(root: SelectResults) -> CompleteSelectResults {
         CompleteSelectResults {
             inner: move root

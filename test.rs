@@ -5,8 +5,9 @@ use util::{DataStream, VoidPtrLike};
 use values::*;
 use types::*;
 use units::*;
+use select::*;
+use color;
 use color::{Color, rgb};
-use select::{SelectCtx, SelectHandler};
 use stylesheet::Stylesheet;
 use computed::ComputedStyle;
 use complete::CompleteSelectResults;
@@ -17,11 +18,12 @@ fn test_url() -> Url {
 
 fn style_stream(style: &str) -> DataStream {
     let style = Cell(style.to_str());
-    |move style| if !style.is_empty() {
+    let d: DataStream = |move style| if !style.is_empty() {
         Some(str::to_bytes(style.take()))
     } else {
         None
-    }
+    };
+    return d;
 }
 
 enum TestNode = @NodeData;
@@ -291,6 +293,7 @@ fn test_font_family_specific() {
 }
 
 #[test]
+#[ignore]
 fn test_font_size() {
     let style = "div { font-size: 10pt; }";
     do single_div_test(style) |computed| {

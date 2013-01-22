@@ -62,7 +62,6 @@ impl Color {
 pub mod parsing {
     use super::{Color, rgb, rgba, hsl, hsla};
     use super::css_colors::{black, silver, gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, teal, aqua};
-    export parse_color;
 
     fn fail_unrecognized(col : &str) -> Option<Color> {
         warn!("Unrecognized color %s", col);
@@ -161,7 +160,7 @@ pub mod parsing {
     // Currently colors are supported in rgb(a,b,c) form and also by
     // keywords for several common colors.
     // TODO: extend this
-    fn parse_color(color : &str) -> Option<Color> {
+    pub fn parse_color(color : &str) -> Option<Color> {
         match color {
           c if c.starts_with("rgb(") => parse_rgb(c),
           c if c.starts_with("rgba(") => parse_rgba(c),
@@ -174,9 +173,10 @@ pub mod parsing {
 
 #[cfg(test)]
 mod test {
-    use css_colors::*;
+    use super::{rgb, rgba};
+    use super::css_colors::*;
     use option::unwrap;
-    use parsing::parse_color;
+    use super::parsing::parse_color;
 
     #[test]
     fn test_parse_by_name() {
