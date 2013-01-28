@@ -24,8 +24,8 @@ pub impl CompleteSelectResults {
         {
             let parent_computed = parent.computed_style();
             let mut child_computed = child.computed_style();
-            let net_parent_computed = &parent_computed.inner.inner;
-            let net_child_computed = &mut child_computed.inner;
+            //let net_parent_computed = &parent_computed.inner.inner;
+            let net_child_computed = &/*mut*/ child_computed.inner;
             // FIXME: Need to get real font sizes
             let cb: n::c::ComputeFontSizeCb =
                 |parent: &Option<n::h::CssHint>, child: &n::h::CssHint| -> n::h::CssHint {
@@ -52,7 +52,8 @@ pub impl CompleteSelectResults {
             };
             // XXX: Need an aliasable &mut here
             let net_result_computed: &mut n::c::CssComputedStyle = unsafe { cast::transmute(net_child_computed) };
-            let net_child_computed = &mut child_computed.inner;
+            let net_child_computed: &mut n::c::CssComputedStyle = unsafe { cast::transmute(&child_computed.inner) };
+            let net_parent_computed = &parent_computed.inner.inner;
             n::c::compose(net_parent_computed, net_child_computed, cb, net_result_computed);
         }
 
