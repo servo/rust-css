@@ -190,7 +190,7 @@ fn convert_net_display_value(value: n::v::CssDisplayValue) -> CSSValue<CSSDispla
         n::v::CssDisplayInline => Specified(CSSDisplayInline),
         n::v::CssDisplayBlock => Specified(CSSDisplayBlock),
         n::v::CssDisplayListItem => Specified(CSSDisplayListItem),
-        n::v::CssDisplayRunIn => fail unimpl("display: run-in"), // FIXME: Not in CSS 2.1
+        n::v::CssDisplayRunIn => fail!(unimpl("display: run-in")), // FIXME: Not in CSS 2.1
         n::v::CssDisplayInlineBlock => Specified(CSSDisplayInlineBlock),
         n::v::CssDisplayTable => Specified(CSSDisplayTable),
         n::v::CssDisplayInlineTable => Specified(CSSDisplayInlineTable),
@@ -322,7 +322,7 @@ fn convert_net_line_height_value(value: n::v::CssLineHeightValue) -> CSSValue<CS
 fn convert_net_unit_to_length(unit: n::t::CssUnit) -> Length {
     match convert_net_unit_to_length_or_percent(unit) {
         Left(move v) => v,
-        Right(*) => fail ~"unexpected percentage unit"
+        Right(*) => fail!(~"unexpected percentage unit")
     }
 }
 
@@ -337,5 +337,5 @@ fn convert_net_unit_to_length_or_percent(unit: n::t::CssUnit) -> Either<Length, 
 }
 
 fn unimpl(what: &str) -> ! {
-    fail fmt!("css unimplemented %?", what)
+    fail!(fmt!("css unimplemented %?", what))
 }

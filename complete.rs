@@ -205,7 +205,7 @@ impl CompleteStyle {
 
 fn strip<T>(value: CSSValue<T>) -> T {
     match move value {
-        Inherit => fail ~"unexpected 'inherit' value in complete style",
+        Inherit => fail!(~"unexpected 'inherit' value in complete style"),
         Specified(move v) => move v
     }
 }

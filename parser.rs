@@ -49,5 +49,5 @@ pub fn parse_stylesheet(url: Url, input: DataStream) -> CssStylesheet {
 }
 
 fn resolve_url(_base: &str, _rel: &LwcString) -> CssResult<LwcString> {
-    fail ~"resolving url";
+    fail!(~"resolving url");
 }

@@ -12,13 +12,13 @@ impl Length {
     pure fn rel() -> float {
         match self {
             Em(x) => x,
-            _ => fail ~"attempted to access relative unit of an absolute length"
+            _ => fail!(~"attempted to access relative unit of an absolute length")
         }
     }
     pure fn abs() -> float {
         match self {
             Em(x) => x,
-            _ => fail ~"attempted to access relative unit of an absolute length"
+            _ => fail!(~"attempted to access relative unit of an absolute length")
         }
     }
 }
@@ -44,6 +44,7 @@ pub enum RelativeSize {
     Smaller
 }
 
+#[deriving_eq]
 pub enum GenericFontFamily {
     Serif,
     SansSerif,
@@ -52,10 +53,3 @@ pub enum GenericFontFamily {
     Monospace,
 }
 
-impl GenericFontFamily: cmp::Eq {
-    pure fn eq(&self, other: &GenericFontFamily) -> bool {
-        (*self) as uint == *other as uint
-    }
-
-    pure fn ne(&self, other: &GenericFontFamily) -> bool { !self.eq(other) }
-}

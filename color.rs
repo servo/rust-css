@@ -37,7 +37,7 @@ pub fn hsla(h : float, s : float, l : float, a : float) -> Color {
           1.0/6.0 .. 1.0/2.0 => m2,
           1.0/2.0 .. 2.0/3.0 => m1 + (m2 - m1)*(4.0 - 6.0*h),
           2.0/3.0 .. 1.0 => return m1,
-          _ => fail ~"unexpected hue value"
+          _ => fail!(~"unexpected hue value")
         }
     }
 

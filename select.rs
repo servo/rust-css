@@ -90,7 +90,7 @@ pub trait SelectHandler<N> {
 }
 
 /** Used to convert the netsurfcss CssSelectHandler callbacks to out SelectHandler callbacks */
-struct SelectHandlerWrapper<N, H: SelectHandler<N>> {
+struct SelectHandlerWrapper<N, H> {
     // FIXME: Can't encode region variables
     inner: *H
 }
