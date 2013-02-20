@@ -18,10 +18,12 @@ fn test_url() -> Url {
 
 fn style_stream(style: &str) -> DataStream {
     let style = Cell(style.to_str());
-    let d: DataStream = |move style| if !style.is_empty() {
-        Some(str::to_bytes(style.take()))
-    } else {
-        None
+    let d: DataStream = || {
+        if !style.is_empty() {
+            Some(str::to_bytes(style.take()))
+        } else {
+            None
+        }
     };
     return d;
 }
@@ -35,7 +37,7 @@ struct NodeData {
     mut parent: Option<TestNode>
 }
 
-impl TestNode: VoidPtrLike {
+impl VoidPtrLike for TestNode {
     static fn from_void_ptr(node: *libc::c_void) -> TestNode {
         assert node.is_not_null();
         TestNode(unsafe {
@@ -62,7 +64,7 @@ impl TestHandler {
     }
 }
 
-impl TestHandler: SelectHandler<TestNode> {
+impl SelectHandler<TestNode> for TestHandler {
     fn with_node_name<R>(node: &TestNode, f: &fn(&str) -> R) -> R {
         f((*node).name)
     }
@@ -92,7 +94,7 @@ fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
     let sheet = Stylesheet::new(test_url(), style_stream(style));
     let mut select_ctx = SelectCtx::new();
     let handler = &TestHandler::new();
-    select_ctx.append_sheet(move sheet, OriginAuthor);
+    select_ctx.append_sheet(sheet, OriginAuthor);
     let dom = &TestNode(@NodeData {
         name: ~"div",
         id: ~"id1",
@@ -359,7 +361,7 @@ fn child_test(style: &str, f: &fn(&ComputedStyle)) {
     let sheet = Stylesheet::new(test_url(), style_stream(style));
     let mut select_ctx = SelectCtx::new();
     let handler = &TestHandler::new();
-    select_ctx.append_sheet(move sheet, OriginAuthor);
+    select_ctx.append_sheet(sheet, OriginAuthor);
     let child = TestNode(@NodeData {
         name: ~"span",
         id: ~"id1",
@@ -417,7 +419,7 @@ fn test_compose() {
     let sheet = Stylesheet::new(test_url(), style_stream(style));
     let mut select_ctx = SelectCtx::new();
     let handler = &TestHandler::new();
-    select_ctx.append_sheet(move sheet, OriginAuthor);
+    select_ctx.append_sheet(sheet, OriginAuthor);
     let child = TestNode(@NodeData {
         name: ~"span",
         id: ~"id1",
@@ -434,8 +436,9 @@ fn test_compose() {
     let parent_results = select_ctx.select_style(&parent, handler);
     let child_results = select_ctx.select_style(&child, handler);
 
-    let complete_parent_results = CompleteSelectResults::new_root(move parent_results);
-    let complete_child_results = CompleteSelectResults::new_from_parent(&complete_parent_results, move child_results);
+    let complete_parent_results = CompleteSelectResults::new_root(parent_results);
+    let complete_child_results = CompleteSelectResults::new_from_parent(&complete_parent_results,
+                                                                        child_results);
 
     let computed = complete_child_results.computed_style();
 

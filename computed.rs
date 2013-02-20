@@ -255,8 +255,8 @@ fn convert_net_font_size_value(value: n::v::CssFontSizeValue) -> CSSValue<CSSFon
         n::v::CssFontSizeSmaller => Specified(CSSFontSizeRelativeSize(Smaller)),
         n::v::CssFontSizeDimension(size) => {
             match convert_net_unit_to_length_or_percent(size) {
-                Left(move val) => Specified(CSSFontSizeLength(move val)),
-                Right(move val) => Specified(CSSFontSizePercentage(move val))
+                Left(val) => Specified(CSSFontSizeLength(val)),
+                Right(val) => Specified(CSSFontSizePercentage(val))
             }
         }
     }
@@ -321,7 +321,7 @@ fn convert_net_line_height_value(value: n::v::CssLineHeightValue) -> CSSValue<CS
 
 fn convert_net_unit_to_length(unit: n::t::CssUnit) -> Length {
     match convert_net_unit_to_length_or_percent(unit) {
-        Left(move v) => v,
+        Left(v) => v,
         Right(*) => fail!(~"unexpected percentage unit")
     }
 }

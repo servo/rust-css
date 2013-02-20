@@ -14,7 +14,7 @@ pub struct Stylesheet {
 pub impl Stylesheet {
     static fn new(url: Url, input: DataStream) -> Stylesheet {
         Stylesheet {
-            inner: parse_stylesheet(move url, input)
+            inner: parse_stylesheet(url, input)
         }
     }
 }

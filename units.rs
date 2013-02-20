@@ -2,6 +2,7 @@
 Units used by CSS
 */
 
+#[deriving_eq]
 pub enum Length {
     Em(float), // normalized to 'em'
     Px(float), // normalized to 'px'
@@ -23,12 +24,14 @@ impl Length {
     }
 }
 
+#[deriving_eq]
 pub enum BoxSizing { // used by width, height, top, left, etc
     BoxLength(Length),
     BoxPercent(float),
     BoxAuto
 }
 
+#[deriving_eq]
 pub enum AbsoluteSize {
     XXSmall,
     XSmall,
@@ -39,6 +42,7 @@ pub enum AbsoluteSize {
     XXLarge
 }
 
+#[deriving_eq]
 pub enum RelativeSize {
     Larger,
     Smaller

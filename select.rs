@@ -38,11 +38,11 @@ impl SelectCtx {
     during future selector matching
     */
     fn append_sheet(&mut self, sheet: Stylesheet, origin: StylesheetOrigin) {
-        let sheet = match move sheet {
-            Stylesheet { inner: move inner } => move inner
+        let sheet = match sheet {
+            Stylesheet { inner: inner } => inner
         };
 
-        self.inner.append_sheet(move sheet, origin.to_net(), n::ll::t::CSS_MEDIA_SCREEN)
+        self.inner.append_sheet(sheet, origin.to_net(), n::ll::t::CSS_MEDIA_SCREEN)
     }
 
     /**
@@ -101,7 +101,7 @@ priv impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H> {
     }
 }
 
-impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H>: n::s::CssSelectHandler<N> {
+impl<N, H: SelectHandler<N>> n::s::CssSelectHandler<N> for SelectHandlerWrapper<N, H> {
     fn node_name(node: &N) -> n::t::CssQName {
         do self.inner_ref().with_node_name(node) |name| {
             rust_str_to_net_qname(name)

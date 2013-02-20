@@ -2,16 +2,12 @@ use float::round;
 use libc::types::os::arch::c95::c_double;
 use cmp::Eq;
 
-pub struct Color { red : u8, green : u8, blue : u8, alpha : float}
-
-impl Color : Eq {
-    pure fn eq(&self, other: &Color) -> bool {
-        return self.red == other.red && self.green == other.green && self.blue == other.blue &&
-               self.alpha == other.alpha;
-    }
-    pure fn ne(&self, other: &Color) -> bool {
-        !self.eq(other)
-    }
+#[deriving_eq]
+pub struct Color {
+    red: u8,
+    green: u8,
+    blue: u8,
+    alpha: float,
 }
 
 pub fn rgba(r : u8, g : u8, b : u8, a : float) -> Color {

@@ -12,13 +12,13 @@ pub struct CompleteSelectResults {
 pub impl CompleteSelectResults {
     static fn new_root(root: SelectResults) -> CompleteSelectResults {
         CompleteSelectResults {
-            inner: move root
+            inner: root
         }
     }
 
     static fn new_from_parent(parent: &CompleteSelectResults,
                               child: SelectResults) -> CompleteSelectResults {
-        let mut child = move child;
+        let mut child = child;
 
         // New lifetime
         {
@@ -39,7 +39,7 @@ pub impl CompleteSelectResults {
                                 new_value *= n::u::css_fixed_to_float(child_em);
                                 let unit = parent_unit.modify(n::u::float_to_css_fixed(
                                     new_value));
-                                CssHintLength(move unit)
+                                CssHintLength(unit)
                             }
                             _ => n::h::CssHintLength(n::t::CssUnitEm(child_em)),
                         }
@@ -58,7 +58,7 @@ pub impl CompleteSelectResults {
         }
 
         CompleteSelectResults {
-            inner: move child
+            inner: child
         }
     }
 
@@ -204,9 +204,9 @@ impl CompleteStyle {
 }
 
 fn strip<T>(value: CSSValue<T>) -> T {
-    match move value {
+    match value {
         Inherit => fail!(~"unexpected 'inherit' value in complete style"),
-        Specified(move v) => move v
+        Specified(v) => v
     }
 }
 

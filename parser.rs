@@ -38,14 +38,14 @@ pub fn parse_stylesheet(url: Url, input: DataStream) -> CssStylesheet {
 
     loop {
         match input() {
-            Some(move data) => {
+            Some(data) => {
                 sheet.append_data(data);
             }
             None => break
         }
     }
     sheet.data_done();
-    return move sheet;
+    return sheet;
 }
 
 fn resolve_url(_base: &str, _rel: &LwcString) -> CssResult<LwcString> {
