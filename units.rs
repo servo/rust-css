@@ -10,13 +10,13 @@ pub enum Length {
 }
 
 impl Length {
-    pure fn rel() -> float {
+    pure fn rel(self) -> float {
         match self {
             Em(x) => x,
             _ => fail!(~"attempted to access relative unit of an absolute length")
         }
     }
-    pure fn abs() -> float {
+    pure fn abs(self) -> float {
         match self {
             Em(x) => x,
             _ => fail!(~"attempted to access relative unit of an absolute length")

@@ -1,6 +1,6 @@
-use float::round;
-use libc::types::os::arch::c95::c_double;
-use cmp::Eq;
+use core::float::round;
+use core::libc::types::os::arch::c95::c_double;
+use core::cmp::Eq;
 
 #[deriving_eq]
 pub struct Color {
@@ -49,7 +49,7 @@ pub fn hsl(h : float, s : float, l : float) -> Color {
 }
 
 impl Color {
-    fn print() -> ~str {
+    fn print(&self) -> ~str {
         fmt!("rgba(%u,%u,%u,%f)", self.red as uint, self.green as uint,
              self.blue as uint, self.alpha)
     }

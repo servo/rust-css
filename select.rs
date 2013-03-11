@@ -26,7 +26,7 @@ The `SelectCtx` takes ownership of any number of `Stylesheet` objects,
 encapsulates the cascade. Individual node styles can be requested with
 the `select_style` method.
 */
-impl SelectCtx {
+pub impl SelectCtx {
     static fn new() -> SelectCtx {
         SelectCtx {
             inner: n::s::css_select_ctx_create()
@@ -67,7 +67,7 @@ pub struct SelectResults {
     inner: n::s::CssSelectResults
 }
 
-impl SelectResults {
+pub impl SelectResults {
     /** Retrieve the computed style of a single pseudo-element */
     fn computed_style(&self) -> ComputedStyle/&self {
         ComputedStyle {
@@ -80,13 +80,13 @@ impl SelectResults {
 Callbacks used to query the implementation-specific DOM
 */
 pub trait SelectHandler<N> {
-    fn with_node_name<R>(node: &N, f: &fn(&str) -> R) -> R;
-    fn with_node_id<R>(node: &N, f: &fn(Option<&str>) -> R) -> R;
-    fn named_parent_node(node: &N, name: &str) -> Option<N>;
-    fn parent_node(node: &N) -> Option<N>;
-    fn node_has_id(node: &N, &str) -> bool;
-    fn named_ancestor_node(node: &N, name: &str) -> Option<N>;
-    fn node_is_root(node: &N) -> bool;
+    fn with_node_name<R>(&self, node: &N, f: &fn(&str) -> R) -> R;
+    fn with_node_id<R>(&self, node: &N, f: &fn(Option<&str>) -> R) -> R;
+    fn named_parent_node(&self, node: &N, name: &str) -> Option<N>;
+    fn parent_node(&self, node: &N) -> Option<N>;
+    fn node_has_id(&self, node: &N, &str) -> bool;
+    fn named_ancestor_node(&self, node: &N, name: &str) -> Option<N>;
+    fn node_is_root(&self, node: &N) -> bool;
 }
 
 /** Used to convert the netsurfcss CssSelectHandler callbacks to out SelectHandler callbacks */
@@ -96,51 +96,51 @@ struct SelectHandlerWrapper<N, H> {
 }
 
 priv impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H> {
-    priv fn inner_ref() -> &self/H {
+    priv fn inner_ref(&self) -> &self/H {
         unsafe { &*self.inner }
     }
 }
 
 impl<N, H: SelectHandler<N>> n::s::CssSelectHandler<N> for SelectHandlerWrapper<N, H> {
-    fn node_name(node: &N) -> n::t::CssQName {
+    fn node_name(&self, node: &N) -> n::t::CssQName {
         do self.inner_ref().with_node_name(node) |name| {
             rust_str_to_net_qname(name)
         }
     }
 
-    fn node_id(node: &N) -> Option<LwcString> {
+    fn node_id(&self, node: &N) -> Option<LwcString> {
         do self.inner_ref().with_node_id(node) |node_id_opt| {
             node_id_opt.map(|s| lwcstr_from_rust_str(*s))
         }
     }
 
-    fn named_parent_node(node: &N, qname: &n::t::CssQName) -> Option<N> {
+    fn named_parent_node(&self, node: &N, qname: &n::t::CssQName) -> Option<N> {
         self.inner_ref().named_parent_node(node, net_qname_to_rust_str(qname))
     }
 
-    fn parent_node(node: &N) -> Option<N> {
+    fn parent_node(&self, node: &N) -> Option<N> {
         self.inner_ref().parent_node(node)
     }
 
-    fn node_has_id(node: &N, name: LwcString) -> bool {
+    fn node_has_id(&self, node: &N, name: LwcString) -> bool {
         self.inner_ref().node_has_id(node, name.to_str_slice())
     }
 
-    fn named_ancestor_node(node: &N, qname: &n::t::CssQName) -> Option<N> {
+    fn named_ancestor_node(&self, node: &N, qname: &n::t::CssQName) -> Option<N> {
         self.inner_ref().named_ancestor_node(node, net_qname_to_rust_str(qname))
     }
 
-    fn node_is_root(node: &N) -> bool {
+    fn node_is_root(&self, node: &N) -> bool {
         self.inner_ref().node_is_root(node)
     }
 
-    fn node_is_link(_node: &N) -> bool {
+    fn node_is_link(&self, _node: &N) -> bool {
         // FIXME
         warn_unimpl("node_is_link");
         false
     }
 
-    fn ua_default_for_property(property: n::p::CssProperty) -> n::h::CssHint {
+    fn ua_default_for_property(&self, property: n::p::CssProperty) -> n::h::CssHint {
         warn!("not specifiying ua default for property %?", property);
         n::h::CssHintDefault
     }

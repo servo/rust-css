@@ -1,3 +1,4 @@
+use color::Color;
 use select::SelectResults;
 use computed::ComputedStyle;
 use n::h::CssHintLength;
@@ -70,90 +71,90 @@ pub impl CompleteSelectResults {
 }
 
 pub struct CompleteStyle {
-    inner: ComputedStyle
+    inner: ComputedStyle<'self>
 }
 
-impl CompleteStyle {
+impl CompleteStyle<'self> {
 
     // CSS 2.1, Section 8 - Box model
 
-    pub fn margin_top() -> CSSMargin {
+    pub fn margin_top(&self) -> CSSMargin {
         strip(self.inner.margin_top())
     }
 
-    pub fn margin_right() -> CSSMargin {
+    pub fn margin_right(&self) -> CSSMargin {
         strip(self.inner.margin_right())
     }
 
-    pub fn margin_bottom() -> CSSMargin {
+    pub fn margin_bottom(&self) -> CSSMargin {
         strip(self.inner.margin_bottom())
     }
 
-    pub fn margin_left() -> CSSMargin {
+    pub fn margin_left(&self) -> CSSMargin {
         strip(self.inner.margin_left())
     }
 
-    pub fn border_top_width() -> CSSBorderWidth {
+    pub fn border_top_width(&self) -> CSSBorderWidth {
         strip(self.inner.border_top_width())
     }
 
-    pub fn border_right_width() -> CSSBorderWidth {
+    pub fn border_right_width(&self) -> CSSBorderWidth {
         strip(self.inner.border_right_width())
     }
 
-    pub fn border_bottom_width() -> CSSBorderWidth {
+    pub fn border_bottom_width(&self) -> CSSBorderWidth {
         strip(self.inner.border_bottom_width())
     }
 
-    pub fn border_left_width() -> CSSBorderWidth {
+    pub fn border_left_width(&self) -> CSSBorderWidth {
         strip(self.inner.border_left_width())
     }
 
-    pub fn border_top_color() -> Color {
+    pub fn border_top_color(&self) -> Color {
         strip(self.inner.border_top_color())
     }
 
-    pub fn border_top_color() -> Color {
+    pub fn border_top_color(&self) -> Color {
         strip(self.inner.border_top_color())
     }
 
-    pub fn border_right_color() -> Color {
+    pub fn border_right_color(&self) -> Color {
         strip(self.inner.border_right_color())
     }
 
-    pub fn border_bottom_color() -> Color {
+    pub fn border_bottom_color(&self) -> Color {
         strip(self.inner.border_bottom_color())
     }
 
-    pub fn border_left_color() -> Color {
+    pub fn border_left_color(&self) -> Color {
         strip(self.inner.border_left_color())
     }
 
     // CSS 2.1, Section 9 - Visual formatting model
 
-    pub fn display(root: bool) -> CSSDisplay {
+    pub fn display(&self, root: bool) -> CSSDisplay {
         strip(self.inner.display(root))
     }
 
-    pub fn position() -> CSSPosition {
+    pub fn position(&self) -> CSSPosition {
         strip(self.inner.position())
     }
 
-    pub fn float() -> CSSFloat {
+    pub fn float(&self) -> CSSFloat {
         strip(self.inner.float())
     }
 
     // CSS 2.1, Section 10 - Visual formatting model details
 
-    pub fn width() -> CSSWidth {
+    pub fn width(&self) -> CSSWidth {
         strip(self.inner.width())
     }
 
-    pub fn height() -> CSSHeight {
+    pub fn height(&self) -> CSSHeight {
         strip(self.inner.height())
     }
 
-    pub fn line_height() -> CSSLineHeight {
+    pub fn line_height(&self) -> CSSLineHeight {
         strip(self.inner.line_height())
     }
 
@@ -165,35 +166,35 @@ impl CompleteStyle {
 
     // CSS 2.1, Section 14 - Colors and Backgrounds
 
-    pub fn background_color() -> Color {
+    pub fn background_color(&self) -> Color {
         strip(self.inner.background_color())
     }
 
-    pub fn color() -> Color {
+    pub fn color(&self) -> Color {
         strip(self.inner.color())
     }
 
     // CSS 2.1, Section 15 - Fonts
 
-    pub fn font_family() -> ~[CSSFontFamily] {
+    pub fn font_family(&self) -> ~[CSSFontFamily] {
         strip(self.inner.font_family())
     }
 
-    pub fn font_style() -> CSSFontStyle {
+    pub fn font_style(&self) -> CSSFontStyle {
         strip(self.inner.font_style())
     }
 
-    pub fn font_weight() -> CSSFontWeight {
+    pub fn font_weight(&self) -> CSSFontWeight {
         strip(self.inner.font_weight())
     }
 
-    pub fn font_size() -> CSSFontSize {
+    pub fn font_size(&self) -> CSSFontSize {
         strip(self.inner.font_size())
     }
 
     // CSS 2.1, Section 16 - Text
 
-    pub fn text_align() -> CSSTextAlign {
+    pub fn text_align(&self) -> CSSTextAlign {
         strip(self.inner.text_align())
     }
 

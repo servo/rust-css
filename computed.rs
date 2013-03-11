@@ -1,95 +1,95 @@
 use color::{Color, rgba};
 use units::{Length, Px, Em, Pt};
 use netsurfcss::util::css_fixed_to_float;
-use either::{Either, Left, Right};
+use core::either::{Either, Left, Right};
 use n;
 use values::*;
 
 pub struct ComputedStyle {
-    inner: n::c::CssComputedStyle
+    inner: n::c::CssComputedStyle<'self>
 }
 
-impl ComputedStyle {
+pub impl<'self> ComputedStyle<'self> {
 
     // CSS 2.1, Section 8 - Box model
 
-    pub fn margin_top() -> CSSValue<CSSMargin> {
+    pub fn margin_top(&self) -> CSSValue<CSSMargin> {
         convert_net_margin(self.inner.margin_top())
     }
 
-    pub fn margin_right() -> CSSValue<CSSMargin> {
+    pub fn margin_right(&self) -> CSSValue<CSSMargin> {
         convert_net_margin(self.inner.margin_right())
     }
 
-    pub fn margin_bottom() -> CSSValue<CSSMargin> {
+    pub fn margin_bottom(&self) -> CSSValue<CSSMargin> {
         convert_net_margin(self.inner.margin_bottom())
     }
 
-    pub fn margin_left() -> CSSValue<CSSMargin> {
+    pub fn margin_left(&self) -> CSSValue<CSSMargin> {
         convert_net_margin(self.inner.margin_left())
     }
 
-    pub fn border_top_width() -> CSSValue<CSSBorderWidth> {
+    pub fn border_top_width(&self) -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_top_width())
     }
 
-    pub fn border_right_width() -> CSSValue<CSSBorderWidth> {
+    pub fn border_right_width(&self) -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_right_width())
     }
 
-    pub fn border_bottom_width() -> CSSValue<CSSBorderWidth> {
+    pub fn border_bottom_width(&self) -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_bottom_width())
     }
 
-    pub fn border_left_width() -> CSSValue<CSSBorderWidth> {
+    pub fn border_left_width(&self) -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_left_width())
     }
 
-    pub fn border_top_color() -> CSSValue<Color> {
+    pub fn border_top_color(&self) -> CSSValue<Color> {
         convert_net_color_value(self.inner.border_top_color())
     }
 
-    pub fn border_top_color() -> CSSValue<Color> {
+    pub fn border_top_color(&self) -> CSSValue<Color> {
         convert_net_color_value(self.inner.border_top_color())
     }
 
-    pub fn border_right_color() -> CSSValue<Color> {
+    pub fn border_right_color(&self) -> CSSValue<Color> {
         convert_net_color_value(self.inner.border_right_color())
     }
 
-    pub fn border_bottom_color() -> CSSValue<Color> {
+    pub fn border_bottom_color(&self) -> CSSValue<Color> {
         convert_net_color_value(self.inner.border_bottom_color())
     }
 
-    pub fn border_left_color() -> CSSValue<Color> {
+    pub fn border_left_color(&self) -> CSSValue<Color> {
         convert_net_color_value(self.inner.border_left_color())
     }
 
     // CSS 2.1, Section 9 - Visual formatting model
 
-    pub fn display(root: bool) -> CSSValue<CSSDisplay> {
+    pub fn display(&self, root: bool) -> CSSValue<CSSDisplay> {
         convert_net_display_value(self.inner.display(root))
     }
 
-    pub fn position() -> CSSValue<CSSPosition> {
+    pub fn position(&self) -> CSSValue<CSSPosition> {
         convert_net_position_value(self.inner.position())
     }
 
-    pub fn float() -> CSSValue<CSSFloat> {
+    pub fn float(&self) -> CSSValue<CSSFloat> {
         convert_net_float_value(self.inner.float())
     }
 
     // CSS 2.1, Section 10 - Visual formatting model details
 
-    pub fn width() -> CSSValue<CSSWidth> {
+    pub fn width(&self) -> CSSValue<CSSWidth> {
         convert_net_width_value(self.inner.width())
     }
 
-    pub fn height() -> CSSValue<CSSHeight> {
+    pub fn height(&self) -> CSSValue<CSSHeight> {
         convert_net_height_value(self.inner.height())
     }
 
-    pub fn line_height() -> CSSValue<CSSLineHeight> {
+    pub fn line_height(&self) -> CSSValue<CSSLineHeight> {
         convert_net_line_height_value(self.inner.line_height())
     }
 
@@ -101,35 +101,35 @@ impl ComputedStyle {
 
     // CSS 2.1, Section 14 - Colors and Backgrounds
 
-    pub fn background_color() -> CSSValue<Color> {
+    pub fn background_color(&self) -> CSSValue<Color> {
         convert_net_color_value(self.inner.background_color())
     }
 
-    pub fn color() -> CSSValue<Color> {
+    pub fn color(&self) -> CSSValue<Color> {
         convert_net_color_value(self.inner.color())
     }
 
     // CSS 2.1, Section 15 - Fonts
 
-    pub fn font_family() -> CSSValue<~[CSSFontFamily]> {
+    pub fn font_family(&self) -> CSSValue<~[CSSFontFamily]> {
         convert_net_font_family_value(self.inner.font_family())
     }
 
-    pub fn font_style() -> CSSValue<CSSFontStyle> {
+    pub fn font_style(&self) -> CSSValue<CSSFontStyle> {
         convert_net_font_style_value(self.inner.font_style())
     }
 
-    pub fn font_weight() -> CSSValue<CSSFontWeight> {
+    pub fn font_weight(&self) -> CSSValue<CSSFontWeight> {
         convert_net_font_weight_value(self.inner.font_weight())
     }
 
-    pub fn font_size() -> CSSValue<CSSFontSize> {
+    pub fn font_size(&self) -> CSSValue<CSSFontSize> {
         convert_net_font_size_value(self.inner.font_size())
     }
 
     // CSS 2.1, Section 16 - Text
 
-    pub fn text_align() -> CSSValue<CSSTextAlign> {
+    pub fn text_align(&self) -> CSSValue<CSSTextAlign> {
         convert_net_text_align_value(self.inner.text_align())
     }
 

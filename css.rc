@@ -38,7 +38,7 @@ mod parser;
 mod test;
 
 // Shortcuts to the netsurfcss types
-mod n {
+pub mod n {
     pub mod ll {
         pub use p = netsurfcss::ll::properties;
         pub use s = netsurfcss::ll::select;
