@@ -28,7 +28,7 @@ fn style_stream(style: &str) -> DataStream {
     return d;
 }
 
-enum TestNode = @NodeData;
+struct TestNode(@NodeData);
 
 struct NodeData {
     name: ~str,
@@ -39,7 +39,7 @@ struct NodeData {
 
 impl VoidPtrLike for TestNode {
     static fn from_void_ptr(node: *libc::c_void) -> TestNode {
-        assert node.is_not_null();
+        fail_unless!(node.is_not_null());
         TestNode(unsafe {
             let box = cast::reinterpret_cast(&node);
             cast::bump_box_refcount(box);
@@ -111,7 +111,7 @@ fn test_background_color_simple() {
     let style = "div { background-color: #123456; }";
     do single_div_test(style) |computed| {
         let color = computed.background_color();
-        assert color == Specified(rgb(0x12, 0x34, 0x56));
+        fail_unless!(color == Specified(rgb(0x12, 0x34, 0x56)));
     }
 }
 
@@ -120,7 +120,7 @@ fn test_border_top_width_px() {
     let style = "div { border-top-width: 10px; }";
     do single_div_test(style) |computed| {
         let width = computed.border_top_width();
-        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
+        fail_unless!(width == Specified(CSSBorderWidthLength(Px(10.0))));
     }
 }
 
@@ -129,7 +129,7 @@ fn test_border_right_width_px() {
     let style = "div { border-right-width: 10px; }";
     do single_div_test(style) |computed| {
         let width = computed.border_right_width();
-        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
+        fail_unless!(width == Specified(CSSBorderWidthLength(Px(10.0))));
     }
 }
 
@@ -138,7 +138,7 @@ fn test_border_bottom_width_px() {
     let style = "div { border-bottom-width: 10px; }";
     do single_div_test(style) |computed| {
         let width = computed.border_bottom_width();
-        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
+        fail_unless!(width == Specified(CSSBorderWidthLength(Px(10.0))));
     }
 }
 
@@ -147,7 +147,7 @@ fn test_border_left_width_px() {
     let style = "div { border-left-width: 10px; }";
     do single_div_test(style) |computed| {
         let width = computed.border_left_width();
-        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
+        fail_unless!(width == Specified(CSSBorderWidthLength(Px(10.0))));
     }
 }
 
@@ -156,13 +156,13 @@ fn test_border_width_px() {
     let style = "div { border-width: 10px; }";
     do single_div_test(style) |computed| {
         let width = computed.border_top_width();
-        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
+        fail_unless!(width == Specified(CSSBorderWidthLength(Px(10.0))));
         let width = computed.border_right_width();
-        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
+        fail_unless!(width == Specified(CSSBorderWidthLength(Px(10.0))));
         let width = computed.border_bottom_width();
-        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
+        fail_unless!(width == Specified(CSSBorderWidthLength(Px(10.0))));
         let width = computed.border_left_width();
-        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
+        fail_unless!(width == Specified(CSSBorderWidthLength(Px(10.0))));
     }
 }
 
@@ -179,10 +179,10 @@ fn test_border_color() {
         let right_color = computed.border_right_color();
         let bottom_color = computed.border_bottom_color();
         let left_color = computed.border_left_color();
-        assert top_color == Specified(rgb(255, 0, 0));
-        assert right_color == Specified(rgb(0, 128, 0));
-        assert bottom_color == Specified(rgb(0, 0, 255));
-        assert left_color == Specified(rgb(255, 255, 0));
+        fail_unless!(top_color == Specified(rgb(255, 0, 0)));
+        fail_unless!(right_color == Specified(rgb(0, 128, 0)));
+        fail_unless!(bottom_color == Specified(rgb(0, 0, 255)));
+        fail_unless!(left_color == Specified(rgb(255, 255, 0)));
     }
 }
 
@@ -196,10 +196,10 @@ fn test_border_color_shorthand() {
         let right_color = computed.border_right_color();
         let bottom_color = computed.border_bottom_color();
         let left_color = computed.border_left_color();
-        assert top_color == Specified(rgb(255, 0, 0));
-        assert right_color == Specified(rgb(255, 0, 0));
-        assert bottom_color == Specified(rgb(255, 0, 0));
-        assert left_color == Specified(rgb(255, 0, 0));
+        fail_unless!(top_color == Specified(rgb(255, 0, 0)));
+        fail_unless!(right_color == Specified(rgb(255, 0, 0)));
+        fail_unless!(bottom_color == Specified(rgb(255, 0, 0)));
+        fail_unless!(left_color == Specified(rgb(255, 0, 0)));
     }
 }
 
@@ -212,10 +212,10 @@ fn test_margin() {
                  margin-left: auto;\
                  }";
     do single_div_test(style) |computed| {
-        assert computed.margin_top() == Specified(CSSMarginLength(Px(10.0)));
-        assert computed.margin_right() == Specified(CSSMarginLength(Px(20.0)));
-        assert computed.margin_bottom() == Specified(CSSMarginLength(Px(30.0)));
-        assert computed.margin_left() == Specified(CSSMarginAuto);
+        fail_unless!(computed.margin_top() == Specified(CSSMarginLength(Px(10.0))));
+        fail_unless!(computed.margin_right() == Specified(CSSMarginLength(Px(20.0))));
+        fail_unless!(computed.margin_bottom() == Specified(CSSMarginLength(Px(30.0))));
+        fail_unless!(computed.margin_left() == Specified(CSSMarginAuto));
     }
 }
 
@@ -223,7 +223,7 @@ fn test_margin() {
 fn test_display() {
     let style = "div { display: none; }";
     do single_div_test(style) |computed| {
-        assert computed.display(false) == Specified(CSSDisplayNone);
+        fail_unless!(computed.display(false) == Specified(CSSDisplayNone));
     }
 }
 
@@ -231,7 +231,7 @@ fn test_display() {
 fn test_float() {
     let style = "div { float: right; }";
     do single_div_test(style) |computed| {
-        assert computed.float() == Specified(CSSFloatRight);
+        fail_unless!(computed.float() == Specified(CSSFloatRight));
     }
 }
 
@@ -239,19 +239,19 @@ fn test_float() {
 fn test_position() {
     let style = "div { position: static; }";
     do single_div_test(style) |computed| {
-        assert computed.position() == Specified(CSSPositionStatic);
+        fail_unless!(computed.position() == Specified(CSSPositionStatic));
     }
     let style = "div { position: relative; }";
     do single_div_test(style) |computed| {
-        assert computed.position() == Specified(CSSPositionRelative);
+        fail_unless!(computed.position() == Specified(CSSPositionRelative));
     }
     let style = "div { position: absolute; }";
     do single_div_test(style) |computed| {
-        assert computed.position() == Specified(CSSPositionAbsolute);
+        fail_unless!(computed.position() == Specified(CSSPositionAbsolute));
     }
     let style = "div { position: fixed; }";
     do single_div_test(style) |computed| {
-        assert computed.position() == Specified(CSSPositionFixed);
+        fail_unless!(computed.position() == Specified(CSSPositionFixed));
     }
 }
 
@@ -259,7 +259,7 @@ fn test_position() {
 fn test_width() {
     let style = "div { width: 10px; }";
     do single_div_test(style) |computed| {
-        assert computed.width() == Specified(CSSWidthLength(Px(10.0)));
+        fail_unless!(computed.width() == Specified(CSSWidthLength(Px(10.0))));
     }
 }
 
@@ -267,7 +267,7 @@ fn test_width() {
 fn test_height() {
     let style = "div { height: 10px; }";
     do single_div_test(style) |computed| {
-        assert computed.height() == Specified(CSSHeightLength(Px(10.0)));
+        fail_unless!(computed.height() == Specified(CSSHeightLength(Px(10.0))));
     }
 }
 
@@ -279,7 +279,7 @@ fn test_font_family_generic() {
     do single_div_test(style) |computed| {
         let fam = computed.font_family();
         let spec = Specified(~[CSSFontFamilyGenericFamily(Fantasy)]);
-        assert fam.eq(&spec);
+        fail_unless!(fam.eq(&spec));
     }
 }
 
@@ -287,10 +287,10 @@ fn test_font_family_generic() {
 fn test_font_family_specific() {
     let style = "div { font-family: Wombat, Jones; }";
     do single_div_test(style) |computed| {
-        assert computed.font_family() == Specified(~[
+        fail_unless!(computed.font_family() == Specified(~[
             CSSFontFamilyFamilyName(~"Wombat"),
             CSSFontFamilyFamilyName(~"Jones")
-        ]);
+        ]));
     }
 }
 
@@ -299,19 +299,19 @@ fn test_font_family_specific() {
 fn test_font_size() {
     let style = "div { font-size: 10pt; }";
     do single_div_test(style) |computed| {
-        assert computed.font_size() == Specified(CSSFontSizeLength(Pt(10.0)));
+        fail_unless!(computed.font_size() == Specified(CSSFontSizeLength(Pt(10.0))));
     }
     let style = "div { font-size: 10%; }";
     do single_div_test(style) |computed| {
-        assert computed.font_size() == Specified(CSSFontSizePercentage(10.0));
+        fail_unless!(computed.font_size() == Specified(CSSFontSizePercentage(10.0)));
     }
     let style = "div { font-size: small; }";
     do single_div_test(style) |computed| {
-        assert computed.font_size() == Specified(CSSFontSizeAbsoluteSize(Small));
+        fail_unless!(computed.font_size() == Specified(CSSFontSizeAbsoluteSize(Small)));
     }
     let style = "div { font-size: smaller; }";
     do single_div_test(style) |computed| {
-        assert computed.font_size() == Specified(CSSFontSizeRelativeSize(Smaller));
+        fail_unless!(computed.font_size() == Specified(CSSFontSizeRelativeSize(Smaller)));
     }
 }
 
@@ -319,7 +319,7 @@ fn test_font_size() {
 fn test_font_style() {
     let style = "div { font-style: oblique; }";
     do single_div_test(style) |computed| {
-        assert computed.font_style() == Specified(CSSFontStyleOblique);
+        fail_unless!(computed.font_style() == Specified(CSSFontStyleOblique));
     }
 }
 
@@ -327,7 +327,7 @@ fn test_font_style() {
 fn test_font_weight() {
     let style = "div { font-weight: bold; }";
     do single_div_test(style) |computed| {
-        assert computed.font_weight() == Specified(CSSFontWeightBold);
+        fail_unless!(computed.font_weight() == Specified(CSSFontWeightBold));
     }
 }
 
@@ -335,7 +335,7 @@ fn test_font_weight() {
 fn test_text_align() {
     let style = "div { text-align: center; }";
     do single_div_test(style) |computed| {
-        assert computed.text_align() == Specified(CSSTextAlignCenter);
+        fail_unless!(computed.text_align() == Specified(CSSTextAlignCenter));
     }
 }
 
@@ -343,7 +343,7 @@ fn test_text_align() {
 fn test_id_selector() {
     let style = "#id1 { text-align: center; }";
     do single_div_test(style) |computed| {
-        assert computed.text_align() == Specified(CSSTextAlignCenter);
+        fail_unless!(computed.text_align() == Specified(CSSTextAlignCenter));
     }
 }
 
@@ -351,7 +351,7 @@ fn test_id_selector() {
 fn test_line_height() {
     let style = "div { line-height: 2; }";
     do single_div_test(style) |computed| {
-        assert computed.line_height() == Specified(CSSLineHeightNumber(2.0));
+        fail_unless!(computed.line_height() == Specified(CSSLineHeightNumber(2.0)));
     }
 }
 
@@ -385,7 +385,7 @@ fn test_child() {
     let style = "div > span { border-left-width: 10px; }";
     do child_test(style) |computed| {
         let width = computed.border_left_width();
-        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
+        fail_unless!(width == Specified(CSSBorderWidthLength(Px(10.0))));
     }
 }
 
@@ -394,7 +394,7 @@ fn test_not_child() {
     let style = "div > not_span { border-left-width: 10px; }";
     do child_test(style) |computed| {
         let width = computed.border_left_width();
-        assert width != Specified(CSSBorderWidthLength(Px(10.0)));
+        fail_unless!(width != Specified(CSSBorderWidthLength(Px(10.0))));
     }
 }
 
@@ -404,7 +404,7 @@ fn test_descendant() {
     let style = "div span { border-left-width: 10px; }";
     do child_test(style) |computed| {
         let width = computed.border_left_width();
-        assert width == Specified(CSSBorderWidthLength(Px(10.0)));
+        fail_unless!(width == Specified(CSSBorderWidthLength(Px(10.0))));
     }
 }
 
@@ -442,5 +442,5 @@ fn test_compose() {
 
     let computed = complete_child_results.computed_style();
 
-    assert computed.background_color() == color::css_colors::blue();
+    fail_unless!(computed.background_color() == color::css_colors::blue());
 }
