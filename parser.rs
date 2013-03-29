@@ -6,7 +6,6 @@ Constructs a list of css style rules from a token stream
 // are not as expected
 
 use util::DataStream;
-use core::cell::Cell;
 use netsurfcss::stylesheet::{CssStylesheet, CssStylesheetParams, CssStylesheetParamsVersion1, css_stylesheet_create};
 use netsurfcss::types::CssLevel21;
 use netsurfcss::CssResult;

@@ -5,7 +5,7 @@ use core::either::{Either, Left, Right};
 use n;
 use values::*;
 
-pub struct ComputedStyle {
+pub struct ComputedStyle<'self> {
     inner: n::c::CssComputedStyle<'self>
 }
 
