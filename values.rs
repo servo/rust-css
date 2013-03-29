@@ -13,15 +13,13 @@ At least it's consistent though.
 
 use core::cmp::Eq;
 use std::net::url::Url;
-use netsurfcss::stylesheet::CssStylesheet;
 use units::{Length, AbsoluteSize, RelativeSize,
             BoxSizing, BoxLength, BoxPercent, BoxAuto, Px, Em, Pt};
 use units::GenericFontFamily;
 use color::Color;
-use std::cmp::FuzzyEq;
 
 /** A partial CSS value, before inheritance has been resolved */
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSValue<T> {
     Inherit,
     Specified(T),
@@ -30,7 +28,7 @@ pub enum CSSValue<T> {
 
 // CSS 2.1, Section 8 - Box model
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSMargin {
     CSSMarginLength(Length),
     CSSMarginPercentage(float),
@@ -42,7 +40,7 @@ pub enum CSSPadding {
     CSSPaddingPercentage(float)
 }
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSBorderWidth {
     CSSBorderWidthThin,
     CSSBorderWidthMedium,
@@ -70,7 +68,7 @@ pub enum CSSBorderStyle {
 
 // CSS 2.1, Section 9 - Visual formatting model
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSDisplay {
     CSSDisplayInline,
     CSSDisplayBlock,
@@ -89,7 +87,7 @@ pub enum CSSDisplay {
     CSSDisplayNone
 }
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSPosition {
     CSSPositionStatic,
     CSSPositionRelative,
@@ -121,7 +119,7 @@ pub enum CSSLeft {
     CSSLeftAuto
 }
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSFloat {
     CSSFloatLeft,
     CSSFloatRight,
@@ -135,21 +133,21 @@ pub enum CSSDirection {
 
 // CSS 2.1, Section 10 - Visual formatting model details
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSWidth {
     CSSWidthLength(Length),
     CSSWidthPercentage(float),
     CSSWidthAuto
 }
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSHeight {
     CSSHeightLength(Length),
     CSSHeightPercentage(float),
     CSSHeightAuto
 }
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSLineHeight {
     CSSLineHeightNormal,
     CSSLineHeightNumber(float),
@@ -191,12 +189,12 @@ pub enum CSSVisibility {
 
 // CSS 2.1, Section 14 - Colors and Backgrounds
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSColor {
     CSSColorColor(Color)
 }
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSBackgroundColor {
     CSSBackgroundColorColor(Color),
     CSSBackgroundColorTransparent
@@ -231,20 +229,20 @@ pub enum CSSBackgroundPosition {
 
 // CSS 2.1, Section 15 - Fonts
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSFontFamily {
     CSSFontFamilyFamilyName(~str),
     CSSFontFamilyGenericFamily(GenericFontFamily)
 }
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSFontStyle {
     CSSFontStyleNormal,
     CSSFontStyleItalic,
     CSSFontStyleOblique
 }
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSFontWeight {
     CSSFontWeightNormal,
     CSSFontWeightBold,
@@ -261,7 +259,7 @@ pub enum CSSFontWeight {
     CSSFontWeight900
 }
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSFontSize {
     CSSFontSizeAbsoluteSize(AbsoluteSize),
     CSSFontSizeRelativeSize(RelativeSize),
@@ -271,7 +269,7 @@ pub enum CSSFontSize {
 
 // CSS 2.1, Section 16 - Text
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum CSSTextAlign {
     CSSTextAlignLeft,
     CSSTextAlignRight,

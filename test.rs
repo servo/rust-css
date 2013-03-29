@@ -38,7 +38,7 @@ struct NodeData {
 }
 
 impl VoidPtrLike for TestNode {
-    static fn from_void_ptr(node: *libc::c_void) -> TestNode {
+    fn from_void_ptr(node: *libc::c_void) -> TestNode {
         fail_unless!(node.is_not_null());
         TestNode(unsafe {
             let box = cast::reinterpret_cast(&node);
@@ -57,7 +57,7 @@ struct TestHandler {
 }
 
 impl TestHandler {
-    static fn new() -> TestHandler {
+    fn new() -> TestHandler {
         TestHandler {
             bogus: 0
         }
