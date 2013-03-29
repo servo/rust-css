@@ -2,7 +2,7 @@ use core::float::round;
 use core::libc::types::os::arch::c95::c_double;
 use core::cmp::Eq;
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub struct Color {
     red: u8,
     green: u8,
@@ -96,7 +96,11 @@ pub mod parsing {
         let only_colors = color.substr(4u, color.len() - 5u);
 
         // split up r, g, and b
-        let cols = only_colors.split_char(',');
+        let mut cols = ~[];
+        for str::each_split_char(only_colors, ',') |s| {
+            cols.push(s);
+        };
+
         if cols.len() != 3u { return fail_unrecognized(color); }
 
         match (u8::from_str(cols[0]), u8::from_str(cols[1]), 
@@ -112,7 +116,11 @@ pub mod parsing {
         let only_vals = color.substr(5u, color.len() - 6u);
 
         // split up r, g, and b
-        let cols = only_vals.split_char(',');
+        let mut cols = ~[];
+        for str::each_split_char(only_vals, ',') |s| {
+            cols.push(s);
+        };
+
         if cols.len() != 4u { return fail_unrecognized(color); }
 
         match (u8::from_str(cols[0]), u8::from_str(cols[1]), 
@@ -128,7 +136,11 @@ pub mod parsing {
         let only_vals = color.substr(4u, color.len() - 5u);
 
         // split up h, s, and l
-        let vals = only_vals.split_char(',');
+        let mut vals = ~[];
+        for str::each_split_char(only_vals, ',') |s| {
+            vals.push(s);
+        };
+
         if vals.len() != 3u { return fail_unrecognized(color); }
 
         match (float::from_str(vals[0]), float::from_str(vals[1]), 
@@ -143,7 +155,11 @@ pub mod parsing {
         // Shave off the hsla( and the )
         let only_vals = color.substr(5u, color.len() - 6u);
 
-        let vals = only_vals.split_char(',');
+        let mut vals = ~[];
+        for str::each_split_char(only_vals, ',') |s| {
+            vals.push(s);
+        };
+
         if vals.len() != 4u { return fail_unrecognized(color); }
 
         match (float::from_str(vals[0]), float::from_str(vals[1]), 

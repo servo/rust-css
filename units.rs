@@ -2,7 +2,7 @@
 Units used by CSS
 */
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum Length {
     Em(float), // normalized to 'em'
     Px(float), // normalized to 'px'
@@ -10,13 +10,13 @@ pub enum Length {
 }
 
 impl Length {
-    pure fn rel(self) -> float {
+    fn rel(self) -> float {
         match self {
             Em(x) => x,
             _ => fail!(~"attempted to access relative unit of an absolute length")
         }
     }
-    pure fn abs(self) -> float {
+    fn abs(self) -> float {
         match self {
             Em(x) => x,
             _ => fail!(~"attempted to access relative unit of an absolute length")
@@ -24,14 +24,14 @@ impl Length {
     }
 }
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum BoxSizing { // used by width, height, top, left, etc
     BoxLength(Length),
     BoxPercent(float),
     BoxAuto
 }
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum AbsoluteSize {
     XXSmall,
     XSmall,
@@ -42,13 +42,13 @@ pub enum AbsoluteSize {
     XXLarge
 }
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum RelativeSize {
     Larger,
     Smaller
 }
 
-#[deriving_eq]
+#[deriving(Eq)]
 pub enum GenericFontFamily {
     Serif,
     SansSerif,

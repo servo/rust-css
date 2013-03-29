@@ -11,14 +11,14 @@ pub struct CompleteSelectResults {
 }
 
 pub impl CompleteSelectResults {
-    static fn new_root(root: SelectResults) -> CompleteSelectResults {
+    fn new_root(root: SelectResults) -> CompleteSelectResults {
         CompleteSelectResults {
             inner: root
         }
     }
 
-    static fn new_from_parent(parent: &CompleteSelectResults,
-                              child: SelectResults) -> CompleteSelectResults {
+    fn new_from_parent(parent: &CompleteSelectResults,
+                       child: SelectResults) -> CompleteSelectResults {
         let mut child = child;
 
         // New lifetime
@@ -63,18 +63,18 @@ pub impl CompleteSelectResults {
         }
     }
 
-    fn computed_style(&self) -> CompleteStyle/&self {
+    fn computed_style(&self) -> CompleteStyle<'self> {
         CompleteStyle {
             inner: self.inner.computed_style()
         }
     }
 }
 
-pub struct CompleteStyle {
+pub struct CompleteStyle<'self> {
     inner: ComputedStyle<'self>
 }
 
-impl CompleteStyle<'self> {
+impl<'self> CompleteStyle<'self> {
 
     // CSS 2.1, Section 8 - Box model
 

@@ -27,7 +27,7 @@ encapsulates the cascade. Individual node styles can be requested with
 the `select_style` method.
 */
 pub impl SelectCtx {
-    static fn new() -> SelectCtx {
+    fn new() -> SelectCtx {
         SelectCtx {
             inner: n::s::css_select_ctx_create()
         }
@@ -67,9 +67,9 @@ pub struct SelectResults {
     inner: n::s::CssSelectResults
 }
 
-pub impl SelectResults {
+pub impl<'self> SelectResults {
     /** Retrieve the computed style of a single pseudo-element */
-    fn computed_style(&self) -> ComputedStyle/&self {
+    fn computed_style(&self) -> ComputedStyle<'self> {
         ComputedStyle {
             inner: self.inner.computed_style(n::s::CssPseudoElementNone)
         }
@@ -95,8 +95,8 @@ struct SelectHandlerWrapper<N, H> {
     inner: *H
 }
 
-priv impl<N, H: SelectHandler<N>> SelectHandlerWrapper<N, H> {
-    priv fn inner_ref(&self) -> &self/H {
+priv impl<'self, N, H: SelectHandler<N>> SelectHandlerWrapper<N, H> {
+    priv fn inner_ref(&self) -> &'self H {
         unsafe { &*self.inner }
     }
 }
