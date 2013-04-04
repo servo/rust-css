@@ -13,8 +13,7 @@ At least it's consistent though.
 
 use core::cmp::Eq;
 use std::net::url::Url;
-use units::{Length, AbsoluteSize, RelativeSize,
-            BoxSizing, BoxLength, BoxPercent, BoxAuto, Px, Em, Pt};
+use units::{Length, AbsoluteSize, RelativeSize};
 use units::GenericFontFamily;
 use color::Color;
 
