@@ -191,61 +191,60 @@ pub mod parsing {
 mod test {
     use super::{rgb, rgba};
     use super::css_colors::*;
-    use option::unwrap;
     use super::parsing::parse_color;
 
     #[test]
     fn test_parse_by_name() {
-        assert!(red().eq(&unwrap(parse_color(~"red"))));
-        assert!(lime().eq(&unwrap(parse_color(~"Lime"))));
-        assert!(blue().eq(&unwrap(parse_color(~"BLUE"))));
-        assert!(green().eq(&unwrap(parse_color(~"GreEN"))));
-        assert!(white().eq(&unwrap(parse_color(~"white"))));
-        assert!(black().eq(&unwrap(parse_color(~"Black"))));
-        assert!(gray().eq(&unwrap(parse_color(~"Gray"))));
-        assert!(silver().eq(&unwrap(parse_color(~"SiLvEr"))));
-        assert!(maroon().eq(&unwrap(parse_color(~"maroon"))));
-        assert!(purple().eq(&unwrap(parse_color(~"PURPLE"))));
-        assert!(fuchsia().eq(&unwrap(parse_color(~"FUCHSIA"))));
-        assert!(olive().eq(&unwrap(parse_color(~"oLiVe"))));
-        assert!(yellow().eq(&unwrap(parse_color(~"yellow"))));
-        assert!(navy().eq(&unwrap(parse_color(~"NAVY"))));
-        assert!(teal().eq(&unwrap(parse_color(~"Teal"))));
-        assert!(aqua().eq(&unwrap(parse_color(~"Aqua"))));
+        assert!(red().eq(&parse_color(~"red").unwrap()));
+        assert!(lime().eq(&parse_color(~"Lime").unwrap()));
+        assert!(blue().eq(&parse_color(~"BLUE").unwrap()));
+        assert!(green().eq(&parse_color(~"GreEN").unwrap()));
+        assert!(white().eq(&parse_color(~"white").unwrap()));
+        assert!(black().eq(&parse_color(~"Black").unwrap()));
+        assert!(gray().eq(&parse_color(~"Gray").unwrap()));
+        assert!(silver().eq(&parse_color(~"SiLvEr").unwrap()));
+        assert!(maroon().eq(&parse_color(~"maroon").unwrap()));
+        assert!(purple().eq(&parse_color(~"PURPLE").unwrap()));
+        assert!(fuchsia().eq(&parse_color(~"FUCHSIA").unwrap()));
+        assert!(olive().eq(&parse_color(~"oLiVe").unwrap()));
+        assert!(yellow().eq(&parse_color(~"yellow").unwrap()));
+        assert!(navy().eq(&parse_color(~"NAVY").unwrap()));
+        assert!(teal().eq(&parse_color(~"Teal").unwrap()));
+        assert!(aqua().eq(&parse_color(~"Aqua").unwrap()));
         assert!(None == parse_color(~"foobarbaz"));
     }
 
     #[test]
     fn test_parsing_rgb() {
-        assert!(red().eq(&unwrap(parse_color(~"rgb(255,0,0)"))));
-        assert!(red().eq(&unwrap(parse_color(~"rgba(255,0,0,1.0)"))));
-        assert!(red().eq(&unwrap(parse_color(~"rgba(255,0,0,1)"))));
-        assert!(lime().eq(&unwrap(parse_color(~"rgba(0,255,0,1.00)"))));
-        assert!(rgb(1u8,2u8,3u8).eq(&unwrap(parse_color(~"rgb(1,2,03)"))));
-        assert!(rgba(15u8,250u8,3u8,0.5).eq(&unwrap(parse_color(~"rgba(15,250,3,.5)"))));
-        assert!(rgba(15u8,250u8,3u8,0.5).eq(&unwrap(parse_color(~"rgba(15,250,3,0.5)"))));
+        assert!(red().eq(&parse_color(~"rgb(255,0,0)").unwrap()));
+        assert!(red().eq(&parse_color(~"rgba(255,0,0,1.0)").unwrap()));
+        assert!(red().eq(&parse_color(~"rgba(255,0,0,1)").unwrap()));
+        assert!(lime().eq(&parse_color(~"rgba(0,255,0,1.00)").unwrap()));
+        assert!(rgb(1u8,2u8,3u8).eq(&parse_color(~"rgb(1,2,03)").unwrap()));
+        assert!(rgba(15u8,250u8,3u8,0.5).eq(&parse_color(~"rgba(15,250,3,.5)").unwrap()));
+        assert!(rgba(15u8,250u8,3u8,0.5).eq(&parse_color(~"rgba(15,250,3,0.5)").unwrap()));
         assert!(None == parse_color(~"rbga(1,2,3)"));
     }
 
     #[test]
     fn test_parsing_hsl() {
-        assert!(red().eq(&unwrap(parse_color(~"hsl(0,1,.5)"))));
-        assert!(lime().eq(&unwrap(parse_color(~"hsl(120.0,1.0,.5)"))));
-        assert!(blue().eq(&unwrap(parse_color(~"hsl(240.0,1.0,.5)"))));
-        assert!(green().eq(&unwrap(parse_color(~"hsl(120.0,1.0,.25)"))));
-        assert!(white().eq(&unwrap(parse_color(~"hsl(1.0,1.,1.0)"))));
-        assert!(white().eq(&unwrap(parse_color(~"hsl(129.0,0.3,1.0)"))));
-        assert!(black().eq(&unwrap(parse_color(~"hsl(231.2,0.75,0.0)"))));
-        assert!(black().eq(&unwrap(parse_color(~"hsl(11.2,0.0,0.0)"))));
-        assert!(gray().eq(&unwrap(parse_color(~"hsl(0.0,0.0,0.5)"))));
-        assert!(maroon().eq(&unwrap(parse_color(~"hsl(0.0,1.0,0.25)"))));
-        assert!(purple().eq(&unwrap(parse_color(~"hsl(300.0,1.0,0.25)"))));
-        assert!(fuchsia().eq(&unwrap(parse_color(~"hsl(300,1.0,0.5)"))));
-        assert!(olive().eq(&unwrap(parse_color(~"hsl(60.,1.0,0.25)"))));
-        assert!(yellow().eq(&unwrap(parse_color(~"hsl(60.,1.0,0.5)"))));
-        assert!(navy().eq(&unwrap(parse_color(~"hsl(240.0,1.0,.25)"))));
-        assert!(teal().eq(&unwrap(parse_color(~"hsl(180.0,1.0,.25)"))));
-        assert!(aqua().eq(&unwrap(parse_color(~"hsl(180.0,1.0,.5)"))));
+        assert!(red().eq(&parse_color(~"hsl(0,1,.5)").unwrap()));
+        assert!(lime().eq(&parse_color(~"hsl(120.0,1.0,.5)").unwrap()));
+        assert!(blue().eq(&parse_color(~"hsl(240.0,1.0,.5)").unwrap()));
+        assert!(green().eq(&parse_color(~"hsl(120.0,1.0,.25)").unwrap()));
+        assert!(white().eq(&parse_color(~"hsl(1.0,1.,1.0)").unwrap()));
+        assert!(white().eq(&parse_color(~"hsl(129.0,0.3,1.0)").unwrap()));
+        assert!(black().eq(&parse_color(~"hsl(231.2,0.75,0.0)").unwrap()));
+        assert!(black().eq(&parse_color(~"hsl(11.2,0.0,0.0)").unwrap()));
+        assert!(gray().eq(&parse_color(~"hsl(0.0,0.0,0.5)").unwrap()));
+        assert!(maroon().eq(&parse_color(~"hsl(0.0,1.0,0.25)").unwrap()));
+        assert!(purple().eq(&parse_color(~"hsl(300.0,1.0,0.25)").unwrap()));
+        assert!(fuchsia().eq(&parse_color(~"hsl(300,1.0,0.5)").unwrap()));
+        assert!(olive().eq(&parse_color(~"hsl(60.,1.0,0.25)").unwrap()));
+        assert!(yellow().eq(&parse_color(~"hsl(60.,1.0,0.5)").unwrap()));
+        assert!(navy().eq(&parse_color(~"hsl(240.0,1.0,.25)").unwrap()));
+        assert!(teal().eq(&parse_color(~"hsl(180.0,1.0,.25)").unwrap()));
+        assert!(aqua().eq(&parse_color(~"hsl(180.0,1.0,.5)").unwrap()));
         assert!(None == parse_color(~"hsl(1,2,3,.4)"));
     }
 }

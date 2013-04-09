@@ -4,14 +4,14 @@
 
 use std::net::url::Url;
 use url_from_str = std::net::url::from_str;
-use std::cell::Cell;
+use core::cell::Cell;
 use util::{DataStream, VoidPtrLike};
 use values::*;
 use types::*;
 use units::*;
 use select::*;
 use color;
-use color::{Color, rgb};
+use color::rgb;
 use stylesheet::Stylesheet;
 use computed::ComputedStyle;
 use complete::CompleteSelectResults;
@@ -38,7 +38,7 @@ struct NodeData {
     name: ~str,
     id: ~str,
     children: ~[TestNode],
-    mut parent: Option<TestNode>
+    parent: @mut Option<TestNode>
 }
 
 impl VoidPtrLike for TestNode {
@@ -69,29 +69,29 @@ impl TestHandler {
 }
 
 impl SelectHandler<TestNode> for TestHandler {
-    fn with_node_name<R>(node: &TestNode, f: &fn(&str) -> R) -> R {
+    fn with_node_name<R>(&self, node: &TestNode, f: &fn(&str) -> R) -> R {
         f((*node).name)
     }
-    fn with_node_id<R>(node: &TestNode, f: &fn(Option<&str>) -> R) -> R {
+    fn with_node_id<R>(&self, node: &TestNode, f: &fn(Option<&str>) -> R) -> R {
         let s: &str = (*node).id;
         f(Some(s))
     }
-    fn named_parent_node(node: &TestNode, name: &str) -> Option<TestNode> {
+    fn named_parent_node(&self, node: &TestNode, name: &str) -> Option<TestNode> {
         match (**node).parent {
-            Some(parent) => {
+            @Some(parent) => {
                 if name == (**parent).name {
                     Some(parent)
                 } else {
                     None
                 }
             }
-            None => None
+            @None => None
         }
     }
-    fn parent_node(node: &TestNode) -> Option<TestNode> { (**node).parent }
-    fn node_has_id(node: &TestNode, name: &str) -> bool { name == node.id }
-    fn named_ancestor_node(node: &TestNode, name: &str) -> Option<TestNode> { fail!(~"TODO") }
-    fn node_is_root(node: &TestNode) -> bool { self.parent_node(node).is_none() }
+    fn parent_node(&self, node: &TestNode) -> Option<TestNode> { *(**node).parent }
+    fn node_has_id(&self, node: &TestNode, name: &str) -> bool { name == node.id }
+    fn named_ancestor_node(&self, _node: &TestNode, _name: &str) -> Option<TestNode> { fail!(~"TODO") }
+    fn node_is_root(&self, node: &TestNode) -> bool { self.parent_node(node).is_none() }
 }
 
 fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
@@ -103,7 +103,7 @@ fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
         name: ~"div",
         id: ~"id1",
         children: ~[],
-        parent: None
+        parent: @mut None
     });
     let style = select_ctx.select_style(dom, handler);
     let computed = style.computed_style();
@@ -370,15 +370,15 @@ fn child_test(style: &str, f: &fn(&ComputedStyle)) {
         name: ~"span",
         id: ~"id1",
         children: ~[],
-        parent: None
+        parent: @mut None
     });
     let parent = TestNode(@NodeData {
         name: ~"div",
         id: ~"id2",
         children: ~[child],
-        parent: None
+        parent: @mut None
     });
-    child.parent = Some(parent);
+    *child.parent = Some(parent);
     let style = select_ctx.select_style(&child, handler);
     let computed = style.computed_style();
     f(&computed);
@@ -428,15 +428,15 @@ fn test_compose() {
         name: ~"span",
         id: ~"id1",
         children: ~[],
-        parent: None
+        parent: @mut None
     });
     let parent = TestNode(@NodeData {
         name: ~"div",
         id: ~"id2",
         children: ~[child],
-        parent: None
+        parent: @mut None
     });
-    child.parent = Some(parent);
+    *child.parent = Some(parent);
     let parent_results = select_ctx.select_style(&parent, handler);
     let child_results = select_ctx.select_style(&child, handler);
 
