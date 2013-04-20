@@ -14,7 +14,7 @@ pub struct CompleteSelectResults {
     inner: SelectResults
 }
 
-pub impl CompleteSelectResults {
+pub impl<'self> CompleteSelectResults {
     fn new_root(root: SelectResults) -> CompleteSelectResults {
         CompleteSelectResults {
             inner: root
@@ -67,7 +67,7 @@ pub impl CompleteSelectResults {
         }
     }
 
-    fn computed_style(&self) -> CompleteStyle<'self> {
+    fn computed_style(&'self self) -> CompleteStyle<'self> {
         CompleteStyle {
             inner: self.inner.computed_style()
         }
