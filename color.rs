@@ -70,7 +70,7 @@ pub mod parsing {
 
     /** Match an exact color keyword. */
     fn parse_by_name(color : &str) -> Option<Color> {
-        let col = match color.to_lower() {
+        let col = match color.to_ascii().to_lower().to_str() {
           ~"black" => black(),
           ~"silver" => silver(),
           ~"gray" => gray(),
