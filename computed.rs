@@ -194,7 +194,7 @@ fn convert_net_display_value(value: n::v::CssDisplayValue) -> CSSValue<CSSDispla
         n::v::CssDisplayInline => Specified(CSSDisplayInline),
         n::v::CssDisplayBlock => Specified(CSSDisplayBlock),
         n::v::CssDisplayListItem => Specified(CSSDisplayListItem),
-        n::v::CssDisplayRunIn => fail!(unimpl("display: run-in")), // FIXME: Not in CSS 2.1
+        n::v::CssDisplayRunIn => unimpl("display: run-in"), // FIXME: Not in CSS 2.1
         n::v::CssDisplayInlineBlock => Specified(CSSDisplayInlineBlock),
         n::v::CssDisplayTable => Specified(CSSDisplayTable),
         n::v::CssDisplayInlineTable => Specified(CSSDisplayInlineTable),
