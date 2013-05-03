@@ -45,14 +45,16 @@ impl VoidPtrLike for TestNode {
     fn from_void_ptr(node: *libc::c_void) -> TestNode {
         assert!(node.is_not_null());
         TestNode(unsafe {
-            let box = cast::reinterpret_cast(&node);
+            let box = cast::transmute_copy(&node);
             cast::bump_box_refcount(box);
             box
         })
     }
 
     fn to_void_ptr(&self) -> *libc::c_void {
-        unsafe { cast::reinterpret_cast(&(*self)) }
+        unsafe {
+            cast::transmute_copy(&(*self))
+        }
     }
 }
 
