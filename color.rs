@@ -70,25 +70,25 @@ pub mod parsing {
 
     /** Match an exact color keyword. */
     fn parse_by_name(color : &str) -> Option<Color> {
-        let col = match color.to_ascii().to_lower().to_str() {
-          ~"black" => black(),
-          ~"silver" => silver(),
-          ~"gray" => gray(),
-          ~"grey" => gray(),
-          ~"white" => white(),
-          ~"maroon" => maroon(),
-          ~"red" => red(),
-          ~"purple" => purple(),
-          ~"fuchsia" => fuchsia(),
-          ~"green" => green(),
-          ~"lime" => lime(),
-          ~"olive" => olive(),
-          ~"yellow" => yellow(),
-          ~"navy" => navy(),
-          ~"blue" => blue(),
-          ~"teal" => teal(),
-          ~"aqua" => aqua(),
-          _ => return fail_unrecognized(color)
+        let col = match color.to_ascii().to_lower().to_str_ascii() {
+            ~"black" => black(),
+            ~"silver" => silver(),
+            ~"gray" => gray(),
+            ~"grey" => gray(),
+            ~"white" => white(),
+            ~"maroon" => maroon(),
+            ~"red" => red(),
+            ~"purple" => purple(),
+            ~"fuchsia" => fuchsia(),
+            ~"green" => green(),
+            ~"lime" => lime(),
+            ~"olive" => olive(),
+            ~"yellow" => yellow(),
+            ~"navy" => navy(),
+            ~"blue" => blue(),
+            ~"teal" => teal(),
+            ~"aqua" => aqua(),
+            _ => return fail_unrecognized(color)
         };
 
         return Some(col);
@@ -202,6 +202,7 @@ mod test {
         assert!(white().eq(&parse_color(~"white").unwrap()));
         assert!(black().eq(&parse_color(~"Black").unwrap()));
         assert!(gray().eq(&parse_color(~"Gray").unwrap()));
+        println("silver");
         assert!(silver().eq(&parse_color(~"SiLvEr").unwrap()));
         assert!(maroon().eq(&parse_color(~"maroon").unwrap()));
         assert!(purple().eq(&parse_color(~"PURPLE").unwrap()));
