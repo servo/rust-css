@@ -23,12 +23,10 @@ pub impl<'self> CompleteSelectResults {
 
     fn new_from_parent(parent: &CompleteSelectResults,
                        child: SelectResults) -> CompleteSelectResults {
-        let mut child = child;
-
         // New lifetime
         {
             let parent_computed = parent.computed_style();
-            let mut child_computed = child.computed_style();
+            let child_computed = child.computed_style();
             //let net_parent_computed = &parent_computed.inner.inner;
             let net_child_computed = &/*mut*/ child_computed.inner;
             // FIXME: Need to get real font sizes
