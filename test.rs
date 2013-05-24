@@ -112,6 +112,22 @@ fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
     f(&computed);
 }
 
+fn single_html_test(style: &str, f: &fn(&ComputedStyle)) {
+    let sheet = Stylesheet::new(test_url(), style_stream(style));
+    let mut select_ctx = SelectCtx::new();
+    let handler = &TestHandler::new();
+    select_ctx.append_sheet(sheet, OriginAuthor);
+    let dom = &TestNode(@NodeData {
+        name: ~"html",
+        id: ~"id1",
+        children: ~[],
+        parent: @mut None
+    });
+    let style = select_ctx.select_style(dom, handler);
+    let computed = style.computed_style();
+    f(&computed);
+}
+
 #[test]
 fn test_background_color_simple() {
     let style = "div { background-color: #123456; }";
@@ -342,6 +358,22 @@ fn test_text_align() {
     let style = "div { text-align: center; }";
     do single_div_test(style) |computed| {
         assert!(computed.text_align() == Specified(CSSTextAlignCenter));
+    }
+}
+
+#[test]
+fn test_text_decoration(){
+    let style = "div { text-decoration: none; }";
+    do single_html_test(style) |computed| {
+        assert!(computed.text_decoration() == Specified(CSSTextDecorationNone));
+    }
+    let style = "html { text-decoration: underline; }";
+    do single_html_test(style) |computed| {
+        assert!(computed.text_decoration() == Specified(CSSTextDecorationUnderline));
+    }
+    let style = "";
+    do single_html_test(style) |computed| {
+        assert!(computed.text_decoration() == Specified(CSSTextDecorationNone));
     }
 }
 
