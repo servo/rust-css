@@ -194,6 +194,10 @@ impl<'self> CompleteStyle<'self> {
         strip(self.inner.font_size())
     }
 
+    pub fn text_decoration(&self) -> CSSTextDecoration{
+        strip(self.inner.text_decoration())
+    }
+
     // CSS 2.1, Section 16 - Text
 
     pub fn text_align(&self) -> CSSTextAlign {
