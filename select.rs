@@ -144,6 +144,12 @@ impl<N, H: SelectHandler<N>> n::s::CssSelectHandler<N> for SelectHandlerWrapper<
         false
     }
 
+    fn node_is_visited(&self, _node: &N) -> bool {
+        // FIXME
+        warn_unimpl("node_is_visited");
+        false
+    }
+
     fn ua_default_for_property(&self, property: n::p::CssProperty) -> n::h::CssHint {
         warn!("not specifiying ua default for property %?", property);
         n::h::CssHintDefault

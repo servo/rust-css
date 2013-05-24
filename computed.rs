@@ -137,6 +137,10 @@ pub impl<'self> ComputedStyle<'self> {
         convert_net_text_align_value(self.inner.text_align())
     }
 
+    pub fn text_decoration(&self) -> CSSValue<CSSTextDecoration> {
+        convert_net_text_decoration_value(self.inner.text_decoration())
+    }
+
     // CSS 2.1, Section 17 - Tables
 
     // CSS 2.1, Section 18 - User interface
@@ -306,6 +310,17 @@ fn convert_net_text_align_value(value: n::v::CssTextAlignValue) -> CSSValue<CSST
         n::v::CssTextAlignLibcssLeft => unimpl("text-align libcss left"),
         n::v::CssTextAlignLibcssCenter => unimpl("text-align libcss center"),
         n::v::CssTextAlignLibcssRight => unimpl("text-align libcss right"),
+    }
+}
+
+fn convert_net_text_decoration_value(value: n::v::CssTextDecorationValue) -> CSSValue<CSSTextDecoration> {
+    match value {
+        n::v::CssTextDecorationInherit => Inherit,
+        n::v::CssTextDecorationNone => Specified(CSSTextDecorationNone),
+        n::v::CssTextDecorationBlink => Specified(CSSTextDecorationBlink),
+        n::v::CssTextDecorationLineThrough => Specified(CSSTextDecorationLineThrough),
+        n::v::CssTextDecorationOverline => Specified(CSSTextDecorationOverline),
+        n::v::CssTextDecorationUnderline => Specified(CSSTextDecorationUnderline),
     }
 }
 

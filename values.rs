@@ -280,6 +280,7 @@ pub enum CSSTextAlign {
     CSSTextAlignJustify
 }
 
+#[deriving(Eq)]
 pub enum CSSTextDecoration {
     CSSTextDecorationNone,
     CSSTextDecorationUnderline,
