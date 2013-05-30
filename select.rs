@@ -91,6 +91,7 @@ pub trait SelectHandler<N> {
     fn node_has_id(&self, node: &N, &str) -> bool;
     fn named_ancestor_node(&self, node: &N, name: &str) -> Option<N>;
     fn node_is_root(&self, node: &N) -> bool;
+    fn node_is_link(&self, node: &N) -> bool;
 }
 
 /** Used to convert the netsurfcss CssSelectHandler callbacks to out SelectHandler callbacks */
@@ -138,10 +139,8 @@ impl<N, H: SelectHandler<N>> n::s::CssSelectHandler<N> for SelectHandlerWrapper<
         self.inner_ref().node_is_root(node)
     }
 
-    fn node_is_link(&self, _node: &N) -> bool {
-        // FIXME
-        warn_unimpl("node_is_link");
-        false
+    fn node_is_link(&self, node: &N) -> bool {
+        self.inner_ref().node_is_link(node)
     }
 
     fn node_is_visited(&self, _node: &N) -> bool {
