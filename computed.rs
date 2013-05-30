@@ -33,6 +33,22 @@ pub impl<'self> ComputedStyle<'self> {
         convert_net_margin(self.inner.margin_left())
     }
 
+    pub fn padding_top(&self) -> CSSValue<CSSPadding> {
+        convert_net_padding(self.inner.padding_top())
+    }
+
+    pub fn padding_right(&self) -> CSSValue<CSSPadding> {
+        convert_net_padding(self.inner.padding_right())
+    }
+
+    pub fn padding_bottom(&self) -> CSSValue<CSSPadding> {
+        convert_net_padding(self.inner.padding_bottom())
+    }
+
+    pub fn padding_left(&self) -> CSSValue<CSSPadding> {
+        convert_net_padding(self.inner.padding_left())
+    }
+
     pub fn border_top_width(&self) -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_top_width())
     }
@@ -173,6 +189,13 @@ fn convert_net_margin(margin: n::v::CssMarginValue) -> CSSValue<CSSMargin> {
         n::v::CssMarginInherit => Inherit,
         n::v::CssMarginSet(length) => Specified(CSSMarginLength(convert_net_unit_to_length(length))),
         n::v::CssMarginAuto => Specified(CSSMarginAuto)
+    }
+}
+
+fn convert_net_padding(padding: n::v::CssPaddingValue) -> CSSValue<CSSPadding> {
+    match padding {
+        n::v::CssPaddingInherit => Inherit,
+        n::v::CssPaddingSet(length) => Specified(CSSPaddingLength(convert_net_unit_to_length(length)))
     }
 }
 
