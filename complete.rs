@@ -96,6 +96,22 @@ impl<'self> CompleteStyle<'self> {
         strip(self.inner.margin_left())
     }
 
+    pub fn padding_top(&self) -> CSSPadding {
+        strip(self.inner.padding_top())
+    }
+
+    pub fn padding_right(&self) -> CSSPadding {
+        strip(self.inner.padding_right())
+    }
+
+    pub fn padding_bottom(&self) -> CSSPadding {
+        strip(self.inner.padding_bottom())
+    }
+
+    pub fn padding_left(&self) -> CSSPadding {
+        strip(self.inner.padding_left())
+    }
+
     pub fn border_top_width(&self) -> CSSBorderWidth {
         strip(self.inner.border_top_width())
     }
