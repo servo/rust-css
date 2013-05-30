@@ -85,6 +85,7 @@ Callbacks used to query the implementation-specific DOM
 */
 pub trait SelectHandler<N> {
     fn with_node_name<R>(&self, node: &N, f: &fn(&str) -> R) -> R;
+    fn with_node_classes<R>(&self, node: &N, f: &fn(Option<&str>) -> R) -> R;
     fn with_node_id<R>(&self, node: &N, f: &fn(Option<&str>) -> R) -> R;
     fn named_parent_node(&self, node: &N, name: &str) -> Option<N>;
     fn parent_node(&self, node: &N) -> Option<N>;
@@ -109,6 +110,21 @@ impl<N, H: SelectHandler<N>> n::s::CssSelectHandler<N> for SelectHandlerWrapper<
     fn node_name(&self, node: &N) -> n::t::CssQName {
         do self.inner_ref().with_node_name(node) |name| {
             rust_str_to_net_qname(name)
+        }
+    }
+
+    fn node_classes(&self, node: &N) -> Option<~[LwcString]> {
+        do self.inner_ref().with_node_classes(node) |node_classes_opt| {
+           do node_classes_opt.map |s| {
+               debug!("SelectHandlerWrapper::node_classes - classes: %?", *s);
+               let mut v = ~[];
+               for str::each_split_char(*s, ' ') |s| { 
+                   debug!("SelectHandlerWrapper::node_classes - class: %?", s);
+                   if s != ~"" { v.push(lwcstr_from_rust_str(s)) }
+               }
+               debug!("SelectHandlerWrapper::classes: %?", v);
+               v
+           }
         }
     }
 
