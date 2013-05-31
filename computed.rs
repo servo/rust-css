@@ -364,7 +364,7 @@ fn convert_net_line_height_value(value: n::v::CssLineHeightValue) -> CSSValue<CS
 fn convert_net_unit_to_length(unit: n::t::CssUnit) -> Length {
     match convert_net_unit_to_length_or_percent(unit) {
         Left(v) => v,
-        Right(*) => fail!(~"unexpected percentage unit")
+        Right(*) => Px(100.0),  // FIXME(pcwalton): fill this in.
     }
 }
 
