@@ -85,9 +85,11 @@ Callbacks used to query the implementation-specific DOM
 */
 pub trait SelectHandler<N> {
     fn with_node_name<R>(&self, node: &N, f: &fn(&str) -> R) -> R;
+    fn with_node_classes<R>(&self, node: &N, f: &fn(Option<&str>) -> R) -> R;
     fn with_node_id<R>(&self, node: &N, f: &fn(Option<&str>) -> R) -> R;
     fn named_parent_node(&self, node: &N, name: &str) -> Option<N>;
     fn parent_node(&self, node: &N) -> Option<N>;
+    fn node_has_class(&self, node: &N, &str) -> bool;
     fn node_has_id(&self, node: &N, &str) -> bool;
     fn named_ancestor_node(&self, node: &N, name: &str) -> Option<N>;
     fn node_is_root(&self, node: &N) -> bool;
@@ -113,6 +115,21 @@ impl<N, H: SelectHandler<N>> n::s::CssSelectHandler<N> for SelectHandlerWrapper<
         }
     }
 
+    fn node_classes(&self, node: &N) -> Option<~[LwcString]> {
+        do self.inner_ref().with_node_classes(node) |node_classes_opt| {
+           do node_classes_opt.map |s| {
+               debug!("SelectHandlerWrapper::node_classes - classes: %?", *s);
+               let mut v = ~[];
+               for str::each_split_char(*s, ' ') |s| { 
+                   debug!("SelectHandlerWrapper::node_classes - class: %?", s);
+                   if s != ~"" { v.push(lwcstr_from_rust_str(s)) }
+               }
+               debug!("SelectHandlerWrapper::classes: %?", v);
+               v
+           }
+        }
+    }
+
     fn node_id(&self, node: &N) -> Option<LwcString> {
         do self.inner_ref().with_node_id(node) |node_id_opt| {
             node_id_opt.map(|s| lwcstr_from_rust_str(*s))
@@ -125,6 +142,10 @@ impl<N, H: SelectHandler<N>> n::s::CssSelectHandler<N> for SelectHandlerWrapper<
 
     fn parent_node(&self, node: &N) -> Option<N> {
         self.inner_ref().parent_node(node)
+    }
+
+    fn node_has_class(&self, node: &N, name: LwcString) -> bool {
+        self.inner_ref().node_has_class(node, name.to_str_slice())
     }
 
     fn node_has_id(&self, node: &N, name: LwcString) -> bool {
