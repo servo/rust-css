@@ -187,7 +187,13 @@ fn convert_net_border_width(width: n::v::CssBorderWidthValue) -> CSSValue<CSSBor
 fn convert_net_margin(margin: n::v::CssMarginValue) -> CSSValue<CSSMargin> {
     match margin {
         n::v::CssMarginInherit => Inherit,
-        n::v::CssMarginSet(length) => Specified(CSSMarginLength(convert_net_unit_to_length(length))),
+        n::v::CssMarginSet(value) => {
+            let length = convert_net_unit_to_length_or_percent(value);
+            match length {
+                Left(abs) => Specified(CSSMarginLength(abs)),
+                Right(percent) => Specified(CSSMarginPercentage(percent))
+            }
+        }
         n::v::CssMarginAuto => Specified(CSSMarginAuto)
     }
 }
@@ -195,14 +201,26 @@ fn convert_net_margin(margin: n::v::CssMarginValue) -> CSSValue<CSSMargin> {
 fn convert_net_padding(padding: n::v::CssPaddingValue) -> CSSValue<CSSPadding> {
     match padding {
         n::v::CssPaddingInherit => Inherit,
-        n::v::CssPaddingSet(length) => Specified(CSSPaddingLength(convert_net_unit_to_length(length)))
+        n::v::CssPaddingSet(value) => {
+            let length = convert_net_unit_to_length_or_percent(value);
+            match length {
+                Left(abs) => Specified(CSSPaddingLength(abs)),
+                Right(percent) => Specified(CSSPaddingPercentage(percent))
+            }
+        }
     }
 }
 
 fn convert_net_width_value(value: n::v::CssWidthValue) -> CSSValue<CSSWidth> {
     match value {
         n::v::CssWidthInherit => Inherit,
-        n::v::CssWidthSet(length) => Specified(CSSWidthLength(convert_net_unit_to_length(length))),
+        n::v::CssWidthSet(value) => {
+            let length = convert_net_unit_to_length_or_percent(value);
+            match length {
+                Left(abs) => Specified(CSSWidthLength(abs)),
+                Right(percent) => Specified(CSSWidthPercentage(percent))
+            }
+        }
         n::v::CssWidthAuto => Specified(CSSWidthAuto)
     }
 }
@@ -210,7 +228,13 @@ fn convert_net_width_value(value: n::v::CssWidthValue) -> CSSValue<CSSWidth> {
 fn convert_net_height_value(value: n::v::CssHeightValue) -> CSSValue<CSSHeight> {
     match value {
         n::v::CssHeightInherit => Inherit,
-        n::v::CssHeightSet(length) => Specified(CSSHeightLength(convert_net_unit_to_length(length))),
+        n::v::CssHeightSet(value) => {
+            let length = convert_net_unit_to_length_or_percent(value);
+            match length {
+                Left(abs) => Specified(CSSHeightLength(abs)),
+                Right(percent) => Specified(CSSHeightPercentage(percent))
+            }
+        }
         n::v::CssHeightAuto => Specified(CSSHeightAuto)
     }
 }
@@ -364,7 +388,7 @@ fn convert_net_line_height_value(value: n::v::CssLineHeightValue) -> CSSValue<CS
 fn convert_net_unit_to_length(unit: n::t::CssUnit) -> Length {
     match convert_net_unit_to_length_or_percent(unit) {
         Left(v) => v,
-        Right(*) => Px(100.0),  // FIXME(pcwalton): fill this in.
+        Right(*) => fail!(~"unexpected percentage unit"),
     }
 }
 
