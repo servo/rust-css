@@ -94,6 +94,7 @@ impl SelectHandler<TestNode> for TestHandler {
     fn node_has_id(&self, node: &TestNode, name: &str) -> bool { name == node.id }
     fn named_ancestor_node(&self, _node: &TestNode, _name: &str) -> Option<TestNode> { fail!(~"TODO") }
     fn node_is_root(&self, node: &TestNode) -> bool { self.parent_node(node).is_none() }
+    fn node_is_link(&self, node: &TestNode) -> bool { "a" == (**node).name }
 }
 
 fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
