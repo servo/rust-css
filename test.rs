@@ -90,10 +90,15 @@ impl SelectHandler<TestNode> for TestHandler {
             @None => None
         }
     }
+    fn with_node_classes<R>(&self, _node: &TestNode, f: &fn(Option<&str>) -> R) -> R {
+        f(None)
+    }
     fn parent_node(&self, node: &TestNode) -> Option<TestNode> { *(**node).parent }
     fn node_has_id(&self, node: &TestNode, name: &str) -> bool { name == node.id }
     fn named_ancestor_node(&self, _node: &TestNode, _name: &str) -> Option<TestNode> { fail!(~"TODO") }
     fn node_is_root(&self, node: &TestNode) -> bool { self.parent_node(node).is_none() }
+    fn node_is_link(&self, node: &TestNode) -> bool { "a" == (**node).name }
+    fn node_has_class(&self, _node: &TestNode, _s: &str) -> bool { true }
 }
 
 fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
