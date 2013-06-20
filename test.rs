@@ -2,9 +2,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-use std::net::url::Url;
-use url_from_str = std::net::url::from_str;
-use core::cell::Cell;
+use extra::net::url::Url;
+use url_from_str = extra::net::url::from_str;
+use std::cast;
+use std::libc;
+use std::cell::Cell;
+use std::result;
 use util::{DataStream, VoidPtrLike};
 use values::*;
 use types::*;
@@ -21,10 +24,11 @@ fn test_url() -> Url {
 }
 
 fn style_stream(style: &str) -> DataStream {
-    let style = Cell(style.to_str());
+    let style = Cell::new(style.to_str());
     let d: DataStream = || {
         if !style.is_empty() {
-            Some(str::to_bytes(style.take()))
+            let style = style.take();
+            Some(style.as_bytes().to_owned())
         } else {
             None
         }

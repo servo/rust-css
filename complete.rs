@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+use std::cast;
 use color::Color;
 use select::SelectResults;
 use computed::ComputedStyle;
@@ -14,15 +15,15 @@ pub struct CompleteSelectResults {
     inner: SelectResults
 }
 
-pub impl<'self> CompleteSelectResults {
-    fn new_root(root: SelectResults) -> CompleteSelectResults {
+impl<'self> CompleteSelectResults {
+    pub fn new_root(root: SelectResults) -> CompleteSelectResults {
         CompleteSelectResults {
             inner: root
         }
     }
 
-    fn new_from_parent(parent: &CompleteSelectResults,
-                       child: SelectResults) -> CompleteSelectResults {
+    pub fn new_from_parent(parent: &CompleteSelectResults,
+                           child: SelectResults) -> CompleteSelectResults {
         // New lifetime
         {
             let parent_computed = parent.computed_style();
@@ -65,7 +66,7 @@ pub impl<'self> CompleteSelectResults {
         }
     }
 
-    fn computed_style(&'self self) -> CompleteStyle<'self> {
+    pub fn computed_style(&'self self) -> CompleteStyle<'self> {
         CompleteStyle {
             inner: self.inner.computed_style()
         }
@@ -126,10 +127,6 @@ impl<'self> CompleteStyle<'self> {
 
     pub fn border_left_width(&self) -> CSSBorderWidth {
         strip(self.inner.border_left_width())
-    }
-
-    pub fn border_top_color(&self) -> Color {
-        strip(self.inner.border_top_color())
     }
 
     pub fn border_top_color(&self) -> Color {

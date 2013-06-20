@@ -2,9 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-use core::float::round;
-use core::libc::types::os::arch::c95::c_double;
-use core::cmp::Eq;
+use std::float::round;
+use std::libc::types::os::arch::c95::c_double;
+use std::cmp::Eq;
 
 #[deriving(Eq)]
 pub struct Color {
@@ -32,12 +32,17 @@ pub fn hsla(h : float, s : float, l : float, a : float) -> Color {
     fn hue_to_rgb(m1 : float, m2 : float, h : float) -> float {
         let h = if h < 0.0 { h + 1.0 } else if h > 1.0 { h - 1.0 } else { h };
 
-        match h {
-          0.0 .. 1.0/6.0 => m1 + (m2 - m1)*h*6.0,
-          1.0/6.0 .. 1.0/2.0 => m2,
-          1.0/2.0 .. 2.0/3.0 => m1 + (m2 - m1)*(4.0 - 6.0*h),
-          2.0/3.0 .. 1.0 => return m1,
-          _ => fail!(~"unexpected hue value")
+        // FIXME (Rust #7222) - Auugh. Patterns would be much better here
+        if 0.0 <= h && h < 1.0/6.0 {
+            m1 + (m2 - m1)*h*6.0
+        } else if 1.0/6.0 <= h && h < 1.0/2.0 {
+            m2
+        } else if 1.0/2.0 <= h && h < 2.0/3.0 {
+            m1 + (m2 - m1)*(4.0 - 6.0*h)
+        } else if 2.0/3.0 <= h && h <= 1.0 {
+            m1
+        } else {
+          fail!(~"unexpected hue value")
         }
     }
 
@@ -97,18 +102,18 @@ pub mod parsing {
     /** Parses a color specification in the form rgb(foo,bar,baz) */
     fn parse_rgb(color : &str) -> Option<Color> {
         // Shave off the rgb( and the )
-        let only_colors = color.substr(4u, color.len() - 5u);
+        let only_colors = color.slice(4u, color.len() - 1);
 
         // split up r, g, and b
         let mut cols = ~[];
-        for str::each_split_char(only_colors, ',') |s| {
+        for only_colors.split_iter(',').advance |s| {
             cols.push(s);
         };
 
         if cols.len() != 3u { return fail_unrecognized(color); }
 
-        match (u8::from_str(cols[0]), u8::from_str(cols[1]), 
-             u8::from_str(cols[2])) {
+        match (FromStr::from_str(cols[0]), FromStr::from_str(cols[1]), 
+               FromStr::from_str(cols[2])) {
           (Some(r), Some(g), Some(b)) => { Some(rgb(r, g, b)) }
           _ => { fail_unrecognized(color) }
         }
@@ -117,18 +122,18 @@ pub mod parsing {
     /** Parses a color specification in the form rgba(foo,bar,baz,qux) */
     fn parse_rgba(color : &str) -> Option<Color> {
         // Shave off the rgba( and the )
-        let only_vals = color.substr(5u, color.len() - 6u);
+        let only_vals = color.slice(5u, color.len() - 1);
 
         // split up r, g, and b
         let mut cols = ~[];
-        for str::each_split_char(only_vals, ',') |s| {
+        for only_vals.split_iter(',').advance |s| {
             cols.push(s);
         };
 
         if cols.len() != 4u { return fail_unrecognized(color); }
 
-        match (u8::from_str(cols[0]), u8::from_str(cols[1]), 
-             u8::from_str(cols[2]), float::from_str(cols[3])) {
+        match (FromStr::from_str(cols[0]), FromStr::from_str(cols[1]), 
+               FromStr::from_str(cols[2]), FromStr::from_str(cols[3])) {
           (Some(r), Some(g), Some(b), Some(a)) => { Some(rgba(r, g, b, a)) }
           _ => { fail_unrecognized(color) }
         }
@@ -137,18 +142,18 @@ pub mod parsing {
     /** Parses a color specification in the form hsl(foo,bar,baz) */
     fn parse_hsl(color : &str) -> Option<Color> {
         // Shave off the hsl( and the )
-        let only_vals = color.substr(4u, color.len() - 5u);
+        let only_vals = color.slice(4u, color.len() - 1);
 
         // split up h, s, and l
         let mut vals = ~[];
-        for str::each_split_char(only_vals, ',') |s| {
+        for only_vals.split_iter(',').advance |s| {
             vals.push(s);
         };
 
         if vals.len() != 3u { return fail_unrecognized(color); }
 
-        match (float::from_str(vals[0]), float::from_str(vals[1]), 
-             float::from_str(vals[2])) {
+        match (FromStr::from_str(vals[0]), FromStr::from_str(vals[1]), 
+               FromStr::from_str(vals[2])) {
           (Some(h), Some(s), Some(l)) => { Some(hsl(h, s, l)) }
           _ => { fail_unrecognized(color) }
         }
@@ -157,17 +162,17 @@ pub mod parsing {
     /** Parses a color specification in the form hsla(foo,bar,baz,qux) */
     fn parse_hsla(color : &str) -> Option<Color> {
         // Shave off the hsla( and the )
-        let only_vals = color.substr(5u, color.len() - 6u);
+        let only_vals = color.slice(5u, color.len() - 1);
 
         let mut vals = ~[];
-        for str::each_split_char(only_vals, ',') |s| {
+        for only_vals.split_iter(',').advance |s| {
             vals.push(s);
         };
 
         if vals.len() != 4u { return fail_unrecognized(color); }
 
-        match (float::from_str(vals[0]), float::from_str(vals[1]), 
-             float::from_str(vals[2]), float::from_str(vals[3])) {
+        match (FromStr::from_str(vals[0]), FromStr::from_str(vals[1]), 
+               FromStr::from_str(vals[2]), FromStr::from_str(vals[3])) {
           (Some(h), Some(s), Some(l), Some(a)) => { Some(hsla(h, s, l, a)) }
           _ => { fail_unrecognized(color) }
         }

@@ -5,7 +5,7 @@
 use color::{Color, rgba};
 use units::{Length, Px, Em, Pt};
 use netsurfcss::util::css_fixed_to_float;
-use core::either::{Either, Left, Right};
+use std::either::{Either, Left, Right};
 use n;
 use values::*;
 
@@ -13,7 +13,7 @@ pub struct ComputedStyle<'self> {
     inner: n::c::CssComputedStyle<'self>
 }
 
-pub impl<'self> ComputedStyle<'self> {
+impl<'self> ComputedStyle<'self> {
 
     // CSS 2.1, Section 8 - Box model
 
@@ -63,10 +63,6 @@ pub impl<'self> ComputedStyle<'self> {
 
     pub fn border_left_width(&self) -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_left_width())
-    }
-
-    pub fn border_top_color(&self) -> CSSValue<Color> {
-        convert_net_color_value(self.inner.border_top_color())
     }
 
     pub fn border_top_color(&self) -> CSSValue<Color> {

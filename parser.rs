@@ -14,7 +14,7 @@ use netsurfcss::stylesheet::{CssStylesheet, CssStylesheetParams, CssStylesheetPa
 use netsurfcss::types::CssLevel21;
 use netsurfcss::CssResult;
 use wapcaplet::LwcString;
-use std::net::url::Url;
+use extra::net::url::Url;
 use netsurfcss::stylesheet::CssUrlResolutionFn;
 
 // This takes a DataStreamFactory instead of a DataStream because
