@@ -122,7 +122,7 @@ impl<N, H: SelectHandler<N>> n::s::CssSelectHandler<N> for SelectHandlerWrapper<
                let mut v = ~[];
                for s.split_iter(' ').advance |s| { 
                    debug!("SelectHandlerWrapper::node_classes - class: %?", s);
-                   if s != ~"" { v.push(lwcstr_from_rust_str(s)) }
+                   if s != "" { v.push(lwcstr_from_rust_str(s)) }
                }
                debug!("SelectHandlerWrapper::classes: %?", v);
                v
