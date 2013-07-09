@@ -108,15 +108,15 @@ impl SelectHandler<TestNode> for TestHandler {
 fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
     let sheet = Stylesheet::new(test_url(), style_stream(style));
     let mut select_ctx = SelectCtx::new();
-    let handler = &TestHandler::new();
+    let handler = TestHandler::new();
     select_ctx.append_sheet(sheet, OriginAuthor);
-    let dom = &TestNode(@NodeData {
+    let dom = TestNode(@NodeData {
         name: ~"div",
         id: ~"id1",
         children: ~[],
         parent: @mut None
     });
-    let style = select_ctx.select_style(dom, handler);
+    let style = select_ctx.select_style(&dom, &handler);
     let computed = style.computed_style();
     f(&computed);
 }
@@ -124,15 +124,15 @@ fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
 fn single_html_test(style: &str, f: &fn(&ComputedStyle)) {
     let sheet = Stylesheet::new(test_url(), style_stream(style));
     let mut select_ctx = SelectCtx::new();
-    let handler = &TestHandler::new();
+    let handler = TestHandler::new();
     select_ctx.append_sheet(sheet, OriginAuthor);
-    let dom = &TestNode(@NodeData {
+    let dom = TestNode(@NodeData {
         name: ~"html",
         id: ~"id1",
         children: ~[],
         parent: @mut None
     });
-    let style = select_ctx.select_style(dom, handler);
+    let style = select_ctx.select_style(&dom, &handler);
     let computed = style.computed_style();
     f(&computed);
 }
