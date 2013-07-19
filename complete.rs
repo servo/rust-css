@@ -34,6 +34,7 @@ impl<'self> CompleteSelectResults {
             let cb: n::c::ComputeFontSizeCb =
                 |parent: &Option<n::h::CssHint>, child: &n::h::CssHint| -> n::h::CssHint {
                 match *child {
+                    // Handle relative units
                     CssHintLength(n::t::CssUnitEm(child_em)) => {
                         match *parent {
                             Some(CssHintLength(parent_unit)) => {
@@ -45,9 +46,24 @@ impl<'self> CompleteSelectResults {
                                     new_value));
                                 CssHintLength(unit)
                             }
-                            _ => n::h::CssHintLength(n::t::CssUnitEm(child_em)),
+                            _ => n::h::CssHintLength(n::t::CssUnitPx(float_to_css_fixed(16.0))),
                         }
                     }
+                    CssHintLength(n::t::CssUnitPct(child_pct)) => {
+                        match *parent {
+                            Some(CssHintLength(parent_unit)) => {
+                                // CSS3 Values 5.1.1: Multiply parent unit by child unit.
+                                let mut new_value =
+                                    n::u::css_fixed_to_float(parent_unit.to_css_fixed());
+                                new_value *= n::u::css_fixed_to_float(child_pct) / 100.0;
+                                let unit = parent_unit.modify(n::u::float_to_css_fixed(
+                                    new_value));
+                                CssHintLength(unit)
+                            }
+                            _ => n::h::CssHintLength(n::t::CssUnitPx(float_to_css_fixed(16.0))),
+                        }
+                    }
+                    // Pass through absolute units
                     CssHintLength(unit) => CssHintLength(unit),
                     _ => {
                         n::h::CssHintLength(n::t::CssUnitPx(float_to_css_fixed(16.0)))
