@@ -38,6 +38,7 @@ pub enum CSSMargin {
     CSSMarginAuto
 }
 
+#[deriving(Eq)]
 pub enum CSSPadding {
     CSSPaddingLength(Length),
     CSSPaddingPercentage(float)
@@ -51,11 +52,13 @@ pub enum CSSBorderWidth {
     CSSBorderWidthLength(Length)
 }
 
+#[deriving(Eq)]
 pub enum CSSBorderColor {
     CSSBorderColorColor(Color),
     CSSBorderColorTransparent
 }
 
+#[deriving(Eq)]
 pub enum CSSBorderStyle {
     CSSBorderStyleNone,
     CSSBorderStyleHidden,
@@ -98,24 +101,28 @@ pub enum CSSPosition {
     CSSPositionFixed
 }
 
+#[deriving(Eq)]
 pub enum CSSTop {
     CSSTopLength(Length),
     CSSTopPercentage,
     CSSTopAuto
 }
 
+#[deriving(Eq)]
 pub enum CSSRight {
     CSSRightLength(Length),
     CSSRightPercentage(float),
     CSSRightAuto
 }
 
+#[deriving(Eq)]
 pub enum CSSBottom {
     CSSBottomLength(Length),
     CSSBottomPercentage(float),
     CSSBottomAuto
 }
 
+#[deriving(Eq)]
 pub enum CSSLeft {
     CSSLeftLength(Length),
     CSSLeftPercentage(float),
@@ -129,6 +136,7 @@ pub enum CSSFloat {
     CSSFloatNone
 }
 
+#[deriving(Eq)]
 pub enum CSSDirection {
     CSSDirectionLtr,
     CSSDirectionRtl
@@ -158,6 +166,7 @@ pub enum CSSLineHeight {
     CSSLineHeightPercentage(float),
 }
 
+#[deriving(Eq)]
 pub enum CSSVerticalAlign {
     CSSVerticalAlignBaseline,
     CSSVerticalAlignSub,
@@ -173,6 +182,7 @@ pub enum CSSVerticalAlign {
 
 // CSS 2.1, Section 11 - Visual effects
 
+#[deriving(Eq)]
 pub enum CSSOverflow {
     CSSOverflowVisible,
     CSSOverflowHidden,
@@ -180,6 +190,7 @@ pub enum CSSOverflow {
     CSSOverflowAuto
 }
 
+#[deriving(Eq)]
 pub enum CSSVisibility {
     CSSVisibilityVisible,
     CSSVisibilityHidden,
@@ -203,11 +214,13 @@ pub enum CSSBackgroundColor {
     CSSBackgroundColorTransparent
 }
 
+#[deriving(Eq)]
 pub enum CSSBackgroundImage {
     CSSBackgroundUri(Url),
     CSSBackgroundImageNone
 }
 
+#[deriving(Eq)]
 pub enum CSSBackgroundRepeat {
     CSSBackgroundRepeatRepeat,
     CSSBackgroundRepeatRepeatX,
@@ -215,11 +228,13 @@ pub enum CSSBackgroundRepeat {
     CSSBackgroundRepeatNoRepeat
 }
 
+#[deriving(Eq)]
 pub enum CSSBackgroundAttachment {
     CSSBackgroundAttachmentScroll,
     CSSBackgroundAttachmentFixed
 }
 
+#[deriving(Eq)]
 pub enum CSSBackgroundPosition {
     CSSBackgroundPositionPercentage(float),
     CSSBackgroundPositionLength(Length),
@@ -289,6 +304,7 @@ pub enum CSSTextDecoration {
     CSSTextDecorationBlink
 }
 
+#[deriving(Eq)]
 pub enum CSSTextTransform {
     CSSTextTransformCapitalize,
     CSSTextTransformUppercase,
