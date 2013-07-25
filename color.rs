@@ -106,7 +106,7 @@ pub mod parsing {
         // split up r, g, and b
         let mut cols = ~[];
         for s in only_colors.split_iter(',') {
-            cols.push(s);
+            cols.push(s.trim());
         };
 
         if cols.len() != 3u { return fail_unrecognized(color); }
