@@ -95,6 +95,10 @@ impl<'self> ComputedStyle<'self> {
         convert_net_float_value(self.inner.float())
     }
 
+    pub fn clear(&self) -> CSSValue<CSSClear> {
+        convert_net_clear_value(self.inner.clear())
+    }
+
     // CSS 2.1, Section 10 - Visual formatting model details
 
     pub fn width(&self) -> CSSValue<CSSWidth> {
@@ -263,6 +267,16 @@ fn convert_net_float_value(value: n::v::CssFloatValue) -> CSSValue<CSSFloat> {
         n::v::CssFloatLeft => Specified(CSSFloatLeft),
         n::v::CssFloatRight => Specified(CSSFloatRight),
         n::v::CssFloatNone => Specified(CSSFloatNone)
+    }
+}
+
+fn convert_net_clear_value(value: n::v::CssClearValue) -> CSSValue<CSSClear> {
+    match value {
+        n::v::CssClearInherit => Inherit,
+        n::v::CssClearNone => Specified(CSSClearNone),
+        n::v::CssClearLeft => Specified(CSSClearLeft),
+        n::v::CssClearRight => Specified(CSSClearRight),
+        n::v::CssClearBoth => Specified(CSSClearBoth)
     }
 }
 
