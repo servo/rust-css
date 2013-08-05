@@ -137,6 +137,14 @@ pub enum CSSFloat {
 }
 
 #[deriving(Eq)]
+pub enum CSSClear {
+    CSSClearLeft,
+    CSSClearRight,
+    CSSClearBoth,
+    CSSClearNone
+}
+
+#[deriving(Eq)]
 pub enum CSSDirection {
     CSSDirectionLtr,
     CSSDirectionRtl
