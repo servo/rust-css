@@ -267,6 +267,14 @@ fn test_float() {
 }
 
 #[test]
+fn test_clear() {
+    let style = "div { clear: both; }";
+    do single_div_test(style) |computed| {
+        assert!(computed.clear() == Specified(CSSClearBoth));
+    }
+}
+
+#[test]
 fn test_position() {
     let style = "div { position: static; }";
     do single_div_test(style) |computed| {

@@ -175,6 +175,10 @@ impl<'self> CompleteStyle<'self> {
         strip(self.inner.float())
     }
 
+    pub fn clear(&self) -> CSSClear {
+        strip(self.inner.clear())
+    }
+
     // CSS 2.1, Section 10 - Visual formatting model details
 
     pub fn width(&self) -> CSSWidth {
