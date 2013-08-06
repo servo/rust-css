@@ -9,7 +9,7 @@ CSS stylesheets, owned types, immutable after creation
 use extra::net::url::Url;
 use util::DataStream;
 use netsurfcss::stylesheet::CssStylesheet;
-use parser::parse_stylesheet;
+use parser::{parse_stylesheet, parse_style_attribute};
 
 pub struct Stylesheet {
     inner: CssStylesheet
@@ -19,6 +19,12 @@ impl Stylesheet {
     pub fn new(url: Url, input: DataStream) -> Stylesheet {
         Stylesheet {
             inner: parse_stylesheet(url, input)
+        }
+    }
+
+    pub fn from_attribute(url: Url, data: &str) -> Stylesheet {
+        Stylesheet {
+            inner: parse_style_attribute(url, data)
         }
     }
 }
