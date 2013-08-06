@@ -17,14 +17,9 @@ use wapcaplet::LwcString;
 use extra::net::url::Url;
 use netsurfcss::stylesheet::CssUrlResolutionFn;
 
-// This takes a DataStreamFactory instead of a DataStream because
-// servo's DataStream contains a comm::Port, which is not sendable,
-// so DataStream is an @fn which can't be sent to the lexer task.
-// So the DataStreamFactory gives the caller an opportunity to create
-// the data stream from inside the lexer task.
-pub fn parse_stylesheet(url: Url, input: DataStream) -> CssStylesheet {
+fn default_params(url: Url) -> CssStylesheetParams {
     let resolve: CssUrlResolutionFn = resolve_url;
-    let params: CssStylesheetParams = CssStylesheetParams {
+    CssStylesheetParams {
         params_version: CssStylesheetParamsVersion1,
         level: CssLevel21,
         charset: ~"UTF-8",
@@ -36,7 +31,16 @@ pub fn parse_stylesheet(url: Url, input: DataStream) -> CssStylesheet {
         import: None,
         color: None,
         font: None,
-    };
+    }
+}
+
+// This takes a DataStreamFactory instead of a DataStream because
+// servo's DataStream contains a comm::Port, which is not sendable,
+// so DataStream is an @fn which can't be sent to the lexer task.
+// So the DataStreamFactory gives the caller an opportunity to create
+// the data stream from inside the lexer task.
+pub fn parse_stylesheet(url: Url, input: DataStream) -> CssStylesheet {
+    let params = default_params(url);
     let mut sheet = css_stylesheet_create(&params);
 
     loop {
@@ -48,7 +52,16 @@ pub fn parse_stylesheet(url: Url, input: DataStream) -> CssStylesheet {
         }
     }
     sheet.data_done();
-    return sheet;
+    sheet
+}
+
+pub fn parse_style_attribute(url: Url, data: &str) -> CssStylesheet {
+    let mut params = default_params(url);
+    params.inline_style = true;
+    let mut sheet = css_stylesheet_create(&params);
+    sheet.append_data(data.as_bytes());
+    sheet.data_done();
+    sheet
 }
 
 fn resolve_url(_base: &str, _rel: &LwcString) -> CssResult<LwcString> {
