@@ -2,7 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-use std::float::round;
 use std::libc::types::os::arch::c95::c_double;
 use std::cmp::Eq;
 
@@ -46,9 +45,9 @@ pub fn hsla(h : float, s : float, l : float, a : float) -> Color {
         }
     }
 
-    let r = round(255.0*hue_to_rgb(m1, m2, h + 1.0/3.0) as c_double);;
-    let g = round(255.0*hue_to_rgb(m1, m2, h) as c_double);
-    let b = round(255.0*hue_to_rgb(m1, m2, h - 1.0/3.0) as c_double);
+    let r = (255.0*hue_to_rgb(m1, m2, h + 1.0/3.0) as c_double).round();
+    let g = (255.0*hue_to_rgb(m1, m2, h) as c_double).round();
+    let b = (255.0*hue_to_rgb(m1, m2, h - 1.0/3.0) as c_double).round();
 
     return rgba(r as u8, g as u8, b as u8, a);
 }
@@ -106,7 +105,7 @@ pub mod parsing {
 
         // split up r, g, and b
         let mut cols = ~[];
-        for only_colors.split_iter(',').advance |s| {
+        for s in only_colors.split_iter(',') {
             cols.push(s);
         };
 
@@ -126,7 +125,7 @@ pub mod parsing {
 
         // split up r, g, and b
         let mut cols = ~[];
-        for only_vals.split_iter(',').advance |s| {
+        for s in only_vals.split_iter(',') {
             cols.push(s);
         };
 
@@ -146,7 +145,7 @@ pub mod parsing {
 
         // split up h, s, and l
         let mut vals = ~[];
-        for only_vals.split_iter(',').advance |s| {
+        for s in only_vals.split_iter(',') {
             vals.push(s);
         };
 
@@ -165,7 +164,7 @@ pub mod parsing {
         let only_vals = color.slice(5u, color.len() - 1);
 
         let mut vals = ~[];
-        for only_vals.split_iter(',').advance |s| {
+        for s in only_vals.split_iter(',') {
             vals.push(s);
         };
 

@@ -6,7 +6,7 @@
 CSS stylesheets, owned types, immutable after creation
 */
 
-use extra::net::url::Url;
+use extra::url::Url;
 use util::DataStream;
 use netsurfcss::stylesheet::CssStylesheet;
 use parser::{parse_stylesheet, parse_style_attribute};
