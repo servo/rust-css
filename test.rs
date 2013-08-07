@@ -116,7 +116,7 @@ fn single_div_test(style: &str, f: &fn(&ComputedStyle)) {
         children: ~[],
         parent: @mut None
     });
-    let style = select_ctx.select_style(&dom, &handler);
+    let style = select_ctx.select_style(&dom, None, &handler);
     let computed = style.computed_style();
     f(&computed);
 }
@@ -132,7 +132,7 @@ fn single_html_test(style: &str, f: &fn(&ComputedStyle)) {
         children: ~[],
         parent: @mut None
     });
-    let style = select_ctx.select_style(&dom, &handler);
+    let style = select_ctx.select_style(&dom, None, &handler);
     let computed = style.computed_style();
     f(&computed);
 }
@@ -430,7 +430,7 @@ fn child_test(style: &str, f: &fn(&ComputedStyle)) {
         parent: @mut None
     });
     *child.parent = Some(parent);
-    let style = select_ctx.select_style(&child, handler);
+    let style = select_ctx.select_style(&child, None, handler);
     let computed = style.computed_style();
     f(&computed);
 }
@@ -488,8 +488,8 @@ fn test_compose() {
         parent: @mut None
     });
     *child.parent = Some(parent);
-    let parent_results = select_ctx.select_style(&parent, handler);
-    let child_results = select_ctx.select_style(&child, handler);
+    let parent_results = select_ctx.select_style(&parent, None, handler);
+    let child_results = select_ctx.select_style(&child, None, handler);
 
     let complete_parent_results = CompleteSelectResults::new_root(parent_results);
     let complete_child_results = CompleteSelectResults::new_from_parent(&complete_parent_results,
