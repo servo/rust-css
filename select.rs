@@ -131,9 +131,9 @@ impl<N, H: SelectHandler<N>> n::s::CssSelectHandler<N> for SelectHandlerWrapper<
            do node_classes_opt.map |s| {
                debug!("SelectHandlerWrapper::node_classes - classes: %?", *s);
                let mut v = ~[];
-               for s.split_iter(' ').advance |s| { 
-                   debug!("SelectHandlerWrapper::node_classes - class: %?", s);
-                   if s != "" { v.push(lwcstr_from_rust_str(s)) }
+               for t in s.split_iter(' ') {
+                   debug!("SelectHandlerWrapper::node_classes - class: %?", t);
+                   if t != "" { v.push(lwcstr_from_rust_str(t)) }
                }
                debug!("SelectHandlerWrapper::classes: %?", v);
                v
