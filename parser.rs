@@ -14,7 +14,7 @@ use netsurfcss::stylesheet::{CssStylesheet, CssStylesheetParams, CssStylesheetPa
 use netsurfcss::types::CssLevel21;
 use netsurfcss::CssResult;
 use wapcaplet::LwcString;
-use extra::net::url::Url;
+use extra::url::Url;
 use netsurfcss::stylesheet::CssUrlResolutionFn;
 
 fn default_params(url: Url) -> CssStylesheetParams {

@@ -16,7 +16,7 @@ At least it's consistent though.
 */
 
 use std::cmp::Eq;
-use extra::net::url::Url;
+use extra::url::Url;
 use units::{Length, AbsoluteSize, RelativeSize};
 use units::GenericFontFamily;
 use color::Color;
