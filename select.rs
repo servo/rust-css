@@ -114,7 +114,7 @@ struct SelectHandlerWrapper<N, H> {
 }
 
 impl<'self, N, H: SelectHandler<N>> SelectHandlerWrapper<N, H> {
-    priv fn inner_ref(&self) -> &'self H {
+    fn inner_ref(&self) -> &'self H {
         unsafe { &*self.inner }
     }
 }
