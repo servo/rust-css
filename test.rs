@@ -2,12 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-use extra::net::url::Url;
-use url_from_str = extra::net::url::from_str;
+use extra::url::Url;
+use std::FromStr;
 use std::cast;
 use std::libc;
 use std::cell::Cell;
-use std::result;
 use util::{DataStream, VoidPtrLike};
 use values::*;
 use types::*;
@@ -20,7 +19,7 @@ use computed::ComputedStyle;
 use complete::CompleteSelectResults;
 
 fn test_url() -> Url {
-    result::unwrap(url_from_str("http://foo.com"))
+    FromStr::from_str("http://foo.com").unwrap()
 }
 
 fn style_stream(style: &str) -> DataStream {
