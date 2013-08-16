@@ -17,7 +17,7 @@ libcss.dummy: css.rc $(RUST_SRC)
 	touch $@
 
 css-test: css.rc $(RUST_SRC)
-	$(RUSTC) $(RUSTFLAGS) $< --out-dir . --test
+	$(RUSTC) $(RUSTFLAGS) $< -o $@ --test
 
 .PHONY: check
 check: css-test
