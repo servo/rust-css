@@ -13,11 +13,11 @@ RUST_SRC=$(shell find $(VPATH)/. -type f -name '*.rs')
 all:	libcss.dummy
 
 libcss.dummy: css.rc $(RUST_SRC)
-	$(RUSTC) $(RUSTFLAGS) $< -o $@
+	$(RUSTC) $(RUSTFLAGS) $< --out-dir .
 	touch $@
 
 css-test: css.rc $(RUST_SRC)
-	$(RUSTC) $(RUSTFLAGS) $< -o $@ --test
+	$(RUSTC) $(RUSTFLAGS) $< --out-dir . --test
 
 .PHONY: check
 check: css-test
