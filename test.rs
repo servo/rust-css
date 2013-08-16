@@ -408,7 +408,17 @@ fn test_line_height() {
     }
 }
 
-
+#[test]
+fn test_vertical_align() {
+    let style = "div { vertical-align: 20%; }";
+    do single_div_test(style) |computed| {
+        assert!(computed.vertical_align() == Specified(CSSVerticalAlignPercentage(20.0)));
+    }
+    let style = "div { vertical-align: text-top; }";
+    do single_div_test(style) |computed| {
+        assert!(computed.vertical_align() == Specified(CSSVerticalAlignTextTop));
+    }
+}
 
 fn child_test(style: &str, f: &fn(&ComputedStyle)) {
     let sheet = Stylesheet::new(test_url(), style_stream(style));
