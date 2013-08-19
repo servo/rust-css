@@ -505,5 +505,5 @@ fn test_compose() {
 
     let computed = complete_child_results.computed_style();
 
-    assert!(computed.background_color() == color::css_colors::blue());
+    assert!(computed.background_color() == color::parsing::parse_color("blue"));
 }
