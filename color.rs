@@ -4,6 +4,28 @@
 
 use std::libc::types::os::arch::c95::c_double;
 use std::cmp::Eq;
+use std::ascii::AsciiStr;
+
+macro_rules! define_color(
+    ($color:ident, $r:expr, $g:expr, $b:expr) => {
+        static $color: Color = Color { red: $r as u8, green: $g as u8, blue: $b as u8, alpha: 1.0 };
+    }
+)
+
+macro_rules! parse_static_color(
+    ($name:expr, $($color:ident),+) => {
+        {
+            let name = $name.trim().to_owned().into_ascii().to_upper().into_str();
+            let mut color = None;
+            $(
+                if (stringify!($color) == name) {
+                    color = Some($color);
+                }
+            )+
+            color
+        }
+    }
+)
 
 #[deriving(Eq)]
 pub struct Color {
