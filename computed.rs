@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 use color::{Color, rgba};
-use units::{Length, Px, Em, Pt};
+use units::{Length, Px, Em};
 use netsurfcss::util::css_fixed_to_float;
 use std::either::{Either, Left, Right};
 use n;
@@ -406,7 +406,11 @@ fn convert_net_unit_to_length_or_percent(unit: n::t::CssUnit) -> Either<Length, 
     match unit {
         n::t::CssUnitPx(l) => Left(Px(css_fixed_to_float(l))),
         n::t::CssUnitEm(l) => Left(Em(css_fixed_to_float(l))),
-        n::t::CssUnitPt(l) => Left(Pt(css_fixed_to_float(l))),
+        n::t::CssUnitPt(l) => Left(Px(css_fixed_to_float(l) / 72f * 96f)),
+        n::t::CssUnitCm(l) => Left(Px(css_fixed_to_float(l) / 2.54f * 96f)),
+        n::t::CssUnitMm(l) => Left(Px(css_fixed_to_float(l) / 25.4f * 96f)),
+        n::t::CssUnitIn(l) => Left(Px(css_fixed_to_float(l) / 1f * 96f)),
+        n::t::CssUnitPc(l) => Left(Px(css_fixed_to_float(l) / 6f * 96f)),
         n::t::CssUnitPct(p) => Right(css_fixed_to_float(p)),
         _ => unimpl("unit")
     }

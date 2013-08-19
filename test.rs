@@ -334,9 +334,9 @@ fn test_font_family_specific() {
 
 #[test]
 fn test_font_size() {
-    let style = "span { font-size: 10pt; }";
+    let style = "span { font-size: 10px; }";
     do child_test(style) |computed| {
-        assert!(computed.font_size() == Specified(CSSFontSizeLength(Pt(10.0))));
+        assert!(computed.font_size() == Specified(CSSFontSizeLength(Px(10.0))));
     }
     let style = "span { font-size: 10%; }";
     do child_test(style) |computed| {
