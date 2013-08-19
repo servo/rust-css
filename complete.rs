@@ -193,6 +193,10 @@ impl<'self> CompleteStyle<'self> {
         strip(self.inner.line_height())
     }
 
+    pub fn vertical_align(&self) -> CSSVerticalAlign {
+        strip(self.inner.vertical_align())
+    }
+
     // CSS 2.1, Section 11 - Visual effects
 
     // CSS 2.1, Section 12 - Generated content, automatic numbering, and lists

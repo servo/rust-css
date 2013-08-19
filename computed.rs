@@ -113,6 +113,10 @@ impl<'self> ComputedStyle<'self> {
         convert_net_line_height_value(self.inner.line_height())
     }
 
+    pub fn vertical_align(&self) -> CSSValue<CSSVerticalAlign> {
+        convert_net_vertical_align_value(self.inner.vertical_align())
+    }
+
     // CSS 2.1, Section 11 - Visual effects
 
     // CSS 2.1, Section 12 - Generated content, automatic numbering, and lists
@@ -392,6 +396,26 @@ fn convert_net_line_height_value(value: n::v::CssLineHeightValue) -> CSSValue<CS
             }
         },
         n::v::CssLineHeightNormal => Specified(CSSLineHeightNormal)
+    }
+}
+
+fn convert_net_vertical_align_value(value: n::v::CssVerticalAlignValue) -> CSSValue<CSSVerticalAlign> {
+    match value {
+        n::v::CssVerticalAlignInherit => Inherit,
+        n::v::CssVerticalAlignBaseline => Specified(CSSVerticalAlignBaseline),
+        n::v::CssVerticalAlignSub => Specified(CSSVerticalAlignSub),
+        n::v::CssVerticalAlignSuper => Specified(CSSVerticalAlignSuper),
+        n::v::CssVerticalAlignTop => Specified(CSSVerticalAlignTop),
+        n::v::CssVerticalAlignTextTop => Specified(CSSVerticalAlignTextTop),
+        n::v::CssVerticalAlignMiddle => Specified(CSSVerticalAlignMiddle),
+        n::v::CssVerticalAlignBottom => Specified(CSSVerticalAlignBottom),
+        n::v::CssVerticalAlignTextBottom => Specified(CSSVerticalAlignTextBottom),
+        n::v::CssVerticalAlignDimension(v) => {
+            match convert_net_unit_to_length_or_percent(v) {
+                Left(val) => Specified(CSSVerticalAlignLength(val)),
+                Right(val) => Specified(CSSVerticalAlignPercentage(val))
+            }
+        }
     }
 }
 
