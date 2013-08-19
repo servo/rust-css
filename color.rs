@@ -86,40 +86,9 @@ impl Color {
 }
 
 pub mod parsing {
+    use super::*;
     use super::{Color, rgb, rgba, hsl, hsla};
-    use super::css_colors::{black, silver, gray, white, maroon, red, purple, fuchsia, green, lime, olive, yellow, navy, blue, teal, aqua};
 
-    fn fail_unrecognized(col : &str) -> Option<Color> {
-        warn!("Unrecognized color %s", col);
-        return None;
-    }
-
-    /** Match an exact color keyword. */
-    fn parse_by_name(color : &str) -> Option<Color> {
-        let col = match color.to_ascii().to_lower().to_str_ascii() {
-            ~"black" => black(),
-            ~"silver" => silver(),
-            ~"gray" => gray(),
-            ~"grey" => gray(),
-            ~"white" => white(),
-            ~"maroon" => maroon(),
-            ~"red" => red(),
-            ~"purple" => purple(),
-            ~"fuchsia" => fuchsia(),
-            ~"green" => green(),
-            ~"lime" => lime(),
-            ~"olive" => olive(),
-            ~"yellow" => yellow(),
-            ~"navy" => navy(),
-            ~"blue" => blue(),
-            ~"teal" => teal(),
-            ~"aqua" => aqua(),
-            _ => return fail_unrecognized(color)
-        };
-
-        return Some(col);
-    }
-    
     /** Parses a color specification in the form rgb(foo,bar,baz) */
     fn parse_rgb(color : &str) -> Option<Color> {
         // Shave off the rgb( and the )
@@ -213,6 +182,51 @@ pub mod parsing {
     }
 }
 
+pub fn fail_unrecognized(col : &str) -> Option<Color> {
+    warn!("Unrecognized color %s", col);
+    return None;
+}
+
+pub fn parse_by_name(name : &str) -> Option<Color> {
+    let color = parse_static_color!(name,
+            ALICEBLUE, ANTIQUEWHITE, AQUA, AQUAMARINE, AZURE,
+            BEIGE, BISQUE, BLACK, BLANCHEDALMOND, BLUE,
+            BLUEVIOLET, BROWN, BURLYWOOD, CADETBLUE, CHARTREUSE, 
+            CHOCOLATE, CORAL, CORNFLOWERBLUE, CORNSILK, CRIMSON,
+            CYAN, DARKBLUE, DARKCYAN, DARKGOLDENROD, DARKGRAY,
+            DARKGREEN, DARKGREY, DARKKHAKI, DARKMAGENTA, DARKOLIVEGREEN,
+            DARKORANGE, DARKORCHID, DARKRED, DARKSALMON, DARKSEAGREEN,
+            DARKSLATEBLUE, DARKSLATEGRAY, DARKSLATEGREY, DARKTURQUOISE, DARKVIOLET,
+            DEEPPINK, DEEPSKYBLUE, DIMGRAY, DIMGREY, DODGERBLUE,
+            FIREBRICK, FLORALWHITE, FORESTGREEN, FUCHSIA, GAINSBORO,
+            GHOSTWHITE, GOLD, GOLDENROD, GRAY, GREY,
+            GREEN, GREENYELLOW, HONEYDEW, HOTPINK, INDIANRED,
+            INDIGO, IVORY, KHAKI, LAVENDER, LAVENDERBLUSH,
+            LAWNGREEN, LEMONCHIFFON, LIGHTBLUE, LIGHTCORAL, LIGHTCYAN,
+            LIGHTGOLDENRODYELLOW, LIGHTGRAY, LIGHTGREEN, LIGHTGREY, LIGHTPINK,
+            LIGHTSALMON, LIGHTSEAGREEN, LIGHTSKYBLUE, LIGHTSLATEGRAY, LIGHTSLATEGREY,
+            LIGHTSTEELBLUE, LIGHTYELLOW, LIME, LIMEGREEN, LINEN,
+            MAGENTA, MAROON, MEDIUMAQUAMARINE, MEDIUMBLUE, MEDIUMORCHID,
+            MEDIUMPURPLE, MEDIUMSEAGREEN, MEDIUMSLATEBLUE, MEDIUMSPRINGGREEN, MEDIUMTURQUOISE,
+            MEDIUMVIOLETRED, MIDNIGHTBLUE, MINTCREAM, MISTYROSE, MOCCASIN,
+            NAVAJOWHITE, NAVY, OLDLACE, OLIVE, OLIVEDRAB,
+            ORANGE, ORANGERED, ORCHID, PALEGOLDENROD, PALEGREEN,
+            PALETURQUOISE, PALEVIOLETRED, PAPAYAWHIP, PEACHPUFF, PERU,
+            PINK, PLUM, POWDERBLUE, PURPLE, RED,
+            ROSYBROWN, ROYALBLUE, SADDLEBROWN, SALMON, SANDYBROWN,
+            SEAGREEN, SEASHELL, SIENNA, SILVER, SKYBLUE,
+            SLATEBLUE, SLATEGRAY, SLATEGREY, SNOW, SPRINGGREEN,
+            STEELBLUE, TAN, TEAL, THISTLE, TOMATO,
+            TURQUOISE, VIOLET, WHEAT, WHITE, WHITESMOKE,
+            YELLOW, YELLOWGREEN);
+
+    if color.is_none() {
+        return fail_unrecognized(name);
+    }else {
+        return color;
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::{rgb, rgba};
@@ -274,66 +288,6 @@ mod test {
         assert!(aqua().eq(&parse_color("hsl(180.0,1.0,.5)").unwrap()));
         assert!(None == parse_color("hsl(1,2,3,.4)"));
     }
-}
-
-
-/** Define the colors specified by css */
-pub mod css_colors {
-    use super::Color;
-
-    // The 16 basic css colors
-    pub fn black() -> Color {
-        Color {red : 0u8, green : 0u8, blue : 0u8, alpha : 1.0}
-    }
-    pub fn silver() -> Color {
-        Color {red : 192u8, green : 192u8, blue : 192u8, alpha : 1.0}
-    }
-    pub fn gray() -> Color {
-        Color {red : 128u8, green : 128u8, blue : 128u8, alpha : 1.0}
-    }
-    pub fn white() -> Color {
-        Color {red : 255u8, green : 255u8, blue : 255u8, alpha : 1.0}
-    }
-    pub fn maroon() -> Color {
-        Color {red : 128u8, green : 0u8, blue : 0u8, alpha : 1.0}
-    }
-    pub fn red() -> Color { 
-        Color {red : 255u8, green : 0u8, blue : 0u8, alpha : 1.0}
-    }
-    pub fn purple() -> Color {
-        Color {red : 128u8, green : 0u8, blue : 128u8, alpha : 1.0}
-    }
-    pub fn fuchsia() -> Color {
-        Color {red : 255u8, green : 0u8, blue : 255u8, alpha : 1.0}
-    }
-    pub fn green() -> Color { 
-        Color {red : 0u8, green : 128u8, blue : 0u8, alpha : 1.0}
-    }
-    pub fn lime() -> Color {
-        Color {red : 0u8, green : 255u8, blue : 0u8, alpha : 1.0}
-    }
-    pub fn olive() -> Color {
-        Color {red : 128u8, green : 128u8, blue : 0u8, alpha : 1.0}
-    }
-    pub fn yellow() -> Color {
-        Color {red : 255u8, green : 255u8, blue : 0u8, alpha : 1.0}
-    }
-    pub fn navy() -> Color {
-        Color {red : 0u8, green : 0u8, blue : 128u8, alpha : 1.0}
-    }
-    pub fn blue() -> Color {
-        Color {red : 0u8, green : 0u8, blue : 255u8, alpha : 1.0}
-    }
-    pub fn teal() -> Color {
-        Color {red : 0u8, green : 128u8, blue : 128u8, alpha : 1.0}
-    }
-    pub fn aqua() -> Color {
-        Color {red : 0u8, green : 255u8, blue : 255u8, alpha : 1.0}
-    }
-
-
-    // The other 130 css colors
-    // TODO
 }
 
 // Define the colors specified by css
@@ -484,3 +438,44 @@ define_color!(WHITE, 255, 255, 255)
 define_color!(WHITESMOKE, 245, 245, 245)
 define_color!(YELLOW, 255, 255, 0)
 define_color!(YELLOWGREEN, 154, 205, 50)
+
+#[cfg(test)]
+mod test {
+    use super::{rgb, rgba};
+    use super::parsing::parse_color;
+
+    #[test]
+    fn test_parsing_rgb() {
+        assert!(parse_color("red").unwrap().eq(&parse_color("rgb(255,0,0)").unwrap()));
+        assert!(parse_color("red").unwrap().eq(&parse_color("rgba(255,0,0,1.0)").unwrap()));
+        assert!(parse_color("red").unwrap().eq(&parse_color("rgba(255,0,0,1)").unwrap()));
+        assert!(parse_color("lime").unwrap().eq(&parse_color("rgba(0,255,0,1.00)").unwrap()));
+        assert!(rgb(1u8,2u8,3u8).eq(&parse_color("rgb(1,2,03)").unwrap()));
+        assert!(rgba(15u8,250u8,3u8,0.5).eq(&parse_color("rgba(15,250,3,.5)").unwrap()));
+        assert!(rgba(15u8,250u8,3u8,0.5).eq(&parse_color("rgba(15,250,3,0.5)").unwrap()));
+        assert!(None == parse_color("rbga(1,2,3)"));
+    }
+
+    #[test]
+    fn test_parsing_hsl() {
+        assert!(parse_color("red").unwrap().eq(&parse_color("hsl(0,1,.5)").unwrap()));
+        assert!(parse_color("lime").unwrap().eq(&parse_color("hsl(120.0,1.0,.5)").unwrap()));
+        assert!(parse_color("blue").unwrap().eq(&parse_color("hsl(240.0,1.0,.5)").unwrap()));
+        assert!(parse_color("green").unwrap().eq(&parse_color("hsl(120.0,1.0,.25)").unwrap()));
+        assert!(parse_color("white").unwrap().eq(&parse_color("hsl(1.0,1.,1.0)").unwrap()));
+        assert!(parse_color("white").unwrap().eq(&parse_color("hsl(129.0,0.3,1.0)").unwrap()));
+        assert!(parse_color("black").unwrap().eq(&parse_color("hsl(231.2,0.75,0.0)").unwrap()));
+        assert!(parse_color("black").unwrap().eq(&parse_color("hsl(11.2,0.0,0.0)").unwrap()));
+        assert!(parse_color("gray").unwrap().eq(&parse_color("hsl(0.0,0.0,0.5)").unwrap()));
+        assert!(parse_color("maroon").unwrap().eq(&parse_color("hsl(0.0,1.0,0.25)").unwrap()));
+        assert!(parse_color("purple").unwrap().eq(&parse_color("hsl(300.0,1.0,0.25)").unwrap()));
+        assert!(parse_color("fuchsia").unwrap().eq(&parse_color("hsl(300,1.0,0.5)").unwrap()));
+        assert!(parse_color("olive").unwrap().eq(&parse_color("hsl(60.,1.0,0.25)").unwrap()));
+        assert!(parse_color("yellow").unwrap().eq(&parse_color("hsl(60.,1.0,0.5)").unwrap()));
+        assert!(parse_color("navy").unwrap().eq(&parse_color("hsl(240.0,1.0,.25)").unwrap()));
+        assert!(parse_color("teal").unwrap().eq(&parse_color("hsl(180.0,1.0,.25)").unwrap()));
+        assert!(parse_color("aqua").unwrap().eq(&parse_color("hsl(180.0,1.0,.5)").unwrap()));
+        assert!(None == parse_color("hsl(1,2,3,.4)"));
+    }
+}
+>>>>>>> 23872aa... Update
