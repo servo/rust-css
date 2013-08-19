@@ -10,7 +10,6 @@ Units used by CSS
 pub enum Length {
     Em(float), // normalized to 'em'
     Px(float), // normalized to 'px'
-    Pt(float)
 }
 
 impl Length {
