@@ -129,6 +129,21 @@ impl<'self> CompleteStyle<'self> {
         strip(self.inner.padding_left())
     }
 
+    pub fn border_top_style(&self) -> CSSBorderStyle {
+        strip(self.inner.border_top_style())
+    }
+
+    pub fn border_right_style(&self) -> CSSBorderStyle {
+        strip(self.inner.border_right_style())
+    }
+    pub fn border_bottom_style(&self) -> CSSBorderStyle {
+        strip(self.inner.border_bottom_style())
+    }
+
+    pub fn border_left_style(&self) -> CSSBorderStyle {
+        strip(self.inner.border_left_style())
+    }
+
     pub fn border_top_width(&self) -> CSSBorderWidth {
         strip(self.inner.border_top_width())
     }
