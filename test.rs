@@ -146,6 +146,57 @@ fn test_background_color_simple() {
 }
 
 #[test]
+fn test_border_top_style() {
+    let style = "div { border-top-style: dotted; }";
+    do single_div_test(style) |computed| {
+        let style = computed.border_top_style();
+        assert!(style == Specified(CSSBorderStyleDotted));
+    }
+}
+
+#[test]
+fn test_border_right_style() {
+    let style = "div { border-right-style: solid; }";
+    do single_div_test(style) |computed| {
+        let style = computed.border_right_style();
+        assert!(style == Specified(CSSBorderStyleSolid));
+    }
+}
+
+#[test]
+fn test_border_bottom_style() {
+    let style = "div { border-bottom-style: groove; }";
+    do single_div_test(style) |computed| {
+        let style = computed.border_bottom_style();
+        assert!(style == Specified(CSSBorderStyleGroove));
+    }
+}
+
+#[test]
+fn test_border_left_style() {
+    let style = "div { border-left-style: inset; }";
+    do single_div_test(style) |computed| {
+        let style = computed.border_left_style();
+        assert!(style == Specified(CSSBorderStyleInset));
+    }
+}
+
+#[test]
+fn test_border_style() {
+    let style = "div { border-style: inset; }";
+    do single_div_test(style) |computed| {
+        let style = computed.border_top_style();
+        assert!(style == Specified(CSSBorderStyleInset));
+        let style = computed.border_right_style();
+        assert!(style == Specified(CSSBorderStyleInset));
+        let style = computed.border_left_style();
+        assert!(style == Specified(CSSBorderStyleInset));
+        let style = computed.border_bottom_style();
+        assert!(style == Specified(CSSBorderStyleInset));
+   }
+}
+
+#[test]
 fn test_border_top_width_px() {
     let style = "div { border-top-width: 10px; }";
     do single_div_test(style) |computed| {

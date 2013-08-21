@@ -49,6 +49,22 @@ impl<'self> ComputedStyle<'self> {
         convert_net_padding(self.inner.padding_left())
     }
 
+    pub fn border_top_style(&self) -> CSSValue<CSSBorderStyle> {
+        convert_net_border_style(self.inner.border_top_style())
+    }
+
+    pub fn border_right_style(&self) -> CSSValue<CSSBorderStyle> {
+        convert_net_border_style(self.inner.border_right_style())
+    }
+
+    pub fn border_bottom_style(&self) -> CSSValue<CSSBorderStyle> {
+        convert_net_border_style(self.inner.border_bottom_style())
+    }
+
+    pub fn border_left_style(&self) -> CSSValue<CSSBorderStyle> {
+        convert_net_border_style(self.inner.border_left_style())
+    }
+
     pub fn border_top_width(&self) -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_top_width())
     }
@@ -175,6 +191,22 @@ fn convert_net_color_value(color: n::v::CssColorValue) -> CSSValue<Color> {
     match color {
         n::v::CssColorInherit => Inherit,
         n::v::CssColorColor(v) => Specified(convert_net_color(v))
+    }
+}
+
+fn convert_net_border_style(style: n::v::CssBorderStyleValue) -> CSSValue<CSSBorderStyle> {
+    match style {
+        n::v::CssBorderStyleInherit => Inherit,
+        n::v::CssBorderStyleNone => Specified(CSSBorderStyleNone),
+        n::v::CssBorderStyleHidden => Specified(CSSBorderStyleHidden),
+        n::v::CssBorderStyleDotted => Specified(CSSBorderStyleDotted),
+        n::v::CssBorderStyleDashed => Specified(CSSBorderStyleDashed),
+        n::v::CssBorderStyleSolid => Specified(CSSBorderStyleSolid),
+        n::v::CssBorderStyleDouble => Specified(CSSBorderStyleDouble),
+        n::v::CssBorderStyleGroove => Specified(CSSBorderStyleGroove),
+        n::v::CssBorderStyleRidge => Specified(CSSBorderStyleRidge),
+        n::v::CssBorderStyleInset => Specified(CSSBorderStyleInset),
+        n::v::CssBorderStyleOutset => Specified(CSSBorderStyleOutset),
     }
 }
 
