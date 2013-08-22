@@ -58,7 +58,7 @@ pub enum CSSBorderColor {
     CSSBorderColorTransparent
 }
 
-#[deriving(Eq)]
+#[deriving(Eq, Clone)]
 pub enum CSSBorderStyle {
     CSSBorderStyleNone,
     CSSBorderStyleHidden,
