@@ -17,118 +17,146 @@ impl<'self> ComputedStyle<'self> {
 
     // CSS 2.1, Section 8 - Box model
 
+    #[inline]
     pub fn margin_top(&self) -> CSSValue<CSSMargin> {
         convert_net_margin(self.inner.margin_top())
     }
 
+    #[inline]
     pub fn margin_right(&self) -> CSSValue<CSSMargin> {
         convert_net_margin(self.inner.margin_right())
     }
 
+    #[inline]
     pub fn margin_bottom(&self) -> CSSValue<CSSMargin> {
         convert_net_margin(self.inner.margin_bottom())
     }
 
+    #[inline]
     pub fn margin_left(&self) -> CSSValue<CSSMargin> {
         convert_net_margin(self.inner.margin_left())
     }
 
+    #[inline]
     pub fn padding_top(&self) -> CSSValue<CSSPadding> {
         convert_net_padding(self.inner.padding_top())
     }
 
+    #[inline]
     pub fn padding_right(&self) -> CSSValue<CSSPadding> {
         convert_net_padding(self.inner.padding_right())
     }
 
+    #[inline]
     pub fn padding_bottom(&self) -> CSSValue<CSSPadding> {
         convert_net_padding(self.inner.padding_bottom())
     }
 
+    #[inline]
     pub fn padding_left(&self) -> CSSValue<CSSPadding> {
         convert_net_padding(self.inner.padding_left())
     }
 
+    #[inline]
     pub fn border_top_style(&self) -> CSSValue<CSSBorderStyle> {
         convert_net_border_style(self.inner.border_top_style())
     }
 
+    #[inline]
     pub fn border_right_style(&self) -> CSSValue<CSSBorderStyle> {
         convert_net_border_style(self.inner.border_right_style())
     }
 
+    #[inline]
     pub fn border_bottom_style(&self) -> CSSValue<CSSBorderStyle> {
         convert_net_border_style(self.inner.border_bottom_style())
     }
 
+    #[inline]
     pub fn border_left_style(&self) -> CSSValue<CSSBorderStyle> {
         convert_net_border_style(self.inner.border_left_style())
     }
 
+    #[inline]
     pub fn border_top_width(&self) -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_top_width())
     }
 
+    #[inline]
     pub fn border_right_width(&self) -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_right_width())
     }
 
+    #[inline]
     pub fn border_bottom_width(&self) -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_bottom_width())
     }
 
+    #[inline]
     pub fn border_left_width(&self) -> CSSValue<CSSBorderWidth> {
         convert_net_border_width(self.inner.border_left_width())
     }
 
+    #[inline]
     pub fn border_top_color(&self) -> CSSValue<Color> {
         convert_net_color_value(self.inner.border_top_color())
     }
 
+    #[inline]
     pub fn border_right_color(&self) -> CSSValue<Color> {
         convert_net_color_value(self.inner.border_right_color())
     }
 
+    #[inline]
     pub fn border_bottom_color(&self) -> CSSValue<Color> {
         convert_net_color_value(self.inner.border_bottom_color())
     }
 
+    #[inline]
     pub fn border_left_color(&self) -> CSSValue<Color> {
         convert_net_color_value(self.inner.border_left_color())
     }
 
     // CSS 2.1, Section 9 - Visual formatting model
 
+    #[inline]
     pub fn display(&self, root: bool) -> CSSValue<CSSDisplay> {
         convert_net_display_value(self.inner.display(root))
     }
 
+    #[inline]
     pub fn position(&self) -> CSSValue<CSSPosition> {
         convert_net_position_value(self.inner.position())
     }
 
+    #[inline]
     pub fn float(&self) -> CSSValue<CSSFloat> {
         convert_net_float_value(self.inner.float())
     }
 
+    #[inline]
     pub fn clear(&self) -> CSSValue<CSSClear> {
         convert_net_clear_value(self.inner.clear())
     }
 
     // CSS 2.1, Section 10 - Visual formatting model details
 
+    #[inline]
     pub fn width(&self) -> CSSValue<CSSWidth> {
         convert_net_width_value(self.inner.width())
     }
 
+    #[inline]
     pub fn height(&self) -> CSSValue<CSSHeight> {
         convert_net_height_value(self.inner.height())
     }
 
+    #[inline]
     pub fn line_height(&self) -> CSSValue<CSSLineHeight> {
         convert_net_line_height_value(self.inner.line_height())
     }
 
+    #[inline]
     pub fn vertical_align(&self) -> CSSValue<CSSVerticalAlign> {
         convert_net_vertical_align_value(self.inner.vertical_align())
     }
@@ -141,38 +169,46 @@ impl<'self> ComputedStyle<'self> {
 
     // CSS 2.1, Section 14 - Colors and Backgrounds
 
+    #[inline]
     pub fn background_color(&self) -> CSSValue<Color> {
         convert_net_color_value(self.inner.background_color())
     }
 
+    #[inline]
     pub fn color(&self) -> CSSValue<Color> {
         convert_net_color_value(self.inner.color())
     }
 
     // CSS 2.1, Section 15 - Fonts
 
+    #[inline]
     pub fn font_family(&self) -> CSSValue<~[CSSFontFamily]> {
         convert_net_font_family_value(self.inner.font_family())
     }
 
+    #[inline]
     pub fn font_style(&self) -> CSSValue<CSSFontStyle> {
         convert_net_font_style_value(self.inner.font_style())
     }
 
+    #[inline]
     pub fn font_weight(&self) -> CSSValue<CSSFontWeight> {
         convert_net_font_weight_value(self.inner.font_weight())
     }
 
+    #[inline]
     pub fn font_size(&self) -> CSSValue<CSSFontSize> {
         convert_net_font_size_value(self.inner.font_size())
     }
 
     // CSS 2.1, Section 16 - Text
 
+    #[inline]
     pub fn text_align(&self) -> CSSValue<CSSTextAlign> {
         convert_net_text_align_value(self.inner.text_align())
     }
 
+    #[inline]
     pub fn text_decoration(&self) -> CSSValue<CSSTextDecoration> {
         convert_net_text_decoration_value(self.inner.text_decoration())
     }
@@ -183,10 +219,12 @@ impl<'self> ComputedStyle<'self> {
 
 }
 
+#[inline(always)]
 fn convert_net_color(color: n::t::CssColor) -> Color {
     rgba(color.r, color.g, color.b, (color.a as float) / 255.0)
 }
 
+#[inline(always)]
 fn convert_net_color_value(color: n::v::CssColorValue) -> CSSValue<Color> {
     match color {
         n::v::CssColorInherit => Inherit,
@@ -194,6 +232,7 @@ fn convert_net_color_value(color: n::v::CssColorValue) -> CSSValue<Color> {
     }
 }
 
+#[inline(always)]
 fn convert_net_border_style(style: n::v::CssBorderStyleValue) -> CSSValue<CSSBorderStyle> {
     match style {
         n::v::CssBorderStyleInherit => Inherit,
@@ -210,6 +249,7 @@ fn convert_net_border_style(style: n::v::CssBorderStyleValue) -> CSSValue<CSSBor
     }
 }
 
+#[inline(always)]
 fn convert_net_border_width(width: n::v::CssBorderWidthValue) -> CSSValue<CSSBorderWidth> {
     match width {
         n::v::CssBorderWidthInherit => Inherit,
@@ -220,6 +260,7 @@ fn convert_net_border_width(width: n::v::CssBorderWidthValue) -> CSSValue<CSSBor
     }
 }
 
+#[inline(always)]
 fn convert_net_margin(margin: n::v::CssMarginValue) -> CSSValue<CSSMargin> {
     match margin {
         n::v::CssMarginInherit => Inherit,
@@ -234,6 +275,7 @@ fn convert_net_margin(margin: n::v::CssMarginValue) -> CSSValue<CSSMargin> {
     }
 }
 
+#[inline(always)]
 fn convert_net_padding(padding: n::v::CssPaddingValue) -> CSSValue<CSSPadding> {
     match padding {
         n::v::CssPaddingInherit => Inherit,
@@ -247,6 +289,7 @@ fn convert_net_padding(padding: n::v::CssPaddingValue) -> CSSValue<CSSPadding> {
     }
 }
 
+#[inline(always)]
 fn convert_net_width_value(value: n::v::CssWidthValue) -> CSSValue<CSSWidth> {
     match value {
         n::v::CssWidthInherit => Inherit,
@@ -261,6 +304,7 @@ fn convert_net_width_value(value: n::v::CssWidthValue) -> CSSValue<CSSWidth> {
     }
 }
 
+#[inline(always)]
 fn convert_net_height_value(value: n::v::CssHeightValue) -> CSSValue<CSSHeight> {
     match value {
         n::v::CssHeightInherit => Inherit,
@@ -275,6 +319,7 @@ fn convert_net_height_value(value: n::v::CssHeightValue) -> CSSValue<CSSHeight> 
     }
 }
 
+#[inline(always)]
 fn convert_net_display_value(value: n::v::CssDisplayValue) -> CSSValue<CSSDisplay> {
     match value {
         n::v::CssDisplayInherit => Inherit,
@@ -297,6 +342,7 @@ fn convert_net_display_value(value: n::v::CssDisplayValue) -> CSSValue<CSSDispla
     }
 }
 
+#[inline(always)]
 fn convert_net_float_value(value: n::v::CssFloatValue) -> CSSValue<CSSFloat> {
     match value {
         n::v::CssFloatInherit => Inherit,
@@ -306,6 +352,7 @@ fn convert_net_float_value(value: n::v::CssFloatValue) -> CSSValue<CSSFloat> {
     }
 }
 
+#[inline(always)]
 fn convert_net_clear_value(value: n::v::CssClearValue) -> CSSValue<CSSClear> {
     match value {
         n::v::CssClearInherit => Inherit,
@@ -316,6 +363,7 @@ fn convert_net_clear_value(value: n::v::CssClearValue) -> CSSValue<CSSClear> {
     }
 }
 
+#[inline(always)]
 fn convert_net_position_value(value: n::v::CssPositionValue) -> CSSValue<CSSPosition> {
     match value {
         n::v::CssPositionInherit => Inherit,
@@ -326,6 +374,7 @@ fn convert_net_position_value(value: n::v::CssPositionValue) -> CSSValue<CSSPosi
     }
 }
 
+#[inline(always)]
 fn convert_net_font_family_value(value: n::v::CssFontFamilyValue) -> CSSValue<~[CSSFontFamily]> {
     use units::{Serif, SansSerif, Cursive, Fantasy, Monospace};
 
@@ -340,6 +389,7 @@ fn convert_net_font_family_value(value: n::v::CssFontFamilyValue) -> CSSValue<~[
     }
 }
 
+#[inline(always)]
 fn convert_net_font_size_value(value: n::v::CssFontSizeValue) -> CSSValue<CSSFontSize> {
     use units::*;
 
@@ -363,6 +413,7 @@ fn convert_net_font_size_value(value: n::v::CssFontSizeValue) -> CSSValue<CSSFon
     }
 }
 
+#[inline(always)]
 fn convert_net_font_style_value(value: n::v::CssFontStyleValue) -> CSSValue<CSSFontStyle> {
     match value {
         n::v::CssFontStyleInherit => Inherit,
@@ -372,6 +423,7 @@ fn convert_net_font_style_value(value: n::v::CssFontStyleValue) -> CSSValue<CSSF
     }
 }
 
+#[inline(always)]
 fn convert_net_font_weight_value(value: n::v::CssFontWeightValue) -> CSSValue<CSSFontWeight> {
     match value {
         n::v::CssFontWeightInherit => Inherit,
@@ -391,6 +443,7 @@ fn convert_net_font_weight_value(value: n::v::CssFontWeightValue) -> CSSValue<CS
     }
 }
 
+#[inline(always)]
 fn convert_net_text_align_value(value: n::v::CssTextAlignValue) -> CSSValue<CSSTextAlign> {
     match value {
         n::v::CssTextAlignInherit => Inherit,
@@ -406,6 +459,7 @@ fn convert_net_text_align_value(value: n::v::CssTextAlignValue) -> CSSValue<CSST
     }
 }
 
+#[inline(always)]
 fn convert_net_text_decoration_value(value: n::v::CssTextDecorationValue) -> CSSValue<CSSTextDecoration> {
     match value {
         n::v::CssTextDecorationInherit => Inherit,
@@ -417,6 +471,7 @@ fn convert_net_text_decoration_value(value: n::v::CssTextDecorationValue) -> CSS
     }
 }
 
+#[inline(always)]
 fn convert_net_line_height_value(value: n::v::CssLineHeightValue) -> CSSValue<CSSLineHeight> {
     match value {
         n::v::CssLineHeightInherit => Inherit,
@@ -431,6 +486,7 @@ fn convert_net_line_height_value(value: n::v::CssLineHeightValue) -> CSSValue<CS
     }
 }
 
+#[inline(always)]
 fn convert_net_vertical_align_value(value: n::v::CssVerticalAlignValue) -> CSSValue<CSSVerticalAlign> {
     match value {
         n::v::CssVerticalAlignInherit => Inherit,
@@ -451,6 +507,7 @@ fn convert_net_vertical_align_value(value: n::v::CssVerticalAlignValue) -> CSSVa
     }
 }
 
+#[inline(always)]
 fn convert_net_unit_to_length(unit: n::t::CssUnit) -> Length {
     match convert_net_unit_to_length_or_percent(unit) {
         Left(v) => v,
@@ -458,6 +515,8 @@ fn convert_net_unit_to_length(unit: n::t::CssUnit) -> Length {
     }
 }
 
+// Always inline due to SCCP possibilities.
+#[inline(always)]
 fn convert_net_unit_to_length_or_percent(unit: n::t::CssUnit) -> Either<Length, float> {
     match unit {
         n::t::CssUnitPx(l) => Left(Px(css_fixed_to_float(l))),

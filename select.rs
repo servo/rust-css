@@ -84,6 +84,7 @@ pub struct SelectResults {
 
 impl<'self> SelectResults {
     /** Retrieve the computed style of a single pseudo-element */
+    #[inline]
     pub fn computed_style(&'self self) -> ComputedStyle<'self> {
         ComputedStyle {
             inner: self.inner.computed_style(n::s::CssPseudoElementNone)
