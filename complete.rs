@@ -82,6 +82,7 @@ impl<'self> CompleteSelectResults {
         }
     }
 
+    #[inline(always)]
     pub fn computed_style(&'self self) -> CompleteStyle<'self> {
         CompleteStyle {
             inner: self.inner.computed_style()
@@ -97,117 +98,146 @@ impl<'self> CompleteStyle<'self> {
 
     // CSS 2.1, Section 8 - Box model
 
+    #[inline(always)]
     pub fn margin_top(&self) -> CSSMargin {
         strip(self.inner.margin_top())
     }
 
+    #[inline(always)]
     pub fn margin_right(&self) -> CSSMargin {
         strip(self.inner.margin_right())
     }
 
+    #[inline(always)]
     pub fn margin_bottom(&self) -> CSSMargin {
         strip(self.inner.margin_bottom())
     }
 
+    #[inline(always)]
     pub fn margin_left(&self) -> CSSMargin {
         strip(self.inner.margin_left())
     }
 
+    #[inline(always)]
     pub fn padding_top(&self) -> CSSPadding {
         strip(self.inner.padding_top())
     }
 
+    #[inline(always)]
     pub fn padding_right(&self) -> CSSPadding {
         strip(self.inner.padding_right())
     }
 
+    #[inline(always)]
     pub fn padding_bottom(&self) -> CSSPadding {
         strip(self.inner.padding_bottom())
     }
 
+    #[inline(always)]
     pub fn padding_left(&self) -> CSSPadding {
         strip(self.inner.padding_left())
     }
 
+    #[inline(always)]
     pub fn border_top_style(&self) -> CSSBorderStyle {
         strip(self.inner.border_top_style())
     }
 
+    #[inline(always)]
     pub fn border_right_style(&self) -> CSSBorderStyle {
         strip(self.inner.border_right_style())
     }
+
+    #[inline(always)]
     pub fn border_bottom_style(&self) -> CSSBorderStyle {
         strip(self.inner.border_bottom_style())
     }
 
+    #[inline(always)]
     pub fn border_left_style(&self) -> CSSBorderStyle {
         strip(self.inner.border_left_style())
     }
 
+    #[inline(always)]
     pub fn border_top_width(&self) -> CSSBorderWidth {
         strip(self.inner.border_top_width())
     }
 
+    #[inline(always)]
     pub fn border_right_width(&self) -> CSSBorderWidth {
         strip(self.inner.border_right_width())
     }
 
+    #[inline(always)]
     pub fn border_bottom_width(&self) -> CSSBorderWidth {
         strip(self.inner.border_bottom_width())
     }
 
+    #[inline(always)]
     pub fn border_left_width(&self) -> CSSBorderWidth {
         strip(self.inner.border_left_width())
     }
 
+    #[inline(always)]
     pub fn border_top_color(&self) -> Color {
         strip(self.inner.border_top_color())
     }
 
+    #[inline(always)]
     pub fn border_right_color(&self) -> Color {
         strip(self.inner.border_right_color())
     }
 
+    #[inline(always)]
     pub fn border_bottom_color(&self) -> Color {
         strip(self.inner.border_bottom_color())
     }
 
+    #[inline(always)]
     pub fn border_left_color(&self) -> Color {
         strip(self.inner.border_left_color())
     }
 
     // CSS 2.1, Section 9 - Visual formatting model
 
+    #[inline(always)]
     pub fn display(&self, root: bool) -> CSSDisplay {
         strip(self.inner.display(root))
     }
 
+    #[inline(always)]
     pub fn position(&self) -> CSSPosition {
         strip(self.inner.position())
     }
 
+    #[inline(always)]
     pub fn float(&self) -> CSSFloat {
         strip(self.inner.float())
     }
 
+    #[inline(always)]
     pub fn clear(&self) -> CSSClear {
         strip(self.inner.clear())
     }
 
     // CSS 2.1, Section 10 - Visual formatting model details
 
+    #[inline(always)]
     pub fn width(&self) -> CSSWidth {
         strip(self.inner.width())
     }
 
+    #[inline(always)]
     pub fn height(&self) -> CSSHeight {
         strip(self.inner.height())
     }
 
+    #[inline(always)]
     pub fn line_height(&self) -> CSSLineHeight {
         strip(self.inner.line_height())
     }
 
+    #[inline(always)]
     pub fn vertical_align(&self) -> CSSVerticalAlign {
         strip(self.inner.vertical_align())
     }
@@ -220,38 +250,46 @@ impl<'self> CompleteStyle<'self> {
 
     // CSS 2.1, Section 14 - Colors and Backgrounds
 
+    #[inline(always)]
     pub fn background_color(&self) -> Color {
         strip(self.inner.background_color())
     }
 
+    #[inline(always)]
     pub fn color(&self) -> Color {
         strip(self.inner.color())
     }
 
     // CSS 2.1, Section 15 - Fonts
 
+    #[inline(always)]
     pub fn font_family(&self) -> ~[CSSFontFamily] {
         strip(self.inner.font_family())
     }
 
+    #[inline(always)]
     pub fn font_style(&self) -> CSSFontStyle {
         strip(self.inner.font_style())
     }
 
+    #[inline(always)]
     pub fn font_weight(&self) -> CSSFontWeight {
         strip(self.inner.font_weight())
     }
 
+    #[inline(always)]
     pub fn font_size(&self) -> CSSFontSize {
         strip(self.inner.font_size())
     }
 
+    #[inline(always)]
     pub fn text_decoration(&self) -> CSSTextDecoration{
         strip(self.inner.text_decoration())
     }
 
     // CSS 2.1, Section 16 - Text
 
+    #[inline(always)]
     pub fn text_align(&self) -> CSSTextAlign {
         strip(self.inner.text_align())
     }
@@ -262,6 +300,7 @@ impl<'self> CompleteStyle<'self> {
 
 }
 
+#[inline]
 fn strip<T>(value: CSSValue<T>) -> T {
     match value {
         Inherit => fail!(~"unexpected 'inherit' value in complete style"),
