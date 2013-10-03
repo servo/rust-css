@@ -7,7 +7,6 @@ use color::Color;
 use select::SelectResults;
 use computed::ComputedStyle;
 use n::h::CssHintLength;
-use n::c::ComputeFontSize;
 use n::u::float_to_css_fixed;
 use values::*;
 use n;
@@ -55,16 +54,6 @@ impl n::c::FontSizeComputer for CompleteFontSizeComputer {
 
 pub struct CompleteSelectResults {
     inner: SelectResults
-}
-
-struct ComputeFontSizeCallback {
-    callback: ~fn(parent: &Option<n::h::CssHint>, child: &n::h::CssHint) -> n::h::CssHint,
-}
-
-impl ComputeFontSize for ComputeFontSizeCallback {
-    fn compute_font_size(&self, parent: &Option<n::h::CssHint>, child: &n::h::CssHint) -> n::h::CssHint {
-        (self.callback)(parent, child)
-    }
 }
 
 impl<'self> CompleteSelectResults {
