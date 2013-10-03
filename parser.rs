@@ -39,12 +39,12 @@ fn default_params(url: Url) -> CssStylesheetParams {
 // so DataStream is an @fn which can't be sent to the lexer task.
 // So the DataStreamFactory gives the caller an opportunity to create
 // the data stream from inside the lexer task.
-pub fn parse_stylesheet(url: Url, input: DataStream) -> CssStylesheet {
+pub fn parse_stylesheet(url: Url, input: @mut DataStream) -> CssStylesheet {
     let params = default_params(url);
     let mut sheet = css_stylesheet_create(&params);
 
     loop {
-        match input() {
+        match input.read() {
             Some(data) => {
                 sheet.append_data(data);
             }

@@ -12,6 +12,47 @@ use n::u::float_to_css_fixed;
 use values::*;
 use n;
 
+struct CompleteFontSizeComputer {
+    parent_computed: CompleteStyle<'static>,
+    child_computed: CompleteStyle<'static>,
+}
+
+impl n::c::FontSizeComputer for CompleteFontSizeComputer {
+    fn compute_font_size(&self, parent: &Option<n::h::CssHint>, child: &n::h::CssHint)
+                         -> n::h::CssHint {
+        match *child {
+            // Handle relative units
+            CssHintLength(n::t::CssUnitEm(child_em)) => {
+                match *parent {
+                    Some(CssHintLength(parent_unit)) => {
+                        // CSS3 Values 5.1.1: Multiply parent unit by child unit.
+                        let mut new_value = n::u::css_fixed_to_float(parent_unit.to_css_fixed());
+                        new_value *= n::u::css_fixed_to_float(child_em);
+                        let unit = parent_unit.modify(n::u::float_to_css_fixed(new_value));
+                        CssHintLength(unit)
+                    }
+                    _ => n::h::CssHintLength(n::t::CssUnitPx(float_to_css_fixed(16.0))),
+                }
+            }
+            CssHintLength(n::t::CssUnitPct(child_pct)) => {
+                match *parent {
+                    Some(CssHintLength(parent_unit)) => {
+                        // CSS3 Values 5.1.1: Multiply parent unit by child unit.
+                        let mut new_value = n::u::css_fixed_to_float(parent_unit.to_css_fixed());
+                        new_value *= n::u::css_fixed_to_float(child_pct) / 100.0;
+                        let unit = parent_unit.modify(n::u::float_to_css_fixed(new_value));
+                        CssHintLength(unit)
+                    }
+                    _ => n::h::CssHintLength(n::t::CssUnitPx(float_to_css_fixed(16.0))),
+                }
+            }
+            // Pass through absolute units
+            CssHintLength(unit) => CssHintLength(unit),
+            _ => n::h::CssHintLength(n::t::CssUnitPx(float_to_css_fixed(16.0))),
+        }
+    }
+}
+
 pub struct CompleteSelectResults {
     inner: SelectResults
 }
@@ -37,56 +78,23 @@ impl<'self> CompleteSelectResults {
                            child: SelectResults) -> CompleteSelectResults {
         // New lifetime
         {
-            let parent_computed = parent.computed_style();
-            let child_computed = child.computed_style();
-            //let net_parent_computed = &parent_computed.inner.inner;
-            let net_child_computed = &/*mut*/ child_computed.inner;
-            // FIXME: Need to get real font sizes
-            let cb = @ComputeFontSizeCallback {
-                callback: |parent: &Option<n::h::CssHint>, child: &n::h::CssHint| -> n::h::CssHint {
-                    match *child {
-                        // Handle relative units
-                        CssHintLength(n::t::CssUnitEm(child_em)) => {
-                            match *parent {
-                                Some(CssHintLength(parent_unit)) => {
-                                    // CSS3 Values 5.1.1: Multiply parent unit by child unit.
-                                    let mut new_value =
-                                        n::u::css_fixed_to_float(parent_unit.to_css_fixed());
-                                    new_value *= n::u::css_fixed_to_float(child_em);
-                                    let unit = parent_unit.modify(n::u::float_to_css_fixed(
-                                        new_value));
-                                    CssHintLength(unit)
-                                }
-                                _ => n::h::CssHintLength(n::t::CssUnitPx(float_to_css_fixed(16.0))),
-                            }
-                        }
-                        CssHintLength(n::t::CssUnitPct(child_pct)) => {
-                            match *parent {
-                                Some(CssHintLength(parent_unit)) => {
-                                    // CSS3 Values 5.1.1: Multiply parent unit by child unit.
-                                    let mut new_value =
-                                        n::u::css_fixed_to_float(parent_unit.to_css_fixed());
-                                    new_value *= n::u::css_fixed_to_float(child_pct) / 100.0;
-                                    let unit = parent_unit.modify(n::u::float_to_css_fixed(
-                                        new_value));
-                                    CssHintLength(unit)
-                                }
-                                _ => n::h::CssHintLength(n::t::CssUnitPx(float_to_css_fixed(16.0))),
-                            }
-                        }
-                        // Pass through absolute units
-                        CssHintLength(unit) => CssHintLength(unit),
-                        _ => {
-                            n::h::CssHintLength(n::t::CssUnitPx(float_to_css_fixed(16.0)))
-                        }
-                    }
+            let font_size_computer = unsafe {
+                @CompleteFontSizeComputer {
+                    parent_computed: cast::transmute(parent.computed_style()),
+                    child_computed: cast::transmute(child.computed_style()),
                 }
             };
+            //let net_parent_computed = &parent_computed.inner.inner;
+            let net_child_computed = &/*mut*/ font_size_computer.child_computed.inner;
+            // FIXME: Need to get real font sizes
             // XXX: Need an aliasable &mut here
             let net_result_computed: &mut n::c::CssComputedStyle = unsafe { cast::transmute(net_child_computed) };
-            let net_child_computed: &mut n::c::CssComputedStyle = unsafe { cast::transmute(&child_computed.inner) };
-            let net_parent_computed = &parent_computed.inner.inner;
-            n::c::compose(net_parent_computed, net_child_computed, cb as @ComputeFontSize, net_result_computed);
+            let net_child_computed: &mut n::c::CssComputedStyle = unsafe { cast::transmute(&font_size_computer.child_computed.inner) };
+            let net_parent_computed = &font_size_computer.parent_computed.inner.inner;
+            n::c::compose(net_parent_computed,
+                          net_child_computed,
+                          font_size_computer as @n::c::FontSizeComputer,
+                          net_result_computed);
         }
 
         CompleteSelectResults {

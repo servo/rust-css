@@ -34,14 +34,14 @@ pub enum CSSValue<T> {
 #[deriving(Eq)]
 pub enum CSSMargin {
     CSSMarginLength(Length),
-    CSSMarginPercentage(float),
+    CSSMarginPercentage(f64),
     CSSMarginAuto
 }
 
 #[deriving(Eq)]
 pub enum CSSPadding {
     CSSPaddingLength(Length),
-    CSSPaddingPercentage(float)
+    CSSPaddingPercentage(f64)
 }
 
 #[deriving(Eq)]
@@ -111,21 +111,21 @@ pub enum CSSTop {
 #[deriving(Eq)]
 pub enum CSSRight {
     CSSRightLength(Length),
-    CSSRightPercentage(float),
+    CSSRightPercentage(f64),
     CSSRightAuto
 }
 
 #[deriving(Eq)]
 pub enum CSSBottom {
     CSSBottomLength(Length),
-    CSSBottomPercentage(float),
+    CSSBottomPercentage(f64),
     CSSBottomAuto
 }
 
 #[deriving(Eq)]
 pub enum CSSLeft {
     CSSLeftLength(Length),
-    CSSLeftPercentage(float),
+    CSSLeftPercentage(f64),
     CSSLeftAuto
 }
 
@@ -155,23 +155,23 @@ pub enum CSSDirection {
 #[deriving(Eq)]
 pub enum CSSWidth {
     CSSWidthLength(Length),
-    CSSWidthPercentage(float),
+    CSSWidthPercentage(f64),
     CSSWidthAuto
 }
 
 #[deriving(Eq)]
 pub enum CSSHeight {
     CSSHeightLength(Length),
-    CSSHeightPercentage(float),
+    CSSHeightPercentage(f64),
     CSSHeightAuto
 }
 
 #[deriving(Eq)]
 pub enum CSSLineHeight {
     CSSLineHeightNormal,
-    CSSLineHeightNumber(float),
+    CSSLineHeightNumber(f64),
     CSSLineHeightLength(Length),
-    CSSLineHeightPercentage(float),
+    CSSLineHeightPercentage(f64),
 }
 
 #[deriving(Eq)]
@@ -184,7 +184,7 @@ pub enum CSSVerticalAlign {
     CSSVerticalAlignMiddle,
     CSSVerticalAlignBottom,
     CSSVerticalAlignTextBottom,
-    CSSVerticalAlignPercentage(float),
+    CSSVerticalAlignPercentage(f64),
     CSSVerticalAlignLength(Length),
 }
 
@@ -244,7 +244,7 @@ pub enum CSSBackgroundAttachment {
 
 #[deriving(Eq)]
 pub enum CSSBackgroundPosition {
-    CSSBackgroundPositionPercentage(float),
+    CSSBackgroundPositionPercentage(f64),
     CSSBackgroundPositionLength(Length),
     CSSBackgroundPositionLeft,
     CSSBackgroundPositionCenter,
@@ -290,7 +290,7 @@ pub enum CSSFontSize {
     CSSFontSizeAbsoluteSize(AbsoluteSize),
     CSSFontSizeRelativeSize(RelativeSize),
     CSSFontSizeLength(Length),
-    CSSFontSizePercentage(float)
+    CSSFontSizePercentage(f64)
 }
 
 // CSS 2.1, Section 16 - Text

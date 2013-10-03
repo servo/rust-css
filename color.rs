@@ -32,10 +32,10 @@ pub struct Color {
     red: u8,
     green: u8,
     blue: u8,
-    alpha: float,
+    alpha: f64,
 }
 
-pub fn rgba(r : u8, g : u8, b : u8, a : float) -> Color {
+pub fn rgba(r : u8, g : u8, b : u8, a : f64) -> Color {
     Color { red : r, green : g, blue : b, alpha : a}
 }
 
@@ -43,14 +43,14 @@ pub fn rgb(r : u8, g : u8, b : u8) -> Color {
     return rgba(r, g, b, 1.0);
 }
 
-pub fn hsla(h : float, s : float, l : float, a : float) -> Color {
+pub fn hsla(h : f64, s : f64, l : f64, a : f64) -> Color {
     // Algorithm for converting hsl to rbg taken from
     // http://www.w3.org/TR/2003/CR-css3-color-20030514/#hsl-color
     let m2 = if l <= 0.5 { l*(s + 1.0) } else { l + s - l*s };
     let m1 = l*2.0 - m2;
     let h = h / 360.0; 
     
-    fn hue_to_rgb(m1 : float, m2 : float, h : float) -> float {
+    fn hue_to_rgb(m1 : f64, m2 : f64, h : f64) -> f64 {
         let h = if h < 0.0 { h + 1.0 } else if h > 1.0 { h - 1.0 } else { h };
 
         // FIXME (Rust #7222) - Auugh. Patterns would be much better here
@@ -74,7 +74,7 @@ pub fn hsla(h : float, s : float, l : float, a : float) -> Color {
     return rgba(r as u8, g as u8, b as u8, a);
 }
 
-pub fn hsl(h : float, s : float, l : float) -> Color {
+pub fn hsl(h : f64, s : f64, l : f64) -> Color {
     return hsla(h, s, l, 1.0);
 }
 

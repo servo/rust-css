@@ -16,7 +16,7 @@ pub struct Stylesheet {
 }
 
 impl Stylesheet {
-    pub fn new(url: Url, input: DataStream) -> Stylesheet {
+    pub fn new(url: Url, input: @mut DataStream) -> Stylesheet {
         Stylesheet {
             inner: parse_stylesheet(url, input)
         }

@@ -8,18 +8,18 @@ Units used by CSS
 
 #[deriving(Eq)]
 pub enum Length {
-    Em(float), // normalized to 'em'
-    Px(float), // normalized to 'px'
+    Em(f64), // normalized to 'em'
+    Px(f64), // normalized to 'px'
 }
 
 impl Length {
-    fn rel(self) -> float {
+    fn rel(self) -> f64 {
         match self {
             Em(x) => x,
             _ => fail!(~"attempted to access relative unit of an absolute length")
         }
     }
-    fn abs(self) -> float {
+    fn abs(self) -> f64 {
         match self {
             Em(x) => x,
             _ => fail!(~"attempted to access relative unit of an absolute length")
@@ -30,7 +30,7 @@ impl Length {
 #[deriving(Eq)]
 pub enum BoxSizing { // used by width, height, top, left, etc
     BoxLength(Length),
-    BoxPercent(float),
+    BoxPercent(f64),
     BoxAuto
 }
 

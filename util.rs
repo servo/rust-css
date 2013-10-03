@@ -4,4 +4,7 @@
 
 pub use netsurfcss::util::VoidPtrLike;
 
-pub type DataStream = ~fn() -> Option<~[u8]>;
+pub trait DataStream {
+    fn read(&mut self) -> Option<~[u8]>;
+}
+

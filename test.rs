@@ -21,17 +21,24 @@ fn test_url() -> Url {
     FromStr::from_str("http://foo.com").unwrap()
 }
 
-fn style_stream(style: &str) -> DataStream {
-    let style = Cell::new(style.to_str());
-    let d: DataStream = || {
-        if !style.is_empty() {
-            let style = style.take();
-            Some(style.as_bytes().to_owned())
+struct StyleStream {
+    style: ~str,
+}
+
+impl DataStream for StyleStream {
+    fn read(&mut self) -> Option<~[u8]> {
+        if !self.style.is_empty() {
+            Some(self.style.as_bytes().to_owned())
         } else {
             None
         }
-    };
-    return d;
+    }
+}
+
+fn style_stream(style: &str) -> @mut DataStream {
+    @mut Stylestream {
+        style: style.to_owned(),
+    } as @mut DataStream
 }
 
 struct TestNode(@NodeData);

@@ -221,7 +221,7 @@ impl<'self> ComputedStyle<'self> {
 
 #[inline(always)]
 fn convert_net_color(color: n::t::CssColor) -> Color {
-    rgba(color.r, color.g, color.b, (color.a as float) / 255.0)
+    rgba(color.r, color.g, color.b, (color.a as f64) / 255.0)
 }
 
 #[inline(always)]
@@ -517,15 +517,15 @@ fn convert_net_unit_to_length(unit: n::t::CssUnit) -> Length {
 
 // Always inline due to SCCP possibilities.
 #[inline(always)]
-fn convert_net_unit_to_length_or_percent(unit: n::t::CssUnit) -> Either<Length, float> {
+fn convert_net_unit_to_length_or_percent(unit: n::t::CssUnit) -> Either<Length, f64> {
     match unit {
         n::t::CssUnitPx(l) => Left(Px(css_fixed_to_float(l))),
         n::t::CssUnitEm(l) => Left(Em(css_fixed_to_float(l))),
-        n::t::CssUnitPt(l) => Left(Px(css_fixed_to_float(l) / 72f * 96f)),
-        n::t::CssUnitCm(l) => Left(Px(css_fixed_to_float(l) / 2.54f * 96f)),
-        n::t::CssUnitMm(l) => Left(Px(css_fixed_to_float(l) / 25.4f * 96f)),
-        n::t::CssUnitIn(l) => Left(Px(css_fixed_to_float(l) / 1f * 96f)),
-        n::t::CssUnitPc(l) => Left(Px(css_fixed_to_float(l) / 6f * 96f)),
+        n::t::CssUnitPt(l) => Left(Px(css_fixed_to_float(l) / 72.0 * 96.0)),
+        n::t::CssUnitCm(l) => Left(Px(css_fixed_to_float(l) / 2.54 * 96.0)),
+        n::t::CssUnitMm(l) => Left(Px(css_fixed_to_float(l) / 25.4 * 96.0)),
+        n::t::CssUnitIn(l) => Left(Px(css_fixed_to_float(l) / 1.0 * 96.0)),
+        n::t::CssUnitPc(l) => Left(Px(css_fixed_to_float(l) / 6.0 * 96.0)),
         n::t::CssUnitPct(p) => Right(css_fixed_to_float(p)),
         _ => unimpl("unit")
     }
