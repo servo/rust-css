@@ -5,7 +5,6 @@
 use extra::url::Url;
 use std::cast;
 use std::libc;
-use std::cell::Cell;
 use util::{DataStream, VoidPtrLike};
 use values::*;
 use types::*;
@@ -28,7 +27,9 @@ struct StyleStream {
 impl DataStream for StyleStream {
     fn read(&mut self) -> Option<~[u8]> {
         if !self.style.is_empty() {
-            Some(self.style.as_bytes().to_owned())
+            let data = self.style.as_bytes().to_owned();
+            self.style = ~"";
+            Some(data)
         } else {
             None
         }
@@ -36,7 +37,7 @@ impl DataStream for StyleStream {
 }
 
 fn style_stream(style: &str) -> @mut DataStream {
-    @mut Stylestream {
+    @mut StyleStream {
         style: style.to_owned(),
     } as @mut DataStream
 }
