@@ -81,7 +81,7 @@ pub fn hsl(h : f64, s : f64, l : f64) -> Color {
 impl Color {
     fn print(&self) -> ~str {
         fmt!("rgba(%u,%u,%u,%f)", self.red as uint, self.green as uint,
-             self.blue as uint, self.alpha)
+             self.blue as uint, self.alpha as float)
     }
 }
 
