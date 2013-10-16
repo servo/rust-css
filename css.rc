@@ -16,6 +16,8 @@ Basic operation:
 * Resolve inheritance for computed styles by (not implemented)
 
 */
+#[feature(globs)];
+#[feature(macro_rules)];
 
 #[link(name = "css",
        vers = "0.1")];
